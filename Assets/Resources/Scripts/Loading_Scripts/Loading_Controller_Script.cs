@@ -9,7 +9,6 @@ public class Loading_Controller_Script : MonoBehaviour
 
     private void Awake()
     {
-        //Checks to make sure there is only one SM
         if (loading_controller_singleton == null)
         {
             loading_controller_singleton = this;
@@ -42,5 +41,7 @@ public class Loading_Controller_Script : MonoBehaviour
         {
             yield return null;
         }
+
+        Debug.Log("scene load done");
     }
 }

@@ -19,7 +19,6 @@ public class Overallgame_Controller_Script : MonoBehaviour
 
     private void Awake()
     {
-        //Checks to make sure there is only one SM
         if (overallgame_controller_singleton == null)
         {
             overallgame_controller_singleton = this;

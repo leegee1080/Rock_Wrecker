@@ -2,9 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum scene_enums{
+    loading,
+    mainmenu,
+    levelselect,
+    levelplay,
+    endcredits
+}
+
 public class Overallgame_Controller_Script : MonoBehaviour
 {
     public static Overallgame_Controller_Script overallgame_controller_singleton;
+
+    [Header("Scene Loading")]
+    public scene_enums chosen_scene_enum;
+
     private void Awake()
     {
         //Checks to make sure there is only one SM

@@ -14,6 +14,13 @@ public class Overallgame_Controller_Script : MonoBehaviour
 {
     public static Overallgame_Controller_Script overallgame_controller_singleton;
 
+    [Header("Global Player Stats")]
+    public static int player_score;
+    public static GameObject player_model;
+    public static List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
+
+
+
     [Header("Scene Loading")]
     public scene_enums chosen_scene_enum;
 

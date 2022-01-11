@@ -808,7 +808,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1658293262}
   m_Layer: 0
-  m_Name: UI_Ego
+  m_Name: UI_Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -924,7 +924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2059583005}
   m_Layer: 0
-  m_Name: 3D_Ego
+  m_Name: Cinematic_Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

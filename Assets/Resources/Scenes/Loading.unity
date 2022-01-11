@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 799149821}
   - component: {fileID: 799149820}
   m_Layer: 0
-  m_Name: Main_Camera
+  m_Name: Maincamera_cam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,7 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 934997579}
   m_Layer: 0
-  m_Name: 3D_Ego
+  m_Name: Cinematic_Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

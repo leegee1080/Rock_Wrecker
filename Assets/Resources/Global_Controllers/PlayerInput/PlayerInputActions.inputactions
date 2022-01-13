@@ -61,6 +61,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerControls",
+            "id": "ab74394f-bc84-4130-aaab-f4af32b14953",
+            "actions": [
+                {
+                    "name": "TapDown",
+                    "type": "PassThrough",
+                    "id": "a780930a-a351-4071-8764-c6f94a12f7b9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TapUp",
+                    "type": "Button",
+                    "id": "31d8fe0f-5704-49e4-a7e9-ff796bb7749a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ae88ab79-d775-48f5-bd0b-4c3525ede35c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TapDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7dbe0d0b-2bc6-4ddf-adcd-2dd496fe998a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TapUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

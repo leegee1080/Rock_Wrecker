@@ -34,10 +34,7 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
 
 
-
-    private void Awake() {
-        mainmenu_controller_singleton = this;
-    }
+    void Awake() => mainmenu_controller_singleton = this;
 
     public void New_Game(){
         Overallgame_Controller_Script.overallgame_controller_singleton.chosen_scene_enum = scene_enums.levelselect;

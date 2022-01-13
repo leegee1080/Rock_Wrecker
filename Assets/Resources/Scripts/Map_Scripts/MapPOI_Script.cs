@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class MapPOI_Script : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private MapPOI_ScriptableObject poi_info_so;
+
+    public void Init(MapPOI_ScriptableObject new_poi_info_so){
+        poi_info_so = new_poi_info_so;
     }
 }

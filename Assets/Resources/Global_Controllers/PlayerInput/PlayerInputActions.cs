@@ -24,77 +24,16 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
-            ""name"": ""MapControls"",
-            ""id"": ""35bdeb0d-c0ff-4988-a142-6669c7d1baea"",
-            ""actions"": [
-                {
-                    ""name"": ""SelectPOI_tap"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""5e2dcbc6-70f3-4f5b-a654-e03bd48fce1c"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)"",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""00d9b8ba-2205-47df-af14-b0a3cbbe9f1b"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectPOI_tap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""271c6873-f74c-47bc-a0a3-61adea0d31e5"",
-                    ""path"": ""<Mouse>/press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectPOI_tap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""06253ed8-6ef9-4cde-93d8-d0c90429ad2a"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectPOI_tap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""020d1ed3-257d-4bc6-9a96-418a15a01b31"",
-                    ""path"": ""<Touchscreen>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectPOI_tap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
             ""name"": ""PlayerControls"",
             ""id"": ""ab74394f-bc84-4130-aaab-f4af32b14953"",
             ""actions"": [
                 {
                     ""name"": ""TapDown"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""a780930a-a351-4071-8764-c6f94a12f7b9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -103,7 +42,25 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""31d8fe0f-5704-49e4-a7e9-ff796bb7749a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TapPOS"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""9bfc7660-5049-43d6-b6bf-301b444e4844"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TapDrag"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5f5546a-6365-42a6-9739-a4920d7deb03"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -111,7 +68,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ae88ab79-d775-48f5-bd0b-4c3525ede35c"",
-                    ""path"": """",
+                    ""path"": ""<Touchscreen>/primaryTouch"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4b2e151-fc5a-4f9a-b54a-773f6df57737"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -122,11 +90,66 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7dbe0d0b-2bc6-4ddf-adcd-2dd496fe998a"",
-                    ""path"": """",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TapUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""611842ee-91c0-4bf4-8c1a-30ebe9027ad6"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99a6d119-c11e-4b90-a537-8e21c95cafd8"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapPOS"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""494b12d2-5016-4cba-9a64-2cc2389aebc5"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapPOS"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43b62d36-f0f2-4973-978c-fb2a6e43d27b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapDrag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc5b5ae2-6d9c-4060-930a-b15b9a6bcec1"",
+                    ""path"": ""<Touchscreen>/touch0/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapDrag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -135,13 +158,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // MapControls
-        m_MapControls = asset.FindActionMap("MapControls", throwIfNotFound: true);
-        m_MapControls_SelectPOI_tap = m_MapControls.FindAction("SelectPOI_tap", throwIfNotFound: true);
         // PlayerControls
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_TapDown = m_PlayerControls.FindAction("TapDown", throwIfNotFound: true);
         m_PlayerControls_TapUp = m_PlayerControls.FindAction("TapUp", throwIfNotFound: true);
+        m_PlayerControls_TapPOS = m_PlayerControls.FindAction("TapPOS", throwIfNotFound: true);
+        m_PlayerControls_TapDrag = m_PlayerControls.FindAction("TapDrag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -198,50 +220,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // MapControls
-    private readonly InputActionMap m_MapControls;
-    private IMapControlsActions m_MapControlsActionsCallbackInterface;
-    private readonly InputAction m_MapControls_SelectPOI_tap;
-    public struct MapControlsActions
-    {
-        private @PlayerInputActions m_Wrapper;
-        public MapControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @SelectPOI_tap => m_Wrapper.m_MapControls_SelectPOI_tap;
-        public InputActionMap Get() { return m_Wrapper.m_MapControls; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MapControlsActions set) { return set.Get(); }
-        public void SetCallbacks(IMapControlsActions instance)
-        {
-            if (m_Wrapper.m_MapControlsActionsCallbackInterface != null)
-            {
-                @SelectPOI_tap.started -= m_Wrapper.m_MapControlsActionsCallbackInterface.OnSelectPOI_tap;
-                @SelectPOI_tap.performed -= m_Wrapper.m_MapControlsActionsCallbackInterface.OnSelectPOI_tap;
-                @SelectPOI_tap.canceled -= m_Wrapper.m_MapControlsActionsCallbackInterface.OnSelectPOI_tap;
-            }
-            m_Wrapper.m_MapControlsActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @SelectPOI_tap.started += instance.OnSelectPOI_tap;
-                @SelectPOI_tap.performed += instance.OnSelectPOI_tap;
-                @SelectPOI_tap.canceled += instance.OnSelectPOI_tap;
-            }
-        }
-    }
-    public MapControlsActions @MapControls => new MapControlsActions(this);
-
     // PlayerControls
     private readonly InputActionMap m_PlayerControls;
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_TapDown;
     private readonly InputAction m_PlayerControls_TapUp;
+    private readonly InputAction m_PlayerControls_TapPOS;
+    private readonly InputAction m_PlayerControls_TapDrag;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @TapDown => m_Wrapper.m_PlayerControls_TapDown;
         public InputAction @TapUp => m_Wrapper.m_PlayerControls_TapUp;
+        public InputAction @TapPOS => m_Wrapper.m_PlayerControls_TapPOS;
+        public InputAction @TapDrag => m_Wrapper.m_PlayerControls_TapDrag;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -257,6 +250,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @TapUp.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapUp;
                 @TapUp.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapUp;
                 @TapUp.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapUp;
+                @TapPOS.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapPOS;
+                @TapPOS.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapPOS;
+                @TapPOS.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapPOS;
+                @TapDrag.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapDrag;
+                @TapDrag.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapDrag;
+                @TapDrag.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapDrag;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -267,17 +266,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @TapUp.started += instance.OnTapUp;
                 @TapUp.performed += instance.OnTapUp;
                 @TapUp.canceled += instance.OnTapUp;
+                @TapPOS.started += instance.OnTapPOS;
+                @TapPOS.performed += instance.OnTapPOS;
+                @TapPOS.canceled += instance.OnTapPOS;
+                @TapDrag.started += instance.OnTapDrag;
+                @TapDrag.performed += instance.OnTapDrag;
+                @TapDrag.canceled += instance.OnTapDrag;
             }
         }
     }
     public PlayerControlsActions @PlayerControls => new PlayerControlsActions(this);
-    public interface IMapControlsActions
-    {
-        void OnSelectPOI_tap(InputAction.CallbackContext context);
-    }
     public interface IPlayerControlsActions
     {
         void OnTapDown(InputAction.CallbackContext context);
         void OnTapUp(InputAction.CallbackContext context);
+        void OnTapPOS(InputAction.CallbackContext context);
+        void OnTapDrag(InputAction.CallbackContext context);
     }
 }

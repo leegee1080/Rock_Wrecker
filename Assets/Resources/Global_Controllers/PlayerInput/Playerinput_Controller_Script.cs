@@ -60,6 +60,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>());
         if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.GetComponent<TapableObject_Script>() == tapped_object)
         {
+            hit.transform.gameObject.GetComponent<TapableObject_Script>().Call_Tap_Event();
             print("hit "+ hit.transform.name);
         }
         tapped_object = null;

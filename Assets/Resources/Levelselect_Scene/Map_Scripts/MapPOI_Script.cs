@@ -5,6 +5,9 @@ using UnityEngine;
 public class MapPOI_Script : MonoBehaviour
 {
     [SerializeField]private MapPOI_ScriptableObject poi_info_so;
+    [SerializeField]private MeshRenderer poi_renderer;
+
+
 
     public void Init(MapPOI_ScriptableObject new_poi_info_so){
         poi_info_so = new_poi_info_so;
@@ -19,10 +22,10 @@ public class MapPOI_Script : MonoBehaviour
     }
 
     public void Highlight_POI(){
-        transform.localScale = new Vector3(2,2,2);
+        poi_renderer.material.color = Color.red;
     }
 
     public void Lowlight_POI(){
-        transform.localScale = new Vector3(1,1,1);
+        poi_renderer.material.color = Color.white;
     }
 }

@@ -11,6 +11,8 @@ public class MapPOI_ScriptableObject : ScriptableObject
 
     
     [Header("Map Data")]
+    public bool played = false;
+    public bool finished = false;
     public Vector2 map_pos;
     public int poi_size;
     public int poi_difficulty;

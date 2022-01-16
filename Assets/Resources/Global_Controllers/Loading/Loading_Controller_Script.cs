@@ -2,6 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Scene_Enums{
+    loading,
+    mainmenu,
+    levelselect,
+    levelplay,
+    endcredits
+}
+
 public class Loading_Controller_Script : MonoBehaviour
 {
     public static  Loading_Controller_Script loading_controller_singleton;
@@ -21,8 +29,14 @@ public class Loading_Controller_Script : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void Load_Next_Scene()
+    private void Start() {
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
+    }
+
+    public void Load_Next_Scene(Scene_Enums next_scene = default)
     {
+        if(next_scene != default){Overallgame_Controller_Script.overallgame_controller_singleton.chosen_scene_enum = next_scene;}
+
         //check to make this script doesn't get stuck on the loading scene
         if(SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
         {
@@ -41,7 +55,6 @@ public class Loading_Controller_Script : MonoBehaviour
         {
             yield return null;
         }
-
         Debug.Log("scene load done");
     }
 }

@@ -109,8 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707f547d391811148b468dfb8b6b1215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map_poi_material: {fileID: 83390382460858362}
   poi_info_so: {fileID: 0}
+  poi_renderer: {fileID: 83390382460858362}
+  default_material: {fileID: 2100000, guid: 75dae14f62461bc4fb0c5c3d2668500f, type: 2}
 --- !u!114 &83390382460858359
 MonoBehaviour:
   m_ObjectHideFlags: 0

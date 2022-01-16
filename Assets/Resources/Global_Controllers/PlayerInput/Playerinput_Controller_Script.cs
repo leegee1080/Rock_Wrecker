@@ -10,6 +10,8 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     private PlayerInputActions player_input_actions;
 
+    public bool camera_controls_allowed;
+
     [Header("TapConfirm Vars")]
     private TapableObject_Script tapped_object;
 
@@ -19,18 +21,14 @@ public class Playerinput_Controller_Script : MonoBehaviour
     private bool drag_started;
     private Vector2 drag_dist;
 
+    [Header("Zoom Vars")]
+    [SerializeField]private float camera_zoom_speed; 
+    [SerializeField]private float camera_max_zoom_out;
+    [SerializeField]private float camera_max_zoom_in;
+
     private void Awake()
     {
-        if (playerinput_controller_singleton == null)
-        {
-            playerinput_controller_singleton = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        DontDestroyOnLoad(this);
+        playerinput_controller_singleton = this;
 
         player_input_actions = new PlayerInputActions();
     }
@@ -67,11 +65,21 @@ public class Playerinput_Controller_Script : MonoBehaviour
     }
 
     private void Update(){
+        if(!camera_controls_allowed){return;}
         if(drag_started){
             drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
-            Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /1000);
-            Camera.main.transform.position += new Vector3(cam_move.x, cam_move.y, 0);
+            Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.position.z));
+            Camera.main.transform.position += new Vector3(Mathf.Clamp(cam_move.x,Global_Vars.min_planet_coord, Global_Vars.max_planet_coord),Mathf.Clamp( cam_move.y,Global_Vars.min_planet_coord, Global_Vars.max_planet_coord), 0);
             drag_start = player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
+        }
+        float z = player_input_actions.PlayerControls.Scroll.ReadValue<float>();
+        if (z > 0 && Camera.main.transform.position.z < -camera_max_zoom_in)
+        {
+            Camera.main.transform.position += new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
+        }
+        else if (z < 0 && Camera.main.transform.position.z > -camera_max_zoom_out)
+        {
+            Camera.main.transform.position -= new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
         }
     }
 
@@ -89,7 +97,6 @@ public class Playerinput_Controller_Script : MonoBehaviour
     //         transform.position = transform.position - (MouseMove - drag_start);
     //     }
 // }
-
 
     private void OnEnable(){
         player_input_actions.Enable();

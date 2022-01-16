@@ -15,6 +15,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
     void Awake() => levelselect_controller_singletion = this;
 
     private void Start(){
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =true;
+        
         map_poi_list = Overallgame_Controller_Script.overallgame_controller_singleton.main_map;
 
         if(map_poi_list == null){return;}

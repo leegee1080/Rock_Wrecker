@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum scene_enums{
-    loading,
-    mainmenu,
-    levelselect,
-    levelplay,
-    endcredits
+public static class Global_Vars{
+    public static System.Random rand_num_gen = new System.Random();
+
+    public static int galaxy_size = 250;
+
+    public static int max_planet_size = 10;
+    public static int min_planet_size = 5;
+
+    public static int max_planet_coord = 500;
+    public static int min_planet_coord = -500;
+
+    public static int max_planet_difficulty = 10;
 }
 
 public class Overallgame_Controller_Script : MonoBehaviour
@@ -20,9 +26,8 @@ public class Overallgame_Controller_Script : MonoBehaviour
     public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
 
 
-
     [Header("Scene Loading")]
-    public scene_enums chosen_scene_enum;
+    public Scene_Enums chosen_scene_enum;
 
     private void Awake()
     {
@@ -36,5 +41,38 @@ public class Overallgame_Controller_Script : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(this);
+    }
+
+    public void Create_Map(int map_size = default){
+        if(map_size == default){map_size = Global_Vars.galaxy_size;}
+        main_map = new List<MapPOI_ScriptableObject>();
+
+        List<Vector2> dist_check_list = new List<Vector2>();
+
+        for (int i = 0; i < map_size; i++)
+        {        
+            MapPOI_ScriptableObject new_mappoi_so = ScriptableObject.CreateInstance<MapPOI_ScriptableObject>();
+            new_mappoi_so.played =false;
+            new_mappoi_so.finished =false;
+            new_mappoi_so.poi_difficulty = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_difficulty+1);
+            new_mappoi_so.poi_size = (int)Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_size,Global_Vars.max_planet_size+1);
+            Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1), Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1));
+            new_mappoi_so.map_pos = rand_gen_pos;
+            foreach (Vector2 pos in dist_check_list)
+            {
+                if(Vector2.Distance(pos, rand_gen_pos) < 20){
+                    new_mappoi_so.map_pos = default;
+                    break;
+                }
+            }
+            if(new_mappoi_so.map_pos ==default){continue;}
+            new_mappoi_so.name = "A " + new_mappoi_so.poi_difficulty + " difficulty, " + new_mappoi_so.poi_size + " size, planet. At " + new_mappoi_so.map_pos;
+            main_map.Add(new_mappoi_so);
+            dist_check_list.Add(rand_gen_pos);
+        }
+    }
+
+    public void Load_Map(){
+
     }
 }

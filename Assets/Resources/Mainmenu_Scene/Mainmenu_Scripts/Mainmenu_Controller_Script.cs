@@ -36,8 +36,12 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     void Awake() => mainmenu_controller_singleton = this;
 
+    private void Start() {
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
+    }
+
     public void New_Game(){
-        Overallgame_Controller_Script.overallgame_controller_singleton.chosen_scene_enum = scene_enums.levelselect;
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene();
+        Overallgame_Controller_Script.overallgame_controller_singleton.Create_Map();
+        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
     }
 }

@@ -62,6 +62,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""bcae3c45-8228-4413-a1e6-2da428d1c0d7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""TapDrag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ad248a5-cf3d-4960-bc53-85a34a7763c8"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_PlayerControls_TapUp = m_PlayerControls.FindAction("TapUp", throwIfNotFound: true);
         m_PlayerControls_TapPOS = m_PlayerControls.FindAction("TapPOS", throwIfNotFound: true);
         m_PlayerControls_TapDrag = m_PlayerControls.FindAction("TapDrag", throwIfNotFound: true);
+        m_PlayerControls_Scroll = m_PlayerControls.FindAction("Scroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,6 +248,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_TapUp;
     private readonly InputAction m_PlayerControls_TapPOS;
     private readonly InputAction m_PlayerControls_TapDrag;
+    private readonly InputAction m_PlayerControls_Scroll;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -235,6 +257,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @TapUp => m_Wrapper.m_PlayerControls_TapUp;
         public InputAction @TapPOS => m_Wrapper.m_PlayerControls_TapPOS;
         public InputAction @TapDrag => m_Wrapper.m_PlayerControls_TapDrag;
+        public InputAction @Scroll => m_Wrapper.m_PlayerControls_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +279,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @TapDrag.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapDrag;
                 @TapDrag.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapDrag;
                 @TapDrag.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnTapDrag;
+                @Scroll.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnScroll;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -272,6 +298,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @TapDrag.started += instance.OnTapDrag;
                 @TapDrag.performed += instance.OnTapDrag;
                 @TapDrag.canceled += instance.OnTapDrag;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
             }
         }
     }
@@ -282,5 +311,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnTapUp(InputAction.CallbackContext context);
         void OnTapPOS(InputAction.CallbackContext context);
         void OnTapDrag(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
 }

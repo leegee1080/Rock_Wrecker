@@ -69,7 +69,8 @@ public class Playerinput_Controller_Script : MonoBehaviour
         if(drag_started){
             drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
             Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.position.z));
-            Camera.main.transform.position += new Vector3(Mathf.Clamp(cam_move.x,Global_Vars.min_planet_coord, Global_Vars.max_planet_coord),Mathf.Clamp( cam_move.y,Global_Vars.min_planet_coord, Global_Vars.max_planet_coord), 0);
+            Camera.main.transform.position += new Vector3(cam_move.x,cam_move.y, 0);
+            Camera.main.transform.position = new Vector3(Mathf.Clamp(Camera.main.transform.position.x,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Mathf.Clamp(Camera.main.transform.position.y,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Camera.main.transform.position.z);
             drag_start = player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
         }
         float z = player_input_actions.PlayerControls.Scroll.ReadValue<float>();

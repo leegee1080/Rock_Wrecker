@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: New Map POI 2
   m_EditorClassIdentifier: 
   name: 'thfthdh '
+  played: 0
+  finished: 0
   map_pos: {x: 3, y: 1}
   poi_size: 1
   poi_difficulty: 1
+  rotate_speed: 3
+  deco_count: 3

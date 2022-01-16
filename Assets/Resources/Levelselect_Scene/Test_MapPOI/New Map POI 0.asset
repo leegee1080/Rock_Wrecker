@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: New Map POI 0
   m_EditorClassIdentifier: 
   name: asdf
+  played: 0
+  finished: 0
   map_pos: {x: 2, y: 2}
   poi_size: 1
   poi_difficulty: 1
+  rotate_speed: 2
+  deco_count: 5

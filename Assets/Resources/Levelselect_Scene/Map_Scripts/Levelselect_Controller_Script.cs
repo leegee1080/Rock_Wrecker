@@ -30,4 +30,13 @@ public class Levelselect_Controller_Script : MonoBehaviour
         selected_poi?.Lowlight_POI();
         selected_poi = tapped_poi;
     }
+
+    public void Center_Screen(){
+        Camera.main.transform.position = new Vector3(0,0,Global_Vars.min_planet_coord);
+    }
+
+    public void Back_to_Menu(){
+        Overallgame_Controller_Script.overallgame_controller_singleton.Create_Map();
+        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
+    }
 }

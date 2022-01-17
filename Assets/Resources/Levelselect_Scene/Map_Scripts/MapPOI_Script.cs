@@ -5,6 +5,8 @@ using UnityEngine;
 public class MapPOI_Script : MonoBehaviour
 {
     [SerializeField]private MapPOI_ScriptableObject poi_info_so;
+
+    public MapPOI_ScriptableObject public_poi_info {get {return poi_info_so;} set{Debug.LogWarning("do not set poi info this way, must be set by calling init");}}
     [SerializeField]private MeshRenderer poi_renderer;
 
 
@@ -23,14 +25,5 @@ public class MapPOI_Script : MonoBehaviour
 
     public void Select_POI(){
         Levelselect_Controller_Script.levelselect_controller_singletion.Communicate_Selected_POI(this);
-        Highlight_POI();
-    }
-
-    public void Highlight_POI(){
-        poi_renderer.material.color = Color.red;
-    }
-
-    public void Lowlight_POI(){
-        poi_renderer.material.color = Color.white;
     }
 }

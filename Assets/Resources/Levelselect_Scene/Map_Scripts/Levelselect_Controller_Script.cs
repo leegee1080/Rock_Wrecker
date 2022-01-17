@@ -10,7 +10,14 @@ public class Levelselect_Controller_Script : MonoBehaviour
     [SerializeField] private MapPOI_Script map_poi_go;
 
     [Header("Selection Vars")]
+    [SerializeField] private float selection_visual_offset;
+    [SerializeField] private Vector3 selection_original_scale;
+    [SerializeField] private float selection_visual_camera_zoom_ratio;
+
+
     [SerializeField]private MapPOI_Script selected_poi;
+    [SerializeField]private GameObject selection_highlight_go;
+
 
     void Awake() => levelselect_controller_singletion = this;
 
@@ -26,9 +33,26 @@ public class Levelselect_Controller_Script : MonoBehaviour
         }
     }
 
+    private void LateUpdate() {
+        if(selected_poi == null){return;}
+        selection_highlight_go.transform.position = Camera.main.WorldToScreenPoint(selected_poi.transform.position + Vector3.right * selection_visual_offset);
+        Vector3 new_sel_hi_go_scale = new Vector3 (-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z);
+        new_sel_hi_go_scale = new Vector3(
+            Mathf.Clamp(selection_original_scale.x - (new_sel_hi_go_scale.x/(selection_visual_camera_zoom_ratio*100)),0.1f,selection_original_scale.x*10),
+            Mathf.Clamp(selection_original_scale.y - (new_sel_hi_go_scale.y/(selection_visual_camera_zoom_ratio*100)),0.1f,selection_original_scale.y*10),
+            Mathf.Clamp(selection_original_scale.z - (new_sel_hi_go_scale.z/(selection_visual_camera_zoom_ratio*100)),0.1f,selection_original_scale.z*10)
+        );
+        selection_highlight_go.transform.localScale = new_sel_hi_go_scale;
+    }
+
+    public void Launch_Selected_Level(){
+        if(selected_poi == null){return;}
+        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelplay);
+    }
+
     public void Communicate_Selected_POI(MapPOI_Script tapped_poi){
-        selected_poi?.Lowlight_POI();
         selected_poi = tapped_poi;
+        Overallgame_Controller_Script.overallgame_controller_singleton.selected_level = tapped_poi.public_poi_info;
     }
 
     public void Center_Screen(){
@@ -36,7 +60,6 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
 
     public void Back_to_Menu(){
-        Overallgame_Controller_Script.overallgame_controller_singleton.Create_Map();
         Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }
 }

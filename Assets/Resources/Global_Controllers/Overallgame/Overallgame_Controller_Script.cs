@@ -31,6 +31,10 @@ public class Overallgame_Controller_Script : MonoBehaviour
     [Header("Scene Loading")]
     public Scene_Enums chosen_scene_enum;
 
+
+    [Header("Level Play Vars")]
+    public MapPOI_ScriptableObject selected_level;
+
     private void Awake()
     {
         if (overallgame_controller_singleton == null)

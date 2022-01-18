@@ -15,7 +15,11 @@ public static class Global_Vars{
 
     [Header("POI Data")]
     public const int max_poi_deco = 10;
-    public const int max_poi_rot_speed=10;
+    public const int max_poi_rot_speed = 10;
+
+    [Header("Level Data")]
+    public const int level_starting_x_size = 20;
+    public const int level_starting_y_size = 20;
 }
 
 public class Overallgame_Controller_Script : MonoBehaviour

@@ -6,6 +6,7 @@ public class LocalLoading_Script : MonoBehaviour
 {
     private void Start()
     {
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
         //check to make this script doesn't get stuck on the loading scene
         StartCoroutine(IFinished_Loading_Animation());
     }

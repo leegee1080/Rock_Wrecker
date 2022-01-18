@@ -29,10 +29,6 @@ public class Loading_Controller_Script : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    private void Start() {
-        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
-    }
-
     public void Load_Next_Scene(Scene_Enums next_scene = default)
     {
         if(next_scene != default){Overallgame_Controller_Script.overallgame_controller_singleton.chosen_scene_enum = next_scene;}

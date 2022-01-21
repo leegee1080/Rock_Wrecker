@@ -68,19 +68,19 @@ public class Playerinput_Controller_Script : MonoBehaviour
         if(!camera_controls_allowed){return;}
         if(drag_started){
             drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
-            Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.localPosition.z));
-            Camera.main.transform.localPosition += new Vector3(cam_move.x,cam_move.y, 0);
-            Camera.main.transform.localPosition = new Vector3(Mathf.Clamp(Camera.main.transform.localPosition.x,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Mathf.Clamp(Camera.main.transform.localPosition.y,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Camera.main.transform.localPosition.z);
+            Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.position.z));
+            Camera.main.transform.position += new Vector3(cam_move.x,cam_move.y, 0);
+            Camera.main.transform.position = new Vector3(Mathf.Clamp(Camera.main.transform.position.x,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Mathf.Clamp(Camera.main.transform.position.y,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Camera.main.transform.position.z);
             drag_start = player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
         }
         float z = player_input_actions.PlayerControls.Scroll.ReadValue<float>();
-        if (z > 0 && Camera.main.transform.localPosition.z < -camera_max_zoom_in)
+        if (z > 0 && Camera.main.transform.position.z < -camera_max_zoom_in)
         {
-            Camera.main.transform.localPosition += new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.localPosition.z / 10));
+            Camera.main.transform.position += new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
         }
-        else if (z < 0 && Camera.main.transform.localPosition.z > -camera_max_zoom_out)
+        else if (z < 0 && Camera.main.transform.position.z > -camera_max_zoom_out)
         {
-            Camera.main.transform.localPosition -= new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.localPosition.z / 10));
+            Camera.main.transform.position -= new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
         }
     }
 

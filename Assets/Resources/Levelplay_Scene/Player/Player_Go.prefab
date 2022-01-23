@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7849392580223437455}
   - component: {fileID: 7849392580223437440}
   - component: {fileID: 7849392580223437441}
+  - component: {fileID: 7148036639783772396}
   m_Layer: 0
   m_Name: Player_Go
   m_TagString: Untagged
@@ -96,3 +97,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7148036639783772396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849392580223437443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24176dde7a888db4bb491a2d52a6b41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid_pos: {x: 0, y: 0}
+  moveable: 1
+  current_player_state: 0

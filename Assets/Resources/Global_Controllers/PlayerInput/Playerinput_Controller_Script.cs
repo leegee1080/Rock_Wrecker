@@ -59,7 +59,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
         if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.GetComponent<TapableObject_Script>() == tapped_object)
         {
             hit.transform.gameObject.GetComponent<TapableObject_Script>().Call_Tap_Event();
-            print("hit "+ hit.transform.name);
+            // print("hit "+ hit.transform.name);
         }
         tapped_object = null;
     }

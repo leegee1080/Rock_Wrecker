@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Grid_Data{
 
-    public  GameObject resident{get; private set;}
+    public GridResident_Script resident{get; set;}
     public Vector3 actual_pos{get; private set;}
 
-    public Grid_Data(GameObject new_resident, Vector3 new_actual_pos){
+    public Grid_Data(GridResident_Script new_resident, Vector3 new_actual_pos){
         resident = new_resident;
         actual_pos = new_actual_pos;
     }
@@ -23,20 +23,32 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [Header("Canvas Elements")]
     [SerializeField]private GameObject ingame_menu_container;
 
-    [Header("Level Gen Vars")]
-    private Dictionary<Vector2, Grid_Data> map_coord_dict = new Dictionary<Vector2, Grid_Data>();
+    [SerializeField]private GameObject controls_container_go;
+    [SerializeField] private float controls_visual_offset;
+    [SerializeField] private Vector3 controls_original_scale;
+    [SerializeField] private float controls_visual_camera_zoom_ratio;
 
-    public GameObject TestRock;
-    public GameObject TestWall;
-    public GameObject TestObjectContainer;
+
+    [Header("Level Gen Vars")]
     [SerializeField]private int map_x_size;
     [SerializeField]private int map_y_size;
     [SerializeField]private int map_unit_spacing;
+    public Dictionary<Vector2, Grid_Data> map_coord_dict {get; private set;} = new Dictionary<Vector2, Grid_Data>();
+    public GameObject TestRock;
+    public GameObject TestWall;
+    public GameObject TestObjectContainer;
+
+
+    [Header("Gameplay Vars")]
+    [SerializeField]private LevelPlayer_Script current_player_serialized;
+    public LevelPlayer_Script current_player {get; private set;}
 
 
     void Awake() => levelplay_controller_singleton = this;
 
     private void Start() {
+        current_player = current_player_serialized;
+
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
 
         map_x_size = Global_Vars.level_starting_x_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
@@ -45,28 +57,38 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Gen_Map_Coords();
     }
 
+    private void LateUpdate() {
+        if(current_player == null){return;}
+        controls_container_go.transform.position = Camera.main.WorldToScreenPoint(current_player.transform.position + Vector3.right * controls_visual_offset);
+        Vector3 new_container_go_scale = new Vector3 (-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z);
+        new_container_go_scale = new Vector3(
+            Mathf.Clamp(controls_original_scale.x - (new_container_go_scale.x/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.x*10),
+            Mathf.Clamp(controls_original_scale.y - (new_container_go_scale.y/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.y*10),
+            Mathf.Clamp(controls_original_scale.z - (new_container_go_scale.z/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.z*10)
+        );
+        controls_container_go.transform.localScale = new_container_go_scale;
+    }
+
     private void Gen_Map_Coords(){
         for (int x = -map_x_size/2; x <= map_x_size/2; x++)
         {   
             for (int y = -map_y_size/2; y <= map_y_size/2; y++)
             {
-                if(x == 0 && y == 0){continue;}
-
                 Vector2 new_coord = new Vector2(x,y);
+                map_coord_dict[new_coord] = new Grid_Data(null, new Vector3(x * map_unit_spacing, y * map_unit_spacing, 0)); 
+                if(x == 0 && y == 0)
+                {
+                    current_player.Place_Resident(new_coord);
+                    continue;
+                }
                 GameObject new_go = Mathf.Abs(x) == (map_x_size/2) || Mathf.Abs(y) == (map_y_size/2) ? Instantiate(TestWall, parent: TestObjectContainer.transform) : Instantiate(TestRock, parent: TestObjectContainer.transform);
-                map_coord_dict[new_coord] = new Grid_Data(new_go, new Vector3(x * map_unit_spacing, y * map_unit_spacing, 0));
-                new_go.transform.position = map_coord_dict[new_coord].actual_pos;
+                GridResident_Script new_gr = new_go.GetComponent<GridResident_Script>();
+                new_gr.Place_Resident(new_coord);
+                // new_go.transform.position = map_coord_dict[new_coord].actual_pos;
             }
         }
         
-       //Print_Map_Dict<Vector2, Grid_Data>(map_coord_dict);
-    }
-
-    private void Print_Map_Dict<T1,T2>(Dictionary<T1, T2> new_dict){
-        foreach (KeyValuePair<T1,T2> item in new_dict)
-        {
-            Debug.Log("Key: " + item.Key + " value: (" + item.Value + ")");               
-        }     
+        //Global_Vars.Print_Map_Dict<Vector2, Grid_Data>(map_coord_dict);
     }
 
     public void Show_Ingame_Menu(){

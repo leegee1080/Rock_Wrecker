@@ -5,6 +5,13 @@ using UnityEngine;
 public static class Global_Vars{
     public static System.Random rand_num_gen = new System.Random();
 
+    public static void Print_Map_Dict<T1,T2>(Dictionary<T1, T2> new_dict){
+        foreach (KeyValuePair<T1,T2> item in new_dict)
+        {
+            Debug.Log("Key: " + item.Key + " value: (" + item.Value + ")");               
+        }     
+    }
+
     [Header("Map Data")]
     public const int galaxy_size = 250;
     public const int max_planet_size = 10;

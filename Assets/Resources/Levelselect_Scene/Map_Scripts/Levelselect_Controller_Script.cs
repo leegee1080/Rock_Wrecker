@@ -52,7 +52,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void Communicate_Selected_POI(MapPOI_Script tapped_poi){
         selected_poi = tapped_poi;
-        Overallgame_Controller_Script.overallgame_controller_singleton.selected_level = tapped_poi.public_poi_info;
+        Overallgame_Controller_Script.overallgame_controller_singleton.selected_level = tapped_poi.poi_info_so;
     }
 
     public void Center_Screen(){

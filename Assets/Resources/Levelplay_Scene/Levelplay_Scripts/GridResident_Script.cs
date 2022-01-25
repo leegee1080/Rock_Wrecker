@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInteractable_GridResident 
-{
-    public void Tapped();
-}
-
 public class GridResident_Script : MonoBehaviour
 {
     public Vector2 grid_pos;
     public bool moveable;
+    public bool matchable;
 
     public virtual bool Place_Resident(Vector2 new_pos){
 

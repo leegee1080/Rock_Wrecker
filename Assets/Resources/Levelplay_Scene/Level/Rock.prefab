@@ -110,3 +110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid_pos: {x: 0, y: 0}
   moveable: 1
+  matchable: 1
+  <primary_rock_type>k__BackingField: {fileID: 0}
+  <secondary_rock_type>k__BackingField: {fileID: 0}
+  primary_renderer: {fileID: 8342877629864324451}
+  secondary_renderer: {fileID: 0}

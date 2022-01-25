@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class MapPOI_Script : MonoBehaviour
 {
-    [SerializeField]private MapPOI_ScriptableObject poi_info_so;
-
-    public MapPOI_ScriptableObject public_poi_info {get {return poi_info_so;} set{Debug.LogWarning("do not set poi info this way, must be set by calling init");}}
+    [field: SerializeField]public MapPOI_ScriptableObject poi_info_so {get; private set;}
     [SerializeField]private MeshRenderer poi_renderer;
 
 

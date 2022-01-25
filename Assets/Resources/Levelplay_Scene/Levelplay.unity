@@ -835,6 +835,8 @@ MonoBehaviour:
   TestRock: {fileID: 6951765290111155160, guid: fa180252da50ab74fa7e022d67968f67, type: 3}
   TestWall: {fileID: 6951765290111155160, guid: 9c8a1a6929c50864496f5c87ca83aa1b, type: 3}
   TestObjectContainer: {fileID: 661376947}
+  <default_primary_rock_type>k__BackingField: {fileID: 11400000, guid: 228135c40c164df449dee25693f18896, type: 2}
+  <default_secondary_rock_type>k__BackingField: {fileID: 11400000, guid: 1aff162c7698fef41a74cc612390c682, type: 2}
   current_player_serialized: {fileID: 7849392580034513512}
 --- !u!1 &1303013016
 GameObject:

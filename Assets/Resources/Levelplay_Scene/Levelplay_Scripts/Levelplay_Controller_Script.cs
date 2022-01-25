@@ -2,6 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Rock_Types_Enum
+{
+    Copper,//green
+    Iron,//red
+    Gold,//yellow
+    Silver,//white
+    Cobalt,//blue
+    Quartz//black
+}
+
+public enum Secondary_Rock_Types_Enum
+{
+    none,//black
+    Diamond,//teal
+    Ruby,//magenta
+    Topaz//orange
+}
+
 public class Grid_Data{
 
     public GridResident_Script resident{get; set;}
@@ -37,6 +55,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObject TestRock;
     public GameObject TestWall;
     public GameObject TestObjectContainer;
+    [field: SerializeField]public Rock_ScriptableObject default_primary_rock_type{get; private set;}
+    [field: SerializeField]public Secondary_Rock_ScriptableObject default_secondary_rock_type{get; private set;}
 
 
     [Header("Gameplay Vars")]
@@ -55,6 +75,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         map_y_size = Global_Vars.level_starting_y_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
 
         Gen_Map_Coords();
+        Deliver_Rock_Types();
     }
 
     private void LateUpdate() {
@@ -89,6 +110,16 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
         
         //Global_Vars.Print_Map_Dict<Vector2, Grid_Data>(map_coord_dict);
+    }
+
+    private void Deliver_Rock_Types(){
+        foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
+        {
+            if(coord.Value.resident.matchable){
+                Rock_Script rock = (Rock_Script)coord.Value.resident;
+                rock.Change_Rock_Types(default_primary_rock_type);
+            }
+        }
     }
 
     public void Show_Ingame_Menu(){

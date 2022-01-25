@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rock_Script : GridResident_Script, IInteractable_GridResident
+public class Rock_Script : GridResident_Script
 {
-    public void Tapped(){
-        //swap with player
-        
-        // if(Levelplay_Controller_Script.levelplay_controller_singleton.current_player.Swap_With_Rock(this)){
-        //     Debug.Log("Swapped: " + this.name);
-        // }else{
-        //     Debug.Log("Swap failed: " + this.name);
-        // }
+    [field: SerializeField]public Rock_ScriptableObject primary_rock_type{get; private set;}
+
+    [field: SerializeField]public Secondary_Rock_ScriptableObject secondary_rock_type{get; private set;}
+
+
+    [SerializeField]private MeshRenderer primary_renderer;
+    [SerializeField]private MeshRenderer secondary_renderer;
+
+    public void Change_Rock_Types(Rock_ScriptableObject new_primary_rock_type, Secondary_Rock_ScriptableObject new_secondary_rock_type = null){
+        primary_rock_type = new_primary_rock_type;
+        secondary_rock_type = new_secondary_rock_type == null ? Levelplay_Controller_Script.levelplay_controller_singleton.default_secondary_rock_type: new_secondary_rock_type;
+        Update_Primary_Rock_Type();
+        Update_Secondary_Rock_Type();
+    }
+
+    public void Update_Primary_Rock_Type(){
+        primary_renderer.material.color = primary_rock_type.main_color;
+    }
+
+    public void Update_Secondary_Rock_Type(){
 
     }
-    
 }

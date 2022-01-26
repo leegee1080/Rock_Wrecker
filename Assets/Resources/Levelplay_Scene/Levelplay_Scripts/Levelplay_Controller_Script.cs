@@ -20,6 +20,26 @@ public enum Secondary_Rock_Types_Enum
     Topaz//orange
 }
 
+public enum Match_Direction_Enum
+{
+    up,
+    right,
+    down,
+    left
+}
+
+public class Level_Events
+{
+    #region board change event
+    public static event System.Action board_changed_event;
+    public static void Invoke_Board_Changed_Event()
+    {
+        board_changed_event?.Invoke();
+    }
+    #endregion
+}
+
+
 public class Grid_Data{
 
     public GridResident_Script resident{get; set;}
@@ -63,10 +83,15 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
 
+    [Header("Matching Vars")]
+    [SerializeField] private List<Match_Direction_Enum> match_direction_list = new List<Match_Direction_Enum>();
+
 
     void Awake() => levelplay_controller_singleton = this;
 
     private void Start() {
+        Level_Events.board_changed_event += Check_For_Pattern;
+
         current_player = current_player_serialized;
 
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
@@ -88,6 +113,44 @@ public class Levelplay_Controller_Script : MonoBehaviour
             Mathf.Clamp(controls_original_scale.z - (new_container_go_scale.z/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.z*10)
         );
         controls_container_go.transform.localScale = new_container_go_scale;
+    }
+
+    private void Check_For_Pattern(){
+        foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
+        {
+            if(coord.Value.resident.matchable){
+                Rock_Script rock = (Rock_Script)coord.Value.resident;
+                //check around rock for match if there is a match check further in that direction untill 4 matches found.
+                Vector2 desired_coord = Vector2.zero;
+                foreach (var direction in match_direction_list)
+                {
+                    switch (direction)
+                    {
+                        case Match_Direction_Enum.up:
+                            desired_coord = rock.grid_pos + new Vector2(0,1);
+                            break;
+                        case Match_Direction_Enum.right:
+                            desired_coord = rock.grid_pos + new Vector2(1,0);
+                            break;
+                        case Match_Direction_Enum.down:
+                            desired_coord = rock.grid_pos + new Vector2(0,-1);
+                            break;
+                        case Match_Direction_Enum.left:
+                            desired_coord = rock.grid_pos + new Vector2(-1,0);
+                            break;
+                        default:
+                            Debug.LogError("No direction int passed to matcher!");
+                            continue;
+                    }
+                    
+
+                }
+            }
+        }
+    }
+
+    private void Send_In_Pattern_Direction(Match_Direction_Enum chosen_direction){
+
     }
 
     private void Gen_Map_Coords(){
@@ -117,7 +180,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         {
             if(coord.Value.resident.matchable){
                 Rock_Script rock = (Rock_Script)coord.Value.resident;
-                rock.Change_Rock_Types(default_primary_rock_type);
+                rock.Change_Rock_Types(Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list[Global_Vars.rand_num_gen.Next(0,Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list.Count)]);
             }
         }
     }
@@ -126,4 +189,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         
     }
 
+    void OnDestroy() {
+        Level_Events.board_changed_event -= Check_For_Pattern;
+    }
 }

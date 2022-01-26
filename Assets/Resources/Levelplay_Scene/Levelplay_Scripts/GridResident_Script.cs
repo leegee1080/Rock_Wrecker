@@ -31,6 +31,8 @@ public class GridResident_Script : MonoBehaviour
 
             second_res.Place_Resident(first_res_grid_pos);
             first_res.Place_Resident(second_res_grid_pos);
+            
+            Level_Events.Invoke_Board_Changed_Event();
             return true;
         }
         return false;

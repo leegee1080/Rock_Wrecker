@@ -791,6 +791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1166955259}
   - component: {fileID: 1166955260}
+  - component: {fileID: 1166955261}
   m_Layer: 0
   m_Name: LevelPlay_Controller_Sys
   m_TagString: Untagged
@@ -838,6 +839,33 @@ MonoBehaviour:
   <default_primary_rock_type>k__BackingField: {fileID: 11400000, guid: 228135c40c164df449dee25693f18896, type: 2}
   <default_secondary_rock_type>k__BackingField: {fileID: 11400000, guid: 1aff162c7698fef41a74cc612390c682, type: 2}
   current_player_serialized: {fileID: 7849392580034513512}
+  match_direction_list: 00000000010000000200000003000000
+--- !u!114 &1166955261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166955258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc5e9dffd4b8304e970305f3c16ea9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rock_enum_list: 040000000000000002000000010000000500000003000000
+  secondary_enum_list: 01000000000000000200000003000000
+  rock_so_list:
+  - {fileID: 11400000, guid: b9bfc948d17daff4ca452512ffa46bba, type: 2}
+  - {fileID: 11400000, guid: 228135c40c164df449dee25693f18896, type: 2}
+  - {fileID: 11400000, guid: 343fdc6690dcc9e4d90c766eeb608b39, type: 2}
+  - {fileID: 11400000, guid: f27f9f1526cb6084193c2679aacda8a6, type: 2}
+  - {fileID: 11400000, guid: f7b09ddfdcfd9d849b7733e45e8c3938, type: 2}
+  - {fileID: 11400000, guid: b5c1c87af4272dc49be0c098ae2429a6, type: 2}
+  secondary_so_list:
+  - {fileID: 11400000, guid: 01669fecd0ae409419acf4bcca4ab9fc, type: 2}
+  - {fileID: 11400000, guid: 1aff162c7698fef41a74cc612390c682, type: 2}
+  - {fileID: 11400000, guid: 60d5da43f1bfaa044b6aae0d6e44cf8f, type: 2}
+  - {fileID: 11400000, guid: cd7c2ee69b9144847bb4ab260f802ce0, type: 2}
 --- !u!1 &1303013016
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,29 @@ public class LevelPlayer_Script : GridResident_Script
     //     }
     //     return false;
     // }
+    public override void Start() {
+        base.Start();
+        Input_Control_Events.move_up_event += Moveup_Player;
+        Input_Control_Events.move_down_event += Movedown_Player;
+        Input_Control_Events.move_right_event += Moveright_Player;
+        Input_Control_Events.move_left_event += Moveleft_Player;
+    }
+
+    private void Moveup_Player(){
+        Move((int)Player_Direction_Enum.up);
+    }
+
+    private void Movedown_Player(){
+        Move((int)Player_Direction_Enum.down);
+    }
+
+    private void Moveright_Player(){
+        Move((int)Player_Direction_Enum.right);
+    }
+
+    private void Moveleft_Player(){
+        Move((int)Player_Direction_Enum.left);
+    }
 
     public void Move(int Direction){
         Vector2 desired_coord = Vector2.zero;
@@ -55,5 +78,9 @@ public class LevelPlayer_Script : GridResident_Script
 
     public override bool Place_Resident(Vector2 new_pos){
         return base.Place_Resident(new_pos);
+    }
+
+    private void OnDestroy() {
+        
     }
 }

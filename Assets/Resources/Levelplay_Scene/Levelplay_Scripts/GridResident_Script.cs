@@ -8,6 +8,11 @@ public class GridResident_Script : MonoBehaviour
     public bool moveable;
     public bool matchable;
 
+
+    public virtual void Start() {
+        name = grid_pos.ToString();
+    }
+
     public virtual bool Place_Resident(Vector2 new_pos){
 
         if (Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[new_pos].resident == null)

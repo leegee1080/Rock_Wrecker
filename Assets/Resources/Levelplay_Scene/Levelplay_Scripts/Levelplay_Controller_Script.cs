@@ -84,6 +84,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public LevelPlayer_Script current_player {get; private set;}
 
     [Header("Matching Vars")]
+    [SerializeField] private int required_match_number;
     [SerializeField] private List<Match_Direction_Enum> match_direction_list = new List<Match_Direction_Enum>();
 
 
@@ -119,38 +120,68 @@ public class Levelplay_Controller_Script : MonoBehaviour
         foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
         {
             if(coord.Value.resident.matchable){
-                Rock_Script rock = (Rock_Script)coord.Value.resident;
-                //check around rock for match if there is a match check further in that direction untill 4 matches found.
+                Rock_Script starting_rock = (Rock_Script)coord.Value.resident;
+                //check around rock for match, if there is a match check further in that direction untill 4 matches found.
                 Vector2 desired_coord = Vector2.zero;
                 foreach (var direction in match_direction_list)
                 {
                     switch (direction)
                     {
                         case Match_Direction_Enum.up:
-                            desired_coord = rock.grid_pos + new Vector2(0,1);
+                            desired_coord = starting_rock.grid_pos + new Vector2(0,1);
                             break;
                         case Match_Direction_Enum.right:
-                            desired_coord = rock.grid_pos + new Vector2(1,0);
+                            desired_coord = starting_rock.grid_pos + new Vector2(1,0);
                             break;
                         case Match_Direction_Enum.down:
-                            desired_coord = rock.grid_pos + new Vector2(0,-1);
+                            desired_coord = starting_rock.grid_pos + new Vector2(0,-1);
                             break;
                         case Match_Direction_Enum.left:
-                            desired_coord = rock.grid_pos + new Vector2(-1,0);
+                            desired_coord = starting_rock.grid_pos + new Vector2(-1,0);
                             break;
                         default:
-                            Debug.LogError("No direction int passed to matcher!");
+                            Debug.LogError("No direction passed to matcher!");
                             continue;
                     }
-                    
-
+                    if(!map_coord_dict[desired_coord].resident.matchable){continue;}
+                    Rock_Script rock_to_check = (Rock_Script)map_coord_dict[desired_coord].resident;
+                    if(rock_to_check.primary_rock_type.rock_type == starting_rock.primary_rock_type.rock_type){
+                        // print("matchstart found at: "+ starting_rock.grid_pos);
+                        Send_In_Pattern_Direction(starting_rock.grid_pos, direction, starting_rock.primary_rock_type.rock_type);
+                    }
                 }
             }
         }
     }
 
-    private void Send_In_Pattern_Direction(Match_Direction_Enum chosen_direction){
-
+    private void Send_In_Pattern_Direction(Vector2 starting_coord, Match_Direction_Enum chosen_direction, Rock_Types_Enum rock_type_to_match){
+        // print("starting pattern send in direction: "+ chosen_direction);
+        Vector2 desired_coord = starting_coord;
+        for (int i = 0; i < required_match_number; i++)
+        {
+            switch (chosen_direction)
+            {
+                case Match_Direction_Enum.up:
+                    desired_coord += new Vector2(0,1);
+                    break;
+                case Match_Direction_Enum.right:
+                    desired_coord += new Vector2(1,0);
+                    break;
+                case Match_Direction_Enum.down:
+                    desired_coord += new Vector2(0,-1);
+                    break;
+                case Match_Direction_Enum.left:
+                    desired_coord += new Vector2(-1,0);
+                    break;
+                default:
+                    Debug.LogError("No direction passed to send matcher!");
+                    return;
+            }
+            if(!map_coord_dict.ContainsKey(desired_coord) || !map_coord_dict[desired_coord].resident.matchable){continue;}
+            Rock_Script rock_to_check = (Rock_Script)map_coord_dict[desired_coord].resident;
+            if(rock_to_check.primary_rock_type.rock_type != rock_type_to_match){return;}
+        }
+        print("full match found at:"+ starting_coord + " type: "+ rock_type_to_match+ " in direction: " + chosen_direction);
     }
 
     private void Gen_Map_Coords(){

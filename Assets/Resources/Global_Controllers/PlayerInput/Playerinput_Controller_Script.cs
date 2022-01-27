@@ -4,6 +4,34 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
+
+public class Input_Control_Events
+{
+    public static event System.Action move_up_event;
+    public static void Invoke_Move_Up_Event(InputAction.CallbackContext context)
+    {
+        move_up_event?.Invoke();
+    }
+
+    public static event System.Action move_down_event;
+    public static void Invoke_Move_Down_Event(InputAction.CallbackContext context)
+    {
+        move_down_event?.Invoke();
+    }
+
+    public static event System.Action move_right_event;
+    public static void Invoke_Move_Right_Event(InputAction.CallbackContext context)
+    {
+        move_right_event?.Invoke();
+    }
+
+    public static event System.Action move_left_event;
+    public static void Invoke_Move_Left_Event(InputAction.CallbackContext context)
+    {
+        move_left_event?.Invoke();
+    }
+}
+
 public class Playerinput_Controller_Script : MonoBehaviour
 {
     public static Playerinput_Controller_Script playerinput_controller_singleton;
@@ -20,6 +48,9 @@ public class Playerinput_Controller_Script : MonoBehaviour
     private Vector2 drag_start;
     private bool drag_started;
     private Vector2 drag_dist;
+
+    [Header("Movement Vars")]
+
 
     [Header("Zoom Vars")]
     [SerializeField]private float camera_zoom_speed; 
@@ -38,6 +69,30 @@ public class Playerinput_Controller_Script : MonoBehaviour
         player_input_actions.PlayerControls.TapUp.canceled += context => Tap_Up(context);
         // player_input_actions.PlayerControls.TapDrag.performed += context => Tap_Drag_Started(context);
         // player_input_actions.PlayerControls.TapDrag.canceled += context => Tap_Drag_Ended(context);
+        player_input_actions.PlayerControls.MoveUp.canceled += context => Input_Control_Events.Invoke_Move_Up_Event(context);
+        player_input_actions.PlayerControls.MoveDown.canceled += context => Input_Control_Events.Invoke_Move_Down_Event(context);
+        player_input_actions.PlayerControls.MoveRight.canceled += context => Input_Control_Events.Invoke_Move_Right_Event(context);
+        player_input_actions.PlayerControls.MoveLeft.canceled += context => Input_Control_Events.Invoke_Move_Left_Event(context);
+    }
+
+    private void Update(){
+        if(!camera_controls_allowed){return;}
+        if(drag_started){
+            drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
+            Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.position.z));
+            Camera.main.transform.position += new Vector3(cam_move.x,cam_move.y, 0);
+            Camera.main.transform.position = new Vector3(Mathf.Clamp(Camera.main.transform.position.x,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Mathf.Clamp(Camera.main.transform.position.y,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Camera.main.transform.position.z);
+            drag_start = player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
+        }
+        float z = player_input_actions.PlayerControls.Scroll.ReadValue<float>();
+        if (z > 0 && Camera.main.transform.position.z < -camera_max_zoom_in)
+        {
+            Camera.main.transform.position += new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
+        }
+        else if (z < 0 && Camera.main.transform.position.z > -camera_max_zoom_out)
+        {
+            Camera.main.transform.position -= new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
+        }
     }
 
     private void Tap_Down(InputAction.CallbackContext context){
@@ -62,26 +117,6 @@ public class Playerinput_Controller_Script : MonoBehaviour
             // print("hit "+ hit.transform.name);
         }
         tapped_object = null;
-    }
-
-    private void Update(){
-        if(!camera_controls_allowed){return;}
-        if(drag_started){
-            drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
-            Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.position.z));
-            Camera.main.transform.position += new Vector3(cam_move.x,cam_move.y, 0);
-            Camera.main.transform.position = new Vector3(Mathf.Clamp(Camera.main.transform.position.x,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Mathf.Clamp(Camera.main.transform.position.y,Global_Vars.min_planet_coord,Global_Vars.max_planet_coord), Camera.main.transform.position.z);
-            drag_start = player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
-        }
-        float z = player_input_actions.PlayerControls.Scroll.ReadValue<float>();
-        if (z > 0 && Camera.main.transform.position.z < -camera_max_zoom_in)
-        {
-            Camera.main.transform.position += new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
-        }
-        else if (z < 0 && Camera.main.transform.position.z > -camera_max_zoom_out)
-        {
-            Camera.main.transform.position -= new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
-        }
     }
 
     // void Update () {

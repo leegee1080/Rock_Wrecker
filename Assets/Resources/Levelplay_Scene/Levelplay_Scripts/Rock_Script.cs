@@ -30,4 +30,9 @@ public class Rock_Script : GridResident_Script
     public void Update_Secondary_Rock_Type(){
 
     }
+
+    public void Pop_Rock(){
+        Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos].resident = null;
+        Destroy(this.gameObject);
+    }
 }

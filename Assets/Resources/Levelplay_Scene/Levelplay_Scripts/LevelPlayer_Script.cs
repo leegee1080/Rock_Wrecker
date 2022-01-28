@@ -74,6 +74,13 @@ public class LevelPlayer_Script : GridResident_Script
             Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[desired_coord].resident);
             // Swap_With_Rock(desired_coord);
         }
+
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict.ContainsKey(desired_coord) && Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[desired_coord].resident == null)
+        {
+            Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos].resident = null;
+            Place_Resident(desired_coord);
+            // Swap_With_Rock(desired_coord);
+        }
     }
 
     public override bool Place_Resident(Vector2 new_pos){

@@ -839,8 +839,8 @@ MonoBehaviour:
   <default_primary_rock_type>k__BackingField: {fileID: 11400000, guid: 228135c40c164df449dee25693f18896, type: 2}
   <default_secondary_rock_type>k__BackingField: {fileID: 11400000, guid: 1aff162c7698fef41a74cc612390c682, type: 2}
   current_player_serialized: {fileID: 7849392580034513512}
-  required_match_number: 4
-  match_direction_list: 00000000010000000200000003000000
+  rocks_queue_for_destruction: []
+  <required_match_number>k__BackingField: 4
 --- !u!114 &1166955261
 MonoBehaviour:
   m_ObjectHideFlags: 0

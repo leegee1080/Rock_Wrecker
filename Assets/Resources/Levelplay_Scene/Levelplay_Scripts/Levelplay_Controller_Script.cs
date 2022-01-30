@@ -103,6 +103,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
         Gen_Map_Coords();
         Deliver_Rock_Types();
+        Pregame_Board_Check_Y();
+        Pregame_Board_Check_X();
     }
 
     private void LateUpdate() {
@@ -162,8 +164,126 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
     }
 
+    public void Pregame_Board_Check_X(){
+            List<Vector2> direction_list = new List<Vector2>{new Vector2(1,0),new Vector2(0,1)}; 
+
+            Rock_Script base_res = null;
+            Rock_Script next_res = null;
+
+            List<Rock_Script> small_compare_list = new List<Rock_Script>();
+            List<Rock_Script> output_list = new List<Rock_Script>();
+
+            int current_x = -(map_x_size/2);
+            int current_y = -(map_y_size/2);
+
+            Vector2 grid_pos_to_check = new Vector2(-(map_x_size/2), -(map_y_size/2));
+
+            while(map_coord_dict.ContainsKey(grid_pos_to_check))
+            {
+                while(map_coord_dict.ContainsKey(grid_pos_to_check))
+                {
+                    if(
+                        map_coord_dict[grid_pos_to_check].resident == null ||
+                        !map_coord_dict[grid_pos_to_check].resident.matchable)
+                        {small_compare_list.Clear();}
+                    else{
+                        next_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
+                        if(small_compare_list.Count == 0){
+                            small_compare_list.Add(next_res);
+                            base_res = next_res;
+                        }
+                        else{
+                            if(next_res.primary_rock_type.rock_type == base_res.primary_rock_type.rock_type){
+                                // print("match found");
+                                small_compare_list.Add(next_res);
+                                if(small_compare_list.Count >= required_match_number){
+                                    for (int i = 0; i < small_compare_list.Count; i++)
+                                    {
+                                        output_list.Add(small_compare_list[i]);
+                                    }
+                                    small_compare_list.Clear(); 
+                                }   
+                            }else{
+                                small_compare_list.Clear();
+                            }
+
+                            base_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
+                        }
+                    }
+                    current_x += 1;
+                    grid_pos_to_check = new Vector2(current_x, current_y);
+                }
+                current_x = -(map_x_size/2);
+                current_y += 1;
+                grid_pos_to_check = new Vector2(current_x, current_y);
+            }
+            foreach (Rock_Script item in output_list)
+            {
+                rocks_queue_for_destruction.Add(item);
+            }
+        }
+
+    public void Pregame_Board_Check_Y(){
+        List<Vector2> direction_list = new List<Vector2>{new Vector2(1,0),new Vector2(0,1)}; 
+
+        Rock_Script base_res = null;
+        Rock_Script next_res = null;
+
+        List<Rock_Script> small_compare_list = new List<Rock_Script>();
+        List<Rock_Script> output_list = new List<Rock_Script>();
+
+        int current_x = -(map_x_size/2);
+        int current_y = -(map_y_size/2);
+
+        Vector2 grid_pos_to_check = new Vector2(-(map_x_size/2), -(map_y_size/2));
+
+        while(map_coord_dict.ContainsKey(grid_pos_to_check))
+        {
+            while(map_coord_dict.ContainsKey(grid_pos_to_check))
+            {
+                if(
+                    map_coord_dict[grid_pos_to_check].resident == null ||
+                    !map_coord_dict[grid_pos_to_check].resident.matchable)
+                    {small_compare_list.Clear();}
+                else{
+                    next_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
+                    if(small_compare_list.Count == 0){
+                        small_compare_list.Add(next_res);
+                        base_res = next_res;
+                    }
+                    else{
+                        if(next_res.primary_rock_type.rock_type == base_res.primary_rock_type.rock_type){
+                            small_compare_list.Add(next_res);
+                            if(small_compare_list.Count >= required_match_number){
+                                for (int i = 0; i < small_compare_list.Count; i++)
+                                {
+                                    output_list.Add(small_compare_list[i]);
+                                    print(small_compare_list[i].name);
+                                }
+                                small_compare_list.Clear(); 
+                            }   
+                        }else{
+                            small_compare_list.Clear();
+                        }
+
+                        base_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
+                    }
+                }
+                current_y += 1;
+                grid_pos_to_check = new Vector2(current_x, current_y);
+            }
+            current_y = -(map_y_size/2);
+            current_x += 1;
+            grid_pos_to_check = new Vector2(current_x, current_y);
+        }
+        foreach (Rock_Script item in output_list)
+        {
+            rocks_queue_for_destruction.Add(item);
+        }
+    }
+
     public void Show_Ingame_Menu(){
-        
+
     }
 
     // void OnDestroy() {

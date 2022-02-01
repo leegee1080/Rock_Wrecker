@@ -120,16 +120,34 @@ public class Levelplay_Controller_Script : MonoBehaviour
     }
 
     private void Update() {
-        Clean_Rock_Queue();
+        if(rocks_queue_for_destruction.Count > 0){
+            Clean_Rock_Queue();
+        }
     }
 
     private void Clean_Rock_Queue(){
-        if(rocks_queue_for_destruction == null || rocks_queue_for_destruction.Count < 1){return;}
-        foreach (Rock_Script item in rocks_queue_for_destruction)
+        // if(rocks_queue_for_destruction == null || rocks_queue_for_destruction.Count < 1){return;}
+        // foreach (Rock_Script item in rocks_queue_for_destruction)
+        // {
+        //     item.Pop_Rock();
+        // }
+        // rocks_queue_for_destruction.Clear();
+        StartCoroutine(Timed_Rock_Pop(rocks_queue_for_destruction));
+    }
+
+    IEnumerator Timed_Rock_Pop(List<Rock_Script> new_rock_queue){
+        List<Rock_Script> instanced_rock_queue = new List<Rock_Script>();
+        foreach (Rock_Script item in new_rock_queue)
         {
-            item.Pop_Rock();
+            instanced_rock_queue.Add(item);
         }
         rocks_queue_for_destruction.Clear();
+        foreach (Rock_Script item in instanced_rock_queue)
+        {
+            item.Pop_Rock();
+
+            yield return new WaitForSeconds(.05f);
+        }
     }
 
     private void Gen_Map_Coords(){
@@ -258,7 +276,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
                                 for (int i = 0; i < small_compare_list.Count; i++)
                                 {
                                     output_list.Add(small_compare_list[i]);
-                                    print(small_compare_list[i].name);
                                 }
                                 small_compare_list.Clear(); 
                             }   

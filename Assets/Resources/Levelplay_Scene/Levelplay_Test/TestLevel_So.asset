@@ -16,7 +16,7 @@ MonoBehaviour:
   played: 0
   finished: 0
   map_pos: {x: 0, y: 0}
-  poi_size: 1
+  poi_size: 2
   poi_difficulty: 1
   rotate_speed: 1
   deco_count: 1

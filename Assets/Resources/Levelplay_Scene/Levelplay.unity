@@ -830,6 +830,7 @@ MonoBehaviour:
   controls_visual_offset: 0
   controls_original_scale: {x: 1, y: 1, z: 1}
   controls_visual_camera_zoom_ratio: 1
+  level_gen_seed: 1234
   map_x_size: 0
   map_y_size: 0
   map_unit_spacing: 2
@@ -838,6 +839,9 @@ MonoBehaviour:
   TestObjectContainer: {fileID: 661376947}
   <default_primary_rock_type>k__BackingField: {fileID: 11400000, guid: 228135c40c164df449dee25693f18896, type: 2}
   <default_secondary_rock_type>k__BackingField: {fileID: 11400000, guid: 1aff162c7698fef41a74cc612390c682, type: 2}
+  void_percentage: 50
+  wall_percentage: 60
+  rock_percentage: 0
   current_player_serialized: {fileID: 7849392580034513512}
   rocks_queue_for_destruction: []
   <required_match_number>k__BackingField: 4

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Rock_Types_Enum
@@ -45,9 +46,12 @@ public class Grid_Data{
     public GridResident_Script resident{get; set;}
     public Vector3 actual_pos{get; private set;}
 
-    public Grid_Data(GridResident_Script new_resident, Vector3 new_actual_pos){
+    public float noise_data;
+
+    public Grid_Data(GridResident_Script new_resident, Vector3 new_actual_pos, float new_noise){
         resident = new_resident;
         actual_pos = new_actual_pos;
+        noise_data = new_noise;
     }
     public override string ToString(){
         return (" actual_pos: " + actual_pos + " resident: " + resident);
@@ -68,6 +72,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Level Gen Vars")]
+    public int level_gen_seed;
     [SerializeField]private int map_x_size;
     [SerializeField]private int map_y_size;
     [SerializeField]private int map_unit_spacing;
@@ -77,6 +82,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObject TestObjectContainer;
     [field: SerializeField]public Rock_ScriptableObject default_primary_rock_type{get; private set;}
     [field: SerializeField]public Secondary_Rock_ScriptableObject default_secondary_rock_type{get; private set;}
+    public int void_percentage;
+    public int wall_percentage;
+    public int rock_percentage;
+    private float max_map_noise;
+    private float avg_map_noise;
+    private float min_map_noise;
 
 
     [Header("Gameplay Vars")]
@@ -101,7 +112,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         map_x_size = Global_Vars.level_starting_x_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
         map_y_size = Global_Vars.level_starting_y_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
 
-        Gen_Map_Coords();
+        Gen_Map_Coords(level_gen_seed);
+        Gen_Map_Residents();
         Deliver_Rock_Types();
         Pregame_Board_Check_Y();
         Pregame_Board_Check_X();
@@ -150,32 +162,54 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
     }
 
-    private void Gen_Map_Coords(){
+    private void Gen_Map_Coords(int seed){
+        System.Random rand = new System.Random(seed);
+        float x_offset = rand.Next(5 * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size, 15* Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size);
+        float y_offset = rand.Next(5 * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size, 15* Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size);
+
+        List<float> noise_list = new List<float>();
         for (int x = -map_x_size/2; x <= map_x_size/2; x++)
         {   
             for (int y = -map_y_size/2; y <= map_y_size/2; y++)
             {
                 Vector2 new_coord = new Vector2(x,y);
-                map_coord_dict[new_coord] = new Grid_Data(null, new Vector3(x * map_unit_spacing, y * map_unit_spacing, 0)); 
-                if(x == 0 && y == 0)
-                {
-                    current_player.Place_Resident(new_coord);
-                    continue;
-                }
-                GameObject new_go = Mathf.Abs(x) == (map_x_size/2) || Mathf.Abs(y) == (map_y_size/2) ? Instantiate(TestWall, parent: TestObjectContainer.transform) : Instantiate(TestRock, parent: TestObjectContainer.transform);
-                GridResident_Script new_gr = new_go.GetComponent<GridResident_Script>();
-                new_gr.Place_Resident(new_coord);
-                // new_go.transform.position = map_coord_dict[new_coord].actual_pos;
+                map_coord_dict[new_coord] = new Grid_Data(null, new Vector3(x * map_unit_spacing, y * map_unit_spacing, 0), Mathf.PerlinNoise((x-map_x_size)/x_offset,(y-map_y_size)/y_offset) * 100f); 
+
+                noise_list.Add(map_coord_dict[new_coord].noise_data);
             }
         }
-        
+        avg_map_noise = noise_list.Average();
+        max_map_noise = noise_list.Max();
+        min_map_noise = noise_list.Min();
+        // Debug.Log(max_map_noise);
+        // Debug.Log(avg_map_noise);
+        // Debug.Log(min_map_noise);
+        // Debug.Log(Mathf.Lerp(max_map_noise,min_map_noise,void_percentage/100f));
+        // Debug.Log(Mathf.Lerp(max_map_noise,min_map_noise,wall_percentage/100f));
         //Global_Vars.Print_Map_Dict<Vector2, Grid_Data>(map_coord_dict);
+    }
+
+    private void Gen_Map_Residents(){
+        foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
+        {
+            if(coord.Key.x == 0 && coord.Key.y == 0)
+            {
+                current_player.Place_Resident(coord.Key);
+                continue;
+            }
+            if(coord.Value.noise_data < Mathf.Lerp(max_map_noise,min_map_noise,void_percentage/100f)){
+                GameObject new_go = coord.Value.noise_data > Mathf.Lerp(max_map_noise,min_map_noise,wall_percentage/100f) ||  coord.Key.x == map_x_size/2 || coord.Key.x == -map_x_size/2 || coord.Key.y == map_y_size/2 || coord.Key.y == -map_y_size/2
+                ? Instantiate(TestWall, parent: TestObjectContainer.transform) : Instantiate(TestRock, parent: TestObjectContainer.transform);
+                GridResident_Script new_gr = new_go.GetComponent<GridResident_Script>();
+                new_gr.Place_Resident(coord.Key);
+            }
+        }
     }
 
     private void Deliver_Rock_Types(){
         foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
         {
-            if(coord.Value.resident.matchable){
+            if(coord.Value.resident != null && coord.Value.resident.matchable){
                 Rock_Script rock = (Rock_Script)coord.Value.resident;
                 rock.Change_Rock_Types(Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list[Global_Vars.rand_num_gen.Next(0,Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list.Count)]);
             }

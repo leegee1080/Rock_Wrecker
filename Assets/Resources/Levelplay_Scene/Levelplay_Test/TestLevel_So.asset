@@ -16,7 +16,8 @@ MonoBehaviour:
   played: 0
   finished: 0
   map_pos: {x: 0, y: 0}
-  poi_size: 2
+  poi_size: 3
   poi_difficulty: 1
+  level_seed: 1234
   rotate_speed: 1
   deco_count: 1

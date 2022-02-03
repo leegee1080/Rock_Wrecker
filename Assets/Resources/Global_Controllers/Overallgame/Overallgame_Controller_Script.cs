@@ -14,8 +14,8 @@ public static class Global_Vars{
 
     [Header("Map Data")]
     public const int galaxy_size = 250;
-    public const int max_planet_size = 10;
-    public const int min_planet_size = 5;
+    public const int max_planet_size = 4;
+    public const int min_planet_size = 2;
     public const int max_planet_coord = 500;
     public const int min_planet_coord = -500;
     public const int max_planet_difficulty = 10;
@@ -75,6 +75,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
             new_mappoi_so.poi_size = (int)Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_size,Global_Vars.max_planet_size+1);
             new_mappoi_so.rotate_speed = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_poi_rot_speed+1);
             new_mappoi_so.deco_count = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_poi_deco+1);
+            new_mappoi_so.level_seed = (int)Global_Vars.rand_num_gen.Next(1,9999999);
             Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1), Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1));
             new_mappoi_so.map_pos = rand_gen_pos;
             foreach (Vector2 pos in dist_check_list)

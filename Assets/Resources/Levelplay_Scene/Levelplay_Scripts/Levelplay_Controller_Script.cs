@@ -54,7 +54,7 @@ public class Grid_Data{
         noise_data = new_noise;
     }
     public override string ToString(){
-        return (" actual_pos: " + actual_pos + " resident: " + resident);
+        return (" actual_pos: " + actual_pos + " resident: " + resident + " noise_data: " + noise_data);
     }
 }
 
@@ -72,7 +72,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Level Gen Vars")]
-    public int level_gen_seed;
     [SerializeField]private int map_x_size;
     [SerializeField]private int map_y_size;
     [SerializeField]private int map_unit_spacing;
@@ -93,6 +92,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [Header("Gameplay Vars")]
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
+    private bool player_placed;
+    [SerializeField] private bool game_started;
+
 
     [Header("Matching Vars")]
     public List<Rock_Script> rocks_queue_for_destruction;
@@ -102,7 +104,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     void Awake() => levelplay_controller_singleton = this;
 
-    private void Start() {
+    private void Start()
+    {
         // Level_Events.board_changed_event += Check_For_Pattern;
 
         current_player = current_player_serialized;
@@ -112,14 +115,17 @@ public class Levelplay_Controller_Script : MonoBehaviour
         map_x_size = Global_Vars.level_starting_x_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
         map_y_size = Global_Vars.level_starting_y_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
 
-        Gen_Map_Coords(level_gen_seed);
+        Gen_Map_Coords(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.level_seed);
         Gen_Map_Residents();
         Deliver_Rock_Types();
         Pregame_Board_Check_Y();
         Pregame_Board_Check_X();
+        Clean_Rock_Queue();
+        game_started = true;
     }
 
-    private void LateUpdate() {
+    private void LateUpdate()
+    {
         if(current_player == null){return;}
         controls_container_go.transform.position = Camera.main.WorldToScreenPoint(current_player.transform.position + Vector3.right * controls_visual_offset);
         Vector3 new_container_go_scale = new Vector3 (-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z);
@@ -131,38 +137,53 @@ public class Levelplay_Controller_Script : MonoBehaviour
         controls_container_go.transform.localScale = new_container_go_scale;
     }
 
-    private void Update() {
+    private void Update()
+    {
         if(rocks_queue_for_destruction.Count > 0){
             Clean_Rock_Queue();
         }
     }
 
-    private void Clean_Rock_Queue(){
-        // if(rocks_queue_for_destruction == null || rocks_queue_for_destruction.Count < 1){return;}
-        // foreach (Rock_Script item in rocks_queue_for_destruction)
-        // {
-        //     item.Pop_Rock();
-        // }
-        // rocks_queue_for_destruction.Clear();
-        StartCoroutine(Timed_Rock_Pop(rocks_queue_for_destruction));
-    }
-
-    IEnumerator Timed_Rock_Pop(List<Rock_Script> new_rock_queue){
+    private void Clean_Rock_Queue()
+    {
         List<Rock_Script> instanced_rock_queue = new List<Rock_Script>();
-        foreach (Rock_Script item in new_rock_queue)
+        foreach (Rock_Script item in rocks_queue_for_destruction)
         {
             instanced_rock_queue.Add(item);
         }
         rocks_queue_for_destruction.Clear();
-        foreach (Rock_Script item in instanced_rock_queue)
+
+        if(game_started)
+        {
+            StartCoroutine(Timed_Rock_Pop(instanced_rock_queue));
+        }
+        else
+        {
+            Pregame_Rock_Pop(instanced_rock_queue);
+        }
+    }
+
+    private void Pregame_Rock_Pop(List<Rock_Script> new_rock_queue)
+    {
+        foreach (Rock_Script item in new_rock_queue)
+        {
+            item.Pop_Rock();
+        }
+    }
+
+    IEnumerator Timed_Rock_Pop(List<Rock_Script> new_rock_queue)
+    {
+        foreach (Rock_Script item in new_rock_queue)
         {
             item.Pop_Rock();
 
             yield return new WaitForSeconds(.05f);
         }
+
     }
 
-    private void Gen_Map_Coords(int seed){
+    private void Gen_Map_Coords(int seed)
+    {
         System.Random rand = new System.Random(seed);
         float x_offset = rand.Next(5 * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size, 15* Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size);
         float y_offset = rand.Next(5 * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size, 15* Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size);
@@ -181,32 +202,43 @@ public class Levelplay_Controller_Script : MonoBehaviour
         avg_map_noise = noise_list.Average();
         max_map_noise = noise_list.Max();
         min_map_noise = noise_list.Min();
-        // Debug.Log(max_map_noise);
-        // Debug.Log(avg_map_noise);
-        // Debug.Log(min_map_noise);
+        Debug.Log(max_map_noise);
+        Debug.Log(avg_map_noise);
+        Debug.Log(min_map_noise);
+        Debug.Log(Mathf.Lerp(max_map_noise,min_map_noise,rock_percentage/100f));
         // Debug.Log(Mathf.Lerp(max_map_noise,min_map_noise,void_percentage/100f));
         // Debug.Log(Mathf.Lerp(max_map_noise,min_map_noise,wall_percentage/100f));
-        //Global_Vars.Print_Map_Dict<Vector2, Grid_Data>(map_coord_dict);
+        Global_Vars.Print_Map_Dict<Vector2, Grid_Data>(map_coord_dict);
     }
 
-    private void Gen_Map_Residents(){
+    private void Gen_Map_Residents()
+    {
         foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
         {
-            if(coord.Key.x == 0 && coord.Key.y == 0)
+            if(coord.Value.noise_data < Mathf.Lerp(max_map_noise,min_map_noise,void_percentage/100f))
             {
-                current_player.Place_Resident(coord.Key);
-                continue;
-            }
-            if(coord.Value.noise_data < Mathf.Lerp(max_map_noise,min_map_noise,void_percentage/100f)){
-                GameObject new_go = coord.Value.noise_data > Mathf.Lerp(max_map_noise,min_map_noise,wall_percentage/100f) ||  coord.Key.x == map_x_size/2 || coord.Key.x == -map_x_size/2 || coord.Key.y == map_y_size/2 || coord.Key.y == -map_y_size/2
-                ? Instantiate(TestWall, parent: TestObjectContainer.transform) : Instantiate(TestRock, parent: TestObjectContainer.transform);
-                GridResident_Script new_gr = new_go.GetComponent<GridResident_Script>();
-                new_gr.Place_Resident(coord.Key);
+                GameObject new_go;
+
+                if(coord.Value.noise_data > Mathf.Lerp(max_map_noise,min_map_noise,wall_percentage/100f) ||  coord.Key.x == map_x_size/2 || coord.Key.x == -map_x_size/2 || coord.Key.y == map_y_size/2 || coord.Key.y == -map_y_size/2)
+                {
+                    new_go = Instantiate(TestWall, parent: TestObjectContainer.transform);
+                    new_go.GetComponent<GridResident_Script>().Place_Resident(coord.Key);
+                    continue;
+                }
+                if(player_placed == false && coord.Value.noise_data > min_map_noise && coord.Value.noise_data < Mathf.Lerp(max_map_noise,min_map_noise,rock_percentage/100f) && coord.Key.x < map_x_size/5 && coord.Key.x > -map_x_size/5 && coord.Key.y < map_y_size/5 && coord.Key.y > -map_y_size/5)
+                {
+                    current_player.Place_Resident(coord.Key);
+                    player_placed = true;
+                    continue;
+                }
+                new_go = Instantiate(TestRock, parent: TestObjectContainer.transform);
+                new_go.GetComponent<GridResident_Script>().Place_Resident(coord.Key);
             }
         }
     }
 
-    private void Deliver_Rock_Types(){
+    private void Deliver_Rock_Types()
+    {
         foreach (KeyValuePair<Vector2, Grid_Data> coord in map_coord_dict)
         {
             if(coord.Value.resident != null && coord.Value.resident.matchable){
@@ -216,7 +248,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
     }
 
-    public void Pregame_Board_Check_X(){
+    public void Pregame_Board_Check_X()
+    {
             List<Vector2> direction_list = new List<Vector2>{new Vector2(1,0),new Vector2(0,1)}; 
 
             Rock_Script base_res = null;
@@ -275,7 +308,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
             }
         }
 
-    public void Pregame_Board_Check_Y(){
+    public void Pregame_Board_Check_Y()
+    {
         List<Vector2> direction_list = new List<Vector2>{new Vector2(1,0),new Vector2(0,1)}; 
 
         Rock_Script base_res = null;
@@ -333,8 +367,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
     }
 
-    public void Show_Ingame_Menu(){
-
+    public void Show_Ingame_Menu()
+    {
+        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
     }
 
     // void OnDestroy() {

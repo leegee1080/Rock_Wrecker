@@ -16,6 +16,7 @@ public class MapPOI_ScriptableObject : ScriptableObject
     public Vector2 map_pos;
     public int poi_size;
     public int poi_difficulty;
+    public int level_seed;
 
     [Header("POI Deco Data")]
     public int rotate_speed;

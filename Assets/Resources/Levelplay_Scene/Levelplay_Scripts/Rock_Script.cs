@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,23 +14,26 @@ public class Rock_Script : GridResident_Script
     [SerializeField]private MeshRenderer secondary_renderer;
     [SerializeField]private bool initialized;
 
-    public void Check_Grid_Neighbor(Vector2 starting_dir, Vector2 checking_direction){
-        Dictionary<Vector2, Grid_Data> map_dict = Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict;
-        Vector2 direction_modifier = starting_dir;
-        Vector2 grid_pos_to_check = grid_pos + direction_modifier;
+    public void Check_Grid_Neighbor(Vector2Int starting_dir, Vector2Int checking_direction){
+        Func<Vector2Int, Grid_Data> find_griddata_func = Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data;
+        // Grid_Data[][]map_dict = Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array;
+        Vector2Int direction_modifier = starting_dir;
+        Vector2Int grid_pos_to_check = grid_pos + direction_modifier;
         List<Rock_Script> match_list = new List<Rock_Script>();
         //find the starting point on the starting dir
         Rock_Script farthest_left_rock = null;
         while(Primary_Rock_Type_Comparer(primary_rock_type.rock_type, grid_pos_to_check)){
-            farthest_left_rock = (Rock_Script)map_dict[grid_pos_to_check].resident;
+            if(find_griddata_func(grid_pos_to_check).resident == null){return;}
+            farthest_left_rock = (Rock_Script)find_griddata_func(grid_pos_to_check).resident;
             grid_pos_to_check += direction_modifier;
         }
-        if(farthest_left_rock == null){return;}
         //now check back all the way in the checking direction
+        if(farthest_left_rock == null){return;}
         grid_pos_to_check = farthest_left_rock.grid_pos;
         direction_modifier = checking_direction;
         while(Primary_Rock_Type_Comparer(primary_rock_type.rock_type, grid_pos_to_check)){
-            match_list.Add((Rock_Script)map_dict[grid_pos_to_check].resident);
+            if(find_griddata_func(grid_pos_to_check).resident == null){return;}
+            match_list.Add((Rock_Script)find_griddata_func(grid_pos_to_check).resident);
             grid_pos_to_check += direction_modifier;
         }
         if(match_list.Count < Levelplay_Controller_Script.levelplay_controller_singleton.required_match_number){return;}
@@ -44,14 +48,14 @@ public class Rock_Script : GridResident_Script
         }
     }
 
-    private bool Primary_Rock_Type_Comparer(Rock_Types_Enum main_rock_type, Vector2 grid_pos_of_rock_to_compare){
-        if(   
-            !Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict.ContainsKey(grid_pos_of_rock_to_compare) ||
-            Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos_of_rock_to_compare].resident == null ||
-            !Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos_of_rock_to_compare].resident.matchable)
-            {return false;}
+    private bool Primary_Rock_Type_Comparer(Rock_Types_Enum main_rock_type, Vector2Int grid_pos_of_rock_to_compare){
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos_of_rock_to_compare) == null){return false;}
 
-        Rock_Script rock_to_test = (Rock_Script)Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos_of_rock_to_compare].resident;
+        Grid_Data griddata_to_compare = Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos_of_rock_to_compare);
+
+        if(griddata_to_compare.resident == null || !griddata_to_compare.resident.matchable){return false;}
+
+        Rock_Script rock_to_test = (Rock_Script)griddata_to_compare.resident;
         if(rock_to_test.primary_rock_type.rock_type != this.primary_rock_type.rock_type){return false;}
 
         return true;
@@ -63,10 +67,10 @@ public class Rock_Script : GridResident_Script
         base.Local_Board_Changed();
         name = grid_pos.ToString();
 
-        Check_Grid_Neighbor(Vector2.left, Vector2.right);
-        Check_Grid_Neighbor(Vector2.down, Vector2.up);
-        Check_Grid_Neighbor(Vector2.right, Vector2.left);
-        Check_Grid_Neighbor(Vector2.up, Vector2.down);
+        Check_Grid_Neighbor(Vector2Int.left, Vector2Int.right);
+        Check_Grid_Neighbor(Vector2Int.down, Vector2Int.up);
+        Check_Grid_Neighbor(Vector2Int.right, Vector2Int.left);
+        Check_Grid_Neighbor(Vector2Int.up, Vector2Int.down);
     }
 
     public void Change_Rock_Types(Rock_ScriptableObject new_primary_rock_type, Secondary_Rock_ScriptableObject new_secondary_rock_type = null){
@@ -87,7 +91,7 @@ public class Rock_Script : GridResident_Script
     }
 
     public void Pop_Rock(){
-        Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos].resident = null;
+        Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
         gameObject.SetActive(false);
     }
 }

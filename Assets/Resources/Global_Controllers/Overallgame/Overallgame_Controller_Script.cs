@@ -12,6 +12,16 @@ public static class Global_Vars{
         }     
     }
 
+    public static void Print_Map_Array(Grid_Data[][] new_array){
+        foreach (Grid_Data[] i in new_array)
+        {
+            foreach(Grid_Data j in i)
+            {
+                Debug.Log("gridpos: (" + j.grid_pos + ")" + " res: (" + j.resident + ")"+ " actualpos: (" + j.actual_pos + ")"+ " noise: (" + j.noise_data + ")");    
+            }           
+        }  
+    }
+
     [Header("Map Data")]
     public const int galaxy_size = 250;
     public const int max_planet_size = 4;

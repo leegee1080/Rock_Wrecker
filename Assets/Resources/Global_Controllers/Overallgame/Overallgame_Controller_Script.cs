@@ -25,7 +25,7 @@ public static class Global_Vars{
     [Header("Map Data")]
     public const int galaxy_size = 250;
     public const int max_planet_size = 4;
-    public const int min_planet_size = 2;
+    public const int min_planet_size = 1;
     public const int max_planet_coord = 500;
     public const int min_planet_coord = -500;
     public const int max_planet_difficulty = 10;

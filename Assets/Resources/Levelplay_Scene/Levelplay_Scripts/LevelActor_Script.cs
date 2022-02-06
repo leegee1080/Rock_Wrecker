@@ -21,11 +21,11 @@ public class LevelActor_Script : MonoBehaviour
             }
     }
 
-    public bool Place_Actor(Vector2 new_pos){
+    public bool Place_Actor(Vector2Int new_pos){
 
-        if (Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[new_pos].resident != null)
+        if (Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].resident != null)
         {
-            gameObject.transform.position = Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[new_pos].actual_pos;
+            gameObject.transform.position = Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].actual_pos;
             return true;
         }
         return false;

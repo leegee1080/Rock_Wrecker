@@ -14,17 +14,6 @@ public class LevelPlayer_Script : GridResident_Script
 {
     public Level_Actor_States_Enum current_player_state;
 
-    // public bool Swap_With_Rock(Vector2 rock_grid_pos_to_swap){
-    //     if(current_player_state == Level_Actor_States_Enum.Normal){
-    //         Vector3 previous_pos = transform.position;
-    //         gameObject.transform.position = Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[rock_grid_pos_to_swap].actual_pos;
-    //         Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[rock_grid_pos_to_swap].resident.transform.position = previous_pos;
-    //         Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos].resident = Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[rock_grid_pos_to_swap].resident;
-    //         Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[rock_grid_pos_to_swap].resident = this;
-    //         grid_pos = rock_grid_pos_to_swap;
-    //     }
-    //     return false;
-    // }
     public override void Start() {
         base.Start();
         Input_Control_Events.move_up_event += Moveup_Player;
@@ -50,40 +39,40 @@ public class LevelPlayer_Script : GridResident_Script
     }
 
     public void Move(int Direction){
-        Vector2 desired_coord = Vector2.zero;
+        Vector2Int desired_coord = Vector2Int.zero;
         switch (Direction)
         {
             case (int)Player_Direction_Enum.up:
-                desired_coord = grid_pos + new Vector2(0,1);
+                desired_coord = grid_pos + new Vector2Int(0,1);
                 break;
             case (int)Player_Direction_Enum.right:
-                desired_coord = grid_pos + new Vector2(1,0);
+                desired_coord = grid_pos + new Vector2Int(1,0);
                 break;
             case (int)Player_Direction_Enum.down:
-                desired_coord = grid_pos + new Vector2(0,-1);
+                desired_coord = grid_pos + new Vector2Int(0,-1);
                 break;
             case (int)Player_Direction_Enum.left:
-                desired_coord = grid_pos + new Vector2(-1,0);
+                desired_coord = grid_pos + new Vector2Int(-1,0);
                 break;
             default:
                 Debug.LogError("No direction int passed to player!");
                 return;
         }
-        if(Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[desired_coord].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[desired_coord].resident.moveable)
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
-            Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[desired_coord].resident);
+            Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident);
             // Swap_With_Rock(desired_coord);
         }
 
-        if(Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict.ContainsKey(desired_coord) && Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[desired_coord].resident == null)
+        if(desired_coord.x > 0 && desired_coord.y > 0 && desired_coord.x < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array.Length && desired_coord.y < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x].Length && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
         {
-            Levelplay_Controller_Script.levelplay_controller_singleton.map_coord_dict[grid_pos].resident = null;
+            Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
             Place_Resident(desired_coord);
             // Swap_With_Rock(desired_coord);
         }
     }
 
-    public override bool Place_Resident(Vector2 new_pos){
+    public override bool Place_Resident(Vector2Int new_pos){
         return base.Place_Resident(new_pos);
     }
 

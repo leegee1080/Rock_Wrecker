@@ -77,6 +77,9 @@ public class LevelPlayer_Script : GridResident_Script
     }
 
     private void OnDestroy() {
-        
+        Input_Control_Events.move_up_event -= Moveup_Player;
+        Input_Control_Events.move_down_event -= Movedown_Player;
+        Input_Control_Events.move_right_event -= Moveright_Player;
+        Input_Control_Events.move_left_event -= Moveleft_Player;
     }
 }

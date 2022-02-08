@@ -90,11 +90,14 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     [Header("Canvas Elements")]
     [SerializeField]private GameObject ingame_menu_container;
+    [SerializeField]private GameObject levelplay_camera;
 
-    [SerializeField]private GameObject controls_container_go;
-    [SerializeField] private float controls_visual_offset;
-    [SerializeField] private Vector3 controls_original_scale;
-    [SerializeField] private float controls_visual_camera_zoom_ratio;
+
+
+    // [SerializeField]private GameObject controls_container_go;
+    // [SerializeField] private float controls_visual_offset;
+    // [SerializeField] private Vector3 controls_original_scale;
+    // [SerializeField] private float controls_visual_camera_zoom_ratio;
 
 
     [Header("Level Gen Vars")]
@@ -139,7 +142,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         // Level_Events.board_changed_event += Check_For_Pattern;
 
-        current_player = current_player_serialized;
+        current_player = null;
+        current_player = Instantiate(current_player_serialized, parent: TestObjectContainer.transform);
 
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
 
@@ -157,18 +161,18 @@ public class Levelplay_Controller_Script : MonoBehaviour
         game_started = true;
     }
 
-    private void LateUpdate()
-    {
-        if(current_player == null){return;}
-        controls_container_go.transform.position = Camera.main.WorldToScreenPoint(current_player.transform.position + Vector3.right * controls_visual_offset);
-        Vector3 new_container_go_scale = new Vector3 (-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z);
-        new_container_go_scale = new Vector3(
-            Mathf.Clamp(controls_original_scale.x - (new_container_go_scale.x/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.x*10),
-            Mathf.Clamp(controls_original_scale.y - (new_container_go_scale.y/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.y*10),
-            Mathf.Clamp(controls_original_scale.z - (new_container_go_scale.z/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.z*10)
-        );
-        controls_container_go.transform.localScale = new_container_go_scale;
-    }
+    // private void LateUpdate()
+    // {
+    //     if(current_player == null){return;}
+    //     controls_container_go.transform.position = Camera.main.WorldToScreenPoint(current_player.transform.position + Vector3.right * controls_visual_offset);
+    //     Vector3 new_container_go_scale = new Vector3 (-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z);
+    //     new_container_go_scale = new Vector3(
+    //         Mathf.Clamp(controls_original_scale.x - (new_container_go_scale.x/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.x*10),
+    //         Mathf.Clamp(controls_original_scale.y - (new_container_go_scale.y/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.y*10),
+    //         Mathf.Clamp(controls_original_scale.z - (new_container_go_scale.z/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.z*10)
+    //     );
+    //     controls_container_go.transform.localScale = new_container_go_scale;
+    // }
 
     private void Update()
     {
@@ -350,6 +354,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             if(item.grid_pos == player_start_gridpos)
             {
                 current_player.Place_Resident(player_start_gridpos);
+                levelplay_camera.transform.position = new Vector3(current_player.transform.position.x,current_player.transform.position.y-10,levelplay_camera.transform.position.z);
                 continue;
             }
             if(item.grid_pos.x <= 0 || item.grid_pos.x >= map_x_size-1|| item.grid_pos.y <= 0 || item.grid_pos.y >= map_y_size-1) //make sure there is no edge matchables

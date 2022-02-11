@@ -107,7 +107,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     // public Dictionary<Vector2, Grid_Data> map_coord_dict {get; private set;} = new Dictionary<Vector2, Grid_Data>();
     [field: SerializeField]public Grid_Data[][] x_lead_map_coord_array{get; private set;}
-    [field: SerializeField]public Grid_Data[][] y_lead_map_coord_array{get; private set;}
     public GameObject TestRock;
     public GameObject TestWall;
     public GameObject TestObjectContainer;
@@ -155,8 +154,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Find_Player_Spawn();
         Gen_Map_Residents();
         Deliver_Rock_Types();
-        // Pregame_Board_Check_Y();
-        // Pregame_Board_Check_X();
+        Pregame_Board_Check();
         Clean_Rock_Queue();
         game_started = true;
     }
@@ -231,7 +229,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private void Gen_Map_Coords(int seed)
     {
         x_lead_map_coord_array = new Grid_Data[map_x_size][];
-        y_lead_map_coord_array = new Grid_Data[map_y_size][];
 
         System.Random rand = new System.Random(seed);
         float x_offset = rand.Next(5, 15);
@@ -249,17 +246,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
                 noise_list.Add(new_y_grid_data[y].noise_data);
             }
             x_lead_map_coord_array[x] = new_y_grid_data;
-        }
-
-        //create y lead array
-        for (int y = 0; y < map_y_size; y++)
-        {
-            Grid_Data[] new_x_grid_data = new Grid_Data[map_x_size];
-            for (int x = 0; x < map_x_size; x++)
-            {
-                new_x_grid_data[x] = new Grid_Data(new Vector2Int(x,y), null, new Vector3(x * map_unit_spacing, y * map_unit_spacing, 0), Mathf.PerlinNoise((x-map_x_size)/x_offset,(y-map_y_size)/y_offset) * 100f); 
-            }
-            y_lead_map_coord_array[y] = new_x_grid_data;
         }
 
         avg_map_noise = noise_list.Average();
@@ -401,124 +387,76 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
     }
 
-    // public void Pregame_Board_Check_X()
-    // {
-    //         List<Vector2> direction_list = new List<Vector2>{new Vector2(1,0),new Vector2(0,1)}; 
+    public void Pregame_Board_Check()
+    {
+        Rock_Script matchable_rock_to_test = null;
+        Rock_Script matchable = null;
+        List<Rock_Script> list_of_matched = new List<Rock_Script>();
 
-    //         Rock_Script base_res = null;
-    //         Rock_Script next_res = null;
+        for (int x = 0; x < map_x_size; x++)
+        {
+            for (int y = 0; y < map_y_size; y++)
+            {
+                Grid_Data item = Find_Grid_Data(new Vector2Int(x,y));
+                if(item.resident != null && item.resident.matchable)
+                {
+                    matchable_rock_to_test = (Rock_Script)item.resident;
+                    if(matchable != null && matchable.primary_rock_type == matchable_rock_to_test.primary_rock_type)
+                    {
+                        list_of_matched.Add(matchable_rock_to_test);
+                        matchable = matchable_rock_to_test;
+                        if(list_of_matched.Count() >= required_match_number)
+                        {
+                            foreach (Rock_Script rock in list_of_matched)
+                            {
+                                rocks_queue_for_destruction.Add(rock);
+                            }
+                            list_of_matched.Clear();
+                            matchable = null;
+                        }
+                    }
+                    else
+                    {
+                        list_of_matched.Clear();
+                        matchable = matchable_rock_to_test;
+                        list_of_matched.Add(matchable);
+                    }
+                }
+            }
+        }
+        for (int y = 0; y < map_y_size; y++)
+        {
+            for (int x = 0; x < map_x_size; x++)
+            {
+                Grid_Data item = Find_Grid_Data(new Vector2Int(x,y));
+                if(item.resident != null && item.resident.matchable)
+                {
+                    matchable_rock_to_test = (Rock_Script)item.resident;
+                    if(matchable != null && matchable.primary_rock_type == matchable_rock_to_test.primary_rock_type)
+                    {
+                        list_of_matched.Add(matchable_rock_to_test);
+                        matchable = matchable_rock_to_test;
+                        if(list_of_matched.Count() >= required_match_number)
+                        {
+                            foreach (Rock_Script rock in list_of_matched)
+                            {
+                                rocks_queue_for_destruction.Add(rock);
+                            }
+                            list_of_matched.Clear();
+                            matchable = null;
+                        }
+                    }
+                    else
+                    {
+                        list_of_matched.Clear();
+                        matchable = matchable_rock_to_test;
+                        list_of_matched.Add(matchable);
+                    }
+                }
+            }
+        }
 
-    //         List<Rock_Script> small_compare_list = new List<Rock_Script>();
-    //         List<Rock_Script> output_list = new List<Rock_Script>();
-
-    //         int current_x = -(map_x_size/2);
-    //         int current_y = -(map_y_size/2);
-
-    //         Vector2 grid_pos_to_check = new Vector2(-(map_x_size/2), -(map_y_size/2));
-
-    //         while(map_coord_dict.ContainsKey(grid_pos_to_check))
-    //         {
-    //             while(map_coord_dict.ContainsKey(grid_pos_to_check))
-    //             {
-    //                 if(
-    //                     map_coord_dict[grid_pos_to_check].resident == null ||
-    //                     !map_coord_dict[grid_pos_to_check].resident.matchable)
-    //                     {small_compare_list.Clear();}
-    //                 else{
-    //                     next_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
-    //                     if(small_compare_list.Count == 0){
-    //                         small_compare_list.Add(next_res);
-    //                         base_res = next_res;
-    //                     }
-    //                     else{
-    //                         if(next_res.primary_rock_type.rock_type == base_res.primary_rock_type.rock_type){
-    //                             // print("match found");
-    //                             small_compare_list.Add(next_res);
-    //                             if(small_compare_list.Count >= required_match_number){
-    //                                 for (int i = 0; i < small_compare_list.Count; i++)
-    //                                 {
-    //                                     output_list.Add(small_compare_list[i]);
-    //                                 }
-    //                                 small_compare_list.Clear(); 
-    //                             }   
-    //                         }else{
-    //                             small_compare_list.Clear();
-    //                         }
-
-    //                         base_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
-    //                     }
-    //                 }
-    //                 current_x += 1;
-    //                 grid_pos_to_check = new Vector2(current_x, current_y);
-    //             }
-    //             current_x = -(map_x_size/2);
-    //             current_y += 1;
-    //             grid_pos_to_check = new Vector2(current_x, current_y);
-    //         }
-    //         foreach (Rock_Script item in output_list)
-    //         {
-    //             rocks_queue_for_destruction.Add(item);
-    //         }
-    //     }
-
-    // public void Pregame_Board_Check_Y()
-    // {
-    //     List<Vector2> direction_list = new List<Vector2>{new Vector2(1,0),new Vector2(0,1)}; 
-
-    //     Rock_Script base_res = null;
-    //     Rock_Script next_res = null;
-
-    //     List<Rock_Script> small_compare_list = new List<Rock_Script>();
-    //     List<Rock_Script> output_list = new List<Rock_Script>();
-
-    //     int current_x = -(map_x_size/2);
-    //     int current_y = -(map_y_size/2);
-
-    //     Vector2 grid_pos_to_check = new Vector2(-(map_x_size/2), -(map_y_size/2));
-
-    //     while(map_coord_dict.ContainsKey(grid_pos_to_check))
-    //     {
-    //         while(map_coord_dict.ContainsKey(grid_pos_to_check))
-    //         {
-    //             if(
-    //                 map_coord_dict[grid_pos_to_check].resident == null ||
-    //                 !map_coord_dict[grid_pos_to_check].resident.matchable)
-    //                 {small_compare_list.Clear();}
-    //             else{
-    //                 next_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
-    //                 if(small_compare_list.Count == 0){
-    //                     small_compare_list.Add(next_res);
-    //                     base_res = next_res;
-    //                 }
-    //                 else{
-    //                     if(next_res.primary_rock_type.rock_type == base_res.primary_rock_type.rock_type){
-    //                         small_compare_list.Add(next_res);
-    //                         if(small_compare_list.Count >= required_match_number){
-    //                             for (int i = 0; i < small_compare_list.Count; i++)
-    //                             {
-    //                                 output_list.Add(small_compare_list[i]);
-    //                             }
-    //                             small_compare_list.Clear(); 
-    //                         }   
-    //                     }else{
-    //                         small_compare_list.Clear();
-    //                     }
-
-    //                     base_res = (Rock_Script)map_coord_dict[grid_pos_to_check].resident;
-    //                 }
-    //             }
-    //             current_y += 1;
-    //             grid_pos_to_check = new Vector2(current_x, current_y);
-    //         }
-    //         current_y = -(map_y_size/2);
-    //         current_x += 1;
-    //         grid_pos_to_check = new Vector2(current_x, current_y);
-    //     }
-    //     foreach (Rock_Script item in output_list)
-    //     {
-    //         rocks_queue_for_destruction.Add(item);
-    //     }
-    // }
+    }
 
     public void Show_Ingame_Menu()
     {

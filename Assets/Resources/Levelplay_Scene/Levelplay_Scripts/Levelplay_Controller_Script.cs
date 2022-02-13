@@ -41,9 +41,6 @@ public class Level_Events
     #endregion
 }
 
-
-
-
 public class Grid_Data{
 
     public Vector2Int grid_pos{get; private set;}
@@ -77,7 +74,6 @@ public class Grid_Data{
         foreach (var item in neighbor_array)
         {
             if(item == null){continue;}
-            // Debug.Log(grid_pos + ", " + item.grid_pos + " bread checked: " + item.breadth_checked);
         }
 
         return neighbor_array;
@@ -91,21 +87,14 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [Header("Canvas Elements")]
     [SerializeField]private GameObject ingame_menu_container;
     [SerializeField]private GameObject levelplay_camera;
-
-
-
-    // [SerializeField]private GameObject controls_container_go;
-    // [SerializeField] private float controls_visual_offset;
-    // [SerializeField] private Vector3 controls_original_scale;
-    // [SerializeField] private float controls_visual_camera_zoom_ratio;
+    [SerializeField]private GameObject score_menu_container;
+    [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
 
 
     [Header("Level Gen Vars")]
     [SerializeField]private int map_x_size;
     [SerializeField]private int map_y_size;
     [SerializeField]private int map_unit_spacing;
-
-    // public Dictionary<Vector2, Grid_Data> map_coord_dict {get; private set;} = new Dictionary<Vector2, Grid_Data>();
     [field: SerializeField]public Grid_Data[][] x_lead_map_coord_array{get; private set;}
     public GameObject TestRock;
     public GameObject TestWall;
@@ -122,9 +111,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Gameplay Vars")]
+    public int[] resources_collected_array = new int[4];
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
-    // private bool player_placed;
     [SerializeField] private bool game_started;
     [SerializeField] private Vector2Int player_start_gridpos;
 
@@ -132,15 +121,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [Header("Matching Vars")]
     public List<Rock_Script> rocks_queue_for_destruction;
     [field:SerializeField] public int required_match_number{get; private set;}
-    // [SerializeField] private List<Match_Direction_Enum> match_direction_list = new List<Match_Direction_Enum>();
 
 
     void Awake() => levelplay_controller_singleton = this;
 
     private void Start()
     {
-        // Level_Events.board_changed_event += Check_For_Pattern;
-
         current_player = null;
         current_player = Instantiate(current_player_serialized, parent: TestObjectContainer.transform);
 
@@ -188,6 +174,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         return x_lead_map_coord_array[grid_pos.x][grid_pos.y];
     }
 
+#region Scoring
     private void Clean_Rock_Queue()
     {
         List<Rock_Script> instanced_rock_queue = new List<Rock_Script>();
@@ -219,13 +206,67 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         foreach (Rock_Script item in new_rock_queue)
         {
+            resources_collected_array[0] += 99;
+            resources_collected_array[(int)item.secondary_rock_type.secondary_type] += 1;
             item.Pop_Rock();
 
             yield return new WaitForSeconds(.05f);
         }
 
+        if(score_menu_container.activeSelf)
+        {
+            foreach (ScoreItem_Script item in ui_scoreitems)
+            {
+                item.Update_My_Score(resources_collected_array);
+            }
+        }
+    }
+#endregion
+
+#region  MenuItems
+    public void Show_Ingame_Menu()
+    {
+        Exit_Level_To_Map();
     }
 
+    public void Show_Ingame_Inventory()
+    {
+        if(!score_menu_container.activeSelf)
+        {
+            score_menu_container.SetActive(true);
+            foreach (ScoreItem_Script item in ui_scoreitems)
+            {
+                item.Update_My_Score(resources_collected_array);
+            }
+        }
+        else{score_menu_container.SetActive(false);}
+        
+    }
+
+    public void Exit_Level_To_Map()
+    {
+        Overallgame_Controller_Script.overallgame_controller_singleton.player_score += Level_Exit_Score_Calc();
+        print("player score is: " + Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
+        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
+    }
+    public void Exit_Level_To_MainMenu()
+    {
+        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
+    }
+
+    private int Level_Exit_Score_Calc()
+    {
+        int temp_score = resources_collected_array[0];
+        for (int i = 1; i < resources_collected_array.Length; i++)//skip the first index because that is the none secondary_rock type
+        {
+            int expo = resources_collected_array[i] * Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_rock_type_dict[(Secondary_Rock_Types_Enum)i].score_bonus;
+            temp_score += (int)Mathf.Pow(temp_score, expo);
+        }
+        return temp_score;
+    }
+#endregion
+
+#region MapSetup
     private void Gen_Map_Coords(int seed)
     {
         x_lead_map_coord_array = new Grid_Data[map_x_size][];
@@ -259,7 +300,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
         // Debug.Log(Mathf.Lerp(max_map_noise,min_map_noise,wall_percentage/100f));
         // Global_Vars.Print_Map_Array(x_lead_map_coord_array);
     }
-
     private Vector2Int Find_Map_Breadth_Search_Seed()
     {
         IEnumerable<Vector2Int> possible_seed_start_locations = 
@@ -278,7 +318,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
             select cell.grid_pos;
         player_start_gridpos = possible_player_start_locations.ElementAt((int)Global_Vars.rand_num_gen.Next(0,possible_player_start_locations.Count()));
     }
-
     private List<Grid_Data> Find_Max_Play_Area(Vector2Int starting_grid_pos)
     {
         List<Grid_Data> playable_blob = new List<Grid_Data>();
@@ -325,7 +364,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
         if(unchecked_grid_data.Count() > 0){return true;}
         return false;
     }
-
     private void Gen_Map_Residents()
     {
         GameObject new_go;
@@ -372,7 +410,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
             }
         }
     }
-
     private void Deliver_Rock_Types()
     {
         foreach (Grid_Data[] y in x_lead_map_coord_array)
@@ -386,7 +423,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
             }
         }
     }
-
     public void Pregame_Board_Check()
     {
         Rock_Script matchable_rock_to_test = null;
@@ -457,13 +493,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
 
     }
+    
+#endregion
 
-    public void Show_Ingame_Menu()
-    {
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
-    }
-
-    // void OnDestroy() {
-    //     Level_Events.board_changed_event -= Check_For_Pattern;
-    // }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Secondary_Rock_Topaz
   m_EditorClassIdentifier: 
   <name>k__BackingField: Emerald
-  <score_bonus>k__BackingField: 2
+  <score_bonus>k__BackingField: 100
   <secondary_type>k__BackingField: 3
   <main_color>k__BackingField: {r: 1, g: 0.5478113, b: 0, a: 0}
   <main_mesh>k__BackingField: {fileID: 0}

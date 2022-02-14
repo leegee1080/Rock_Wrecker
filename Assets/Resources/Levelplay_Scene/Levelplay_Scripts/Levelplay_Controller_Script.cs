@@ -206,8 +206,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         foreach (Rock_Script item in new_rock_queue)
         {
-            resources_collected_array[0] += 99;
-            resources_collected_array[(int)item.secondary_rock_type.secondary_type] += 1;
+            resources_collected_array[0] += 100;
+            if(item.secondary_rock_type.secondary_type != Secondary_Rock_Types_Enum.none){resources_collected_array[(int)item.secondary_rock_type.secondary_type] += 1;}
             item.Pop_Rock();
 
             yield return new WaitForSeconds(.05f);
@@ -246,7 +246,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public void Exit_Level_To_Map()
     {
         Overallgame_Controller_Script.overallgame_controller_singleton.player_score += Level_Exit_Score_Calc();
-        print("player score is: " + Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
     }
     public void Exit_Level_To_MainMenu()
@@ -259,8 +258,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         int temp_score = resources_collected_array[0];
         for (int i = 1; i < resources_collected_array.Length; i++)//skip the first index because that is the none secondary_rock type
         {
-            int expo = resources_collected_array[i] * Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_rock_type_dict[(Secondary_Rock_Types_Enum)i].score_bonus;
-            temp_score += (int)Mathf.Pow(temp_score, expo);
+            int bonus = resources_collected_array[i] * Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_rock_type_dict[(Secondary_Rock_Types_Enum)i].score_bonus;
+            temp_score += bonus;
         }
         return temp_score;
     }
@@ -416,12 +415,28 @@ public class Levelplay_Controller_Script : MonoBehaviour
         {
             foreach (Grid_Data item in y)
             {
-                if(item.resident != null && item.resident.matchable){
+                if(item.resident != null && item.resident.matchable)
+                {
                     Rock_Script rock = (Rock_Script)item.resident;
-                    rock.Change_Rock_Types(Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list[Global_Vars.rand_num_gen.Next(0,Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list.Count)]);
+                    rock.Change_Rock_Types(
+                        Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list[Global_Vars.rand_num_gen.Next(0,Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list.Count)],
+                        Determine_Secondary_Rock_Type()
+                        );
                 }
             }
         }
+    }
+    private Secondary_Rock_ScriptableObject Determine_Secondary_Rock_Type()
+    {
+        Secondary_Rock_ScriptableObject temp_sec_rock_type = null;
+        int rock_chance = 100 - Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty;
+
+        if((int)Global_Vars.rand_num_gen.Next(0,rock_chance) <= 1)
+        {
+            temp_sec_rock_type = 
+            Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_so_list[Global_Vars.rand_num_gen.Next(0,Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_so_list.Count)];
+        }
+        return temp_sec_rock_type;
     }
     public void Pregame_Board_Check()
     {

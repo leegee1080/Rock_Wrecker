@@ -14,7 +14,8 @@ public class Rock_Script : GridResident_Script
     [SerializeField]private MeshRenderer secondary_renderer;
     [SerializeField]private bool initialized;
 
-    public void Check_Grid_Neighbor(Vector2Int starting_dir, Vector2Int checking_direction){
+    public void Check_Grid_Neighbor(Vector2Int starting_dir, Vector2Int checking_direction)
+    {
         Func<Vector2Int, Grid_Data> find_griddata_func = Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data;
         // Grid_Data[][]map_dict = Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array;
         Vector2Int direction_modifier = starting_dir;
@@ -22,7 +23,8 @@ public class Rock_Script : GridResident_Script
         List<Rock_Script> match_list = new List<Rock_Script>();
         //find the starting point on the starting dir
         Rock_Script farthest_left_rock = null;
-        while(Primary_Rock_Type_Comparer(primary_rock_type.rock_type, grid_pos_to_check)){
+        while(Primary_Rock_Type_Comparer(primary_rock_type.rock_type, grid_pos_to_check))
+        {
             if(find_griddata_func(grid_pos_to_check).resident == null){return;}
             farthest_left_rock = (Rock_Script)find_griddata_func(grid_pos_to_check).resident;
             grid_pos_to_check += direction_modifier;
@@ -31,7 +33,8 @@ public class Rock_Script : GridResident_Script
         if(farthest_left_rock == null){return;}
         grid_pos_to_check = farthest_left_rock.grid_pos;
         direction_modifier = checking_direction;
-        while(Primary_Rock_Type_Comparer(primary_rock_type.rock_type, grid_pos_to_check)){
+        while(Primary_Rock_Type_Comparer(primary_rock_type.rock_type, grid_pos_to_check))
+        {
             if(find_griddata_func(grid_pos_to_check).resident == null){return;}
             match_list.Add((Rock_Script)find_griddata_func(grid_pos_to_check).resident);
             grid_pos_to_check += direction_modifier;
@@ -82,12 +85,16 @@ public class Rock_Script : GridResident_Script
         initialized = true;
     }
 
-    public void Update_Primary_Rock_Type(){
+    public void Update_Primary_Rock_Type()
+    {
         primary_renderer.material.color = primary_rock_type.main_color;
     }
 
-    public void Update_Secondary_Rock_Type(){
-
+    public void Update_Secondary_Rock_Type()
+    {
+        if(secondary_rock_type.secondary_type == Secondary_Rock_Types_Enum.none){secondary_renderer.gameObject.SetActive(false); return;}
+        secondary_renderer.gameObject.SetActive(true);
+        secondary_renderer.material.color = secondary_rock_type.main_color;
     }
 
     public void Pop_Rock(){

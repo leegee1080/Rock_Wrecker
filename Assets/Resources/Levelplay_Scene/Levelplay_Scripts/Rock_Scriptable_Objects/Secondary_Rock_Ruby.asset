@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Secondary_Rock_Ruby
   m_EditorClassIdentifier: 
   <name>k__BackingField: Ruby
-  <score_bonus>k__BackingField: 3
+  <score_bonus>k__BackingField: 150
   <secondary_type>k__BackingField: 2
   <main_color>k__BackingField: {r: 1, g: 0, b: 0.8624263, a: 0}
   <main_mesh>k__BackingField: {fileID: 0}

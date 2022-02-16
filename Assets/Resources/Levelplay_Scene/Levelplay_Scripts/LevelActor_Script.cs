@@ -7,7 +7,8 @@ public enum Level_Actor_States_Enum
     Normal,
     Dead,
     Frozen,
-    Pause
+    Pause,
+    Moving
 }
 
 public class LevelActor_Script : MonoBehaviour

@@ -143,6 +143,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Pregame_Board_Check();
         Clean_Rock_Queue();
         game_started = true;
+
+        Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed = true;
     }
 
     // private void LateUpdate()
@@ -378,6 +380,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             {
                 current_player.Place_Resident(player_start_gridpos);
                 levelplay_camera.transform.position = new Vector3(current_player.transform.position.x,current_player.transform.position.y-10,levelplay_camera.transform.position.z);
+                current_player.current_player_state = Level_Actor_States_Enum.Normal;
                 continue;
             }
             if(item.grid_pos.x <= 0 || item.grid_pos.x >= map_x_size-1|| item.grid_pos.y <= 0 || item.grid_pos.y >= map_y_size-1) //make sure there is no edge matchables

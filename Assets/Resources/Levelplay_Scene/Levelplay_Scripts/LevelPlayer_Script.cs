@@ -12,33 +12,69 @@ public enum Player_Direction_Enum
 
 public class LevelPlayer_Script : GridResident_Script
 {
-    public Level_Actor_States_Enum current_player_state;
+    public Level_Actor_States_Enum current_player_state = Level_Actor_States_Enum.Pause;
+    private PlayerInputActions.PlayerControlsActions player_actions;
+    private float move_timer =0;
 
-    public override void Start() {
+
+    public override void Start()
+    {
         base.Start();
-        Input_Control_Events.move_up_event += Moveup_Player;
-        Input_Control_Events.move_down_event += Movedown_Player;
-        Input_Control_Events.move_right_event += Moveright_Player;
-        Input_Control_Events.move_left_event += Moveleft_Player;
+
+        player_actions = Playerinput_Controller_Script.playerinput_controller_singleton.player_input_actions.PlayerControls;
+        // Input_Control_Events.move_up_event += Moveup_Player;
+        // Input_Control_Events.move_down_event += Movedown_Player;
+        // Input_Control_Events.move_right_event += Moveright_Player;
+        // Input_Control_Events.move_left_event += Moveleft_Player;
     }
 
-    private void Moveup_Player(){
-        Move((int)Player_Direction_Enum.up);
+    // private void Moveup_Player()
+    // {
+    //     Move((int)Player_Direction_Enum.up);
+    // }
+
+    // private void Movedown_Player()
+    // {
+    //     Move((int)Player_Direction_Enum.down);
+    // }
+
+    // private void Moveright_Player()
+    // {
+    //     Move((int)Player_Direction_Enum.right);
+    // }
+
+    // private void Moveleft_Player()
+    // {
+    //     Move((int)Player_Direction_Enum.left);
+    // }
+
+    private void Update()
+    {
+        if(current_player_state  == Level_Actor_States_Enum.Normal && move_timer <=0)
+        {
+            if(player_actions.MoveUp.IsPressed())
+            {
+                Move((int)Player_Direction_Enum.up);
+            }
+            if(player_actions.MoveRight.IsPressed())
+            {
+                Move((int)Player_Direction_Enum.right);
+            }
+            if(player_actions.MoveDown.IsPressed())
+            {
+                Move((int)Player_Direction_Enum.down);
+            }
+            if(player_actions.MoveLeft.IsPressed())
+            {
+                Move((int)Player_Direction_Enum.left);
+            }
+            
+        }
+        if(move_timer >0){ move_timer -= Time.deltaTime;}
     }
 
-    private void Movedown_Player(){
-        Move((int)Player_Direction_Enum.down);
-    }
-
-    private void Moveright_Player(){
-        Move((int)Player_Direction_Enum.right);
-    }
-
-    private void Moveleft_Player(){
-        Move((int)Player_Direction_Enum.left);
-    }
-
-    public void Move(int Direction){
+    public void Move(int Direction)
+    {
         Vector2Int desired_coord = Vector2Int.zero;
         switch (Direction)
         {
@@ -61,6 +97,7 @@ public class LevelPlayer_Script : GridResident_Script
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
             Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident);
+            move_timer = 0.25f;
             // Swap_With_Rock(desired_coord);
         }
 
@@ -68,18 +105,21 @@ public class LevelPlayer_Script : GridResident_Script
         {
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
             Place_Resident(desired_coord);
+            move_timer = 0.10f;
             // Swap_With_Rock(desired_coord);
         }
     }
 
-    public override bool Place_Resident(Vector2Int new_pos){
+    public override bool Place_Resident(Vector2Int new_pos)
+    {
         return base.Place_Resident(new_pos);
     }
 
-    private void OnDestroy() {
-        Input_Control_Events.move_up_event -= Moveup_Player;
-        Input_Control_Events.move_down_event -= Movedown_Player;
-        Input_Control_Events.move_right_event -= Moveright_Player;
-        Input_Control_Events.move_left_event -= Moveleft_Player;
-    }
+    // private void OnDestroy()
+    // {
+    //     Input_Control_Events.move_up_event -= Moveup_Player;
+    //     Input_Control_Events.move_down_event -= Movedown_Player;
+    //     Input_Control_Events.move_right_event -= Moveright_Player;
+    //     Input_Control_Events.move_left_event -= Moveleft_Player;
+    // }
 }

@@ -36,9 +36,10 @@ public class Playerinput_Controller_Script : MonoBehaviour
 {
     public static Playerinput_Controller_Script playerinput_controller_singleton;
 
-    private PlayerInputActions player_input_actions;
+    public PlayerInputActions player_input_actions;
 
     public bool camera_controls_allowed;
+
 
     [Header("TapConfirm Vars")]
     private TapableObject_Script tapped_object;
@@ -50,7 +51,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
     private Vector2 drag_dist;
 
     [Header("Movement Vars")]
-
+    public bool on_screen_controls_allowed = false;
 
     [Header("Zoom Vars")]
     [SerializeField]private float camera_zoom_speed; 

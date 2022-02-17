@@ -974,8 +974,9 @@ MonoBehaviour:
   player_spawn_percentage: 5
   camera_offset: {x: 0, y: -12, z: -25}
   current_level_state: 0
-  level_setup_timer: 5
-  level_end_timer: 60
+  level_setup_time: 2
+  level_escape_time: 30
+  level_end_time: 50
   resources_collected_array: 00000000000000000000000000000000
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
   player_start_gridpos: {x: 0, y: 0}

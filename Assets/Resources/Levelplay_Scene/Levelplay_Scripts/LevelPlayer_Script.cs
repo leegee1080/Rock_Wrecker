@@ -57,15 +57,15 @@ public class LevelPlayer_Script : GridResident_Script
             {
                 Move((int)Player_Direction_Enum.up);
             }
-            if(player_actions.MoveRight.IsPressed())
+            else if(player_actions.MoveRight.IsPressed())
             {
                 Move((int)Player_Direction_Enum.right);
             }
-            if(player_actions.MoveDown.IsPressed())
+            else if(player_actions.MoveDown.IsPressed())
             {
                 Move((int)Player_Direction_Enum.down);
             }
-            if(player_actions.MoveLeft.IsPressed())
+            else if(player_actions.MoveLeft.IsPressed())
             {
                 Move((int)Player_Direction_Enum.left);
             }

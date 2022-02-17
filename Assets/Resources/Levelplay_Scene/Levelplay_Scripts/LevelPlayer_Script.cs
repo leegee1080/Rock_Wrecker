@@ -50,6 +50,7 @@ public class LevelPlayer_Script : GridResident_Script
 
     private void Update()
     {
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.current_level_state != Level_States_Enum.Playing){return;}
         if(current_player_state  == Level_Actor_States_Enum.Normal && move_timer <=0)
         {
             if(player_actions.MoveUp.IsPressed())

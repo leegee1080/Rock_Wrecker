@@ -52,11 +52,19 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     [Header("Movement Vars")]
     public bool on_screen_controls_allowed = false;
+    public GameObject left_on_screen_controlls_container;
+    public GameObject right_on_screen_controlls_container;
 
     [Header("Zoom Vars")]
     [SerializeField]private float camera_zoom_speed; 
     [SerializeField]private float camera_max_zoom_out;
     [SerializeField]private float camera_max_zoom_in;
+
+    [Header("Driven Camera Vars")]
+    public Vector3 desired_camera_pos = Vector3.zero;
+    public Vector3 desired_camera_pos_offset = Vector3.zero;
+    public GameObject follow_target = null;
+    public float auto_camera_move_speed;
 
     private void Awake()
     {
@@ -65,7 +73,8 @@ public class Playerinput_Controller_Script : MonoBehaviour
         player_input_actions = new PlayerInputActions();
     }
 
-    private void Start() {
+    private void Start()
+    {
         player_input_actions.PlayerControls.TapDown.started += context => Tap_Down(context);
         player_input_actions.PlayerControls.TapUp.canceled += context => Tap_Up(context);
         // player_input_actions.PlayerControls.TapDrag.performed += context => Tap_Drag_Started(context);
@@ -76,7 +85,8 @@ public class Playerinput_Controller_Script : MonoBehaviour
         player_input_actions.PlayerControls.MoveLeft.canceled += context => Input_Control_Events.Invoke_Move_Left_Event(context);
     }
 
-    private void Update(){
+    private void Update() //player controlled camera
+    { 
         if(!camera_controls_allowed){return;}
         if(drag_started){
             drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
@@ -94,6 +104,22 @@ public class Playerinput_Controller_Script : MonoBehaviour
         {
             Camera.main.transform.position -= new Vector3(0, 0, camera_zoom_speed + (-Camera.main.transform.position.z / 10));
         }
+    }
+
+    private void LateUpdate() //automatic camera
+    {
+        if(camera_controls_allowed){return;}
+        Camera.main.transform.position = Vector3.MoveTowards
+            (
+                Camera.main.transform.position,
+                follow_target != null ? (follow_target.transform.position + desired_camera_pos_offset) : desired_camera_pos,
+                (Vector3.Distance
+                    (
+                        Camera.main.transform.position,
+                        (follow_target != null ? (follow_target.transform.position + desired_camera_pos_offset) : desired_camera_pos + desired_camera_pos_offset)
+                    ) 
+                    *auto_camera_move_speed)
+            );
     }
 
     private void Tap_Down(InputAction.CallbackContext context){
@@ -134,6 +160,20 @@ public class Playerinput_Controller_Script : MonoBehaviour
     //         transform.position = transform.position - (MouseMove - drag_start);
     //     }
 // }
+
+    public void Toggle_On_Screen_Controls()
+    {
+        if(on_screen_controls_allowed == false)
+        {
+            left_on_screen_controlls_container.SetActive(true);
+            right_on_screen_controlls_container.SetActive(true);
+            on_screen_controls_allowed = true;
+            return;
+            }
+        left_on_screen_controlls_container.SetActive(false);
+        right_on_screen_controlls_container.SetActive(false);
+        on_screen_controls_allowed = false;
+    }
 
     private void OnEnable(){
         player_input_actions.Enable();

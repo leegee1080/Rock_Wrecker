@@ -30,6 +30,13 @@ public enum Match_Direction_Enum
     left
 }
 
+public enum Level_States_Enum
+{
+    Setup,
+    Playing,
+    Paused,
+    Cleanup
+}
 public class Level_Events
 {
     #region board change event
@@ -86,7 +93,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     [Header("Canvas Elements")]
     [SerializeField]private GameObject ingame_menu_container;
-    [SerializeField]private GameObject levelplay_camera;
     [SerializeField]private GameObject score_menu_container;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
 
@@ -111,10 +117,13 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Gameplay Vars")]
+    [SerializeField]private Vector3 camera_offset;
+    public Level_States_Enum current_level_state;
+    [SerializeField]private float level_setup_timer;
+    [SerializeField]private float level_end_timer;
     public int[] resources_collected_array = new int[4];
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
-    [SerializeField] private bool game_started;
     [SerializeField] private Vector2Int player_start_gridpos;
 
 
@@ -142,29 +151,48 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Deliver_Rock_Types();
         Pregame_Board_Check();
         Clean_Rock_Queue();
-        game_started = true;
 
-        Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed = true;
+
+
+        Vector3 map_middle = Vector3.zero;
+        foreach (Transform child in TestObjectContainer.transform){map_middle += child.transform.position;}
+        map_middle = map_middle/TestObjectContainer.transform.childCount;
+
+        Camera.main.transform.position = map_middle;
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
+        Playerinput_Controller_Script.playerinput_controller_singleton.auto_camera_move_speed = 0.003f;
+        Playerinput_Controller_Script.playerinput_controller_singleton.desired_camera_pos = Camera.main.transform.position + (camera_offset*Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size*2);
+
+
+        if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
     }
-
-    // private void LateUpdate()
-    // {
-    //     if(current_player == null){return;}
-    //     controls_container_go.transform.position = Camera.main.WorldToScreenPoint(current_player.transform.position + Vector3.right * controls_visual_offset);
-    //     Vector3 new_container_go_scale = new Vector3 (-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z,-Camera.main.gameObject.transform.position.z);
-    //     new_container_go_scale = new Vector3(
-    //         Mathf.Clamp(controls_original_scale.x - (new_container_go_scale.x/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.x*10),
-    //         Mathf.Clamp(controls_original_scale.y - (new_container_go_scale.y/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.y*10),
-    //         Mathf.Clamp(controls_original_scale.z - (new_container_go_scale.z/(controls_visual_camera_zoom_ratio*100)),0.1f,controls_original_scale.z*10)
-    //     );
-    //     controls_container_go.transform.localScale = new_container_go_scale;
-    // }
 
     private void Update()
     {
+        if(current_level_state == Level_States_Enum.Cleanup || current_level_state == Level_States_Enum.Paused){return;}
         if(rocks_queue_for_destruction.Count > 0){
             Clean_Rock_Queue();
         }
+
+        if(level_end_timer > 0){level_end_timer -= Time.deltaTime;}
+        if(level_end_timer <=0){Cleanup_Level();}
+
+        if(current_level_state != Level_States_Enum.Setup){return;}
+        if(level_setup_timer > 0){level_setup_timer -= Time.deltaTime;}
+        if(level_setup_timer <=0){Finish_Level_Setup();}
+    }
+
+    private void Finish_Level_Setup()
+    {
+        Playerinput_Controller_Script.playerinput_controller_singleton.auto_camera_move_speed = 0.001f;
+        Playerinput_Controller_Script.playerinput_controller_singleton.desired_camera_pos_offset = camera_offset;
+        Playerinput_Controller_Script.playerinput_controller_singleton.follow_target = current_player.gameObject;
+        current_level_state = Level_States_Enum.Playing;
+    }
+
+    private void Cleanup_Level()
+    {
+        current_level_state = Level_States_Enum.Cleanup;
     }
 
     public Grid_Data Find_Grid_Data(Vector2Int grid_pos)
@@ -186,7 +214,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
         rocks_queue_for_destruction.Clear();
 
-        if(game_started)
+        if(current_level_state == Level_States_Enum.Playing)
         {
             StartCoroutine(Timed_Rock_Pop(instanced_rock_queue));
         }
@@ -379,7 +407,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
             if(item.grid_pos == player_start_gridpos)
             {
                 current_player.Place_Resident(player_start_gridpos);
-                levelplay_camera.transform.position = new Vector3(current_player.transform.position.x,current_player.transform.position.y-10,levelplay_camera.transform.position.z);
                 current_player.current_player_state = Level_Actor_States_Enum.Normal;
                 continue;
             }

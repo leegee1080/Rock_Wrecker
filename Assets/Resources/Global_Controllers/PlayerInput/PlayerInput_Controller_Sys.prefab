@@ -104,7 +104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5687610506348706983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -721,9 +721,13 @@ MonoBehaviour:
   camera_controls_allowed: 0
   camera_drag_speed: 20
   on_screen_controls_allowed: 0
+  left_on_screen_controlls_container: {fileID: 1904799723266916555}
+  right_on_screen_controlls_container: {fileID: 8376168924296273755}
   camera_zoom_speed: 4
   camera_max_zoom_out: 500
   camera_max_zoom_in: 20
+  desired_camera_pos: {x: 0, y: 0, z: 0}
+  auto_camera_move_speed: 0.01
 --- !u!1 &6488396202755661126
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,7 +832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8337142888542586592
 RectTransform:
   m_ObjectHideFlags: 0

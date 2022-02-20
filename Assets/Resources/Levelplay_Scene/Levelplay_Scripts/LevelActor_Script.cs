@@ -11,24 +11,51 @@ public enum Level_Actor_States_Enum
     Moving
 }
 
-public class LevelActor_Script : MonoBehaviour
+public class LevelActor_Script : GridResident_Script
 {
-    public Level_Actor_States_Enum current_state
+
+    public Level_Actor_States_Enum current_state;
+    public Level_Actor_States_Enum last_state;
+
+    public override void Start()
     {
-        get { return current_state; }
-        set {
-                current_state = value; 
-                Debug.Log(this.name + " state changed to: "+ value); 
-            }
+        base.Start();
+        Level_Events.pause_toggle_event += Pause_Resident;
     }
 
-    public bool Place_Actor(Vector2Int new_pos){
-
-        if (Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].resident != null)
+    public Level_Actor_States_Enum Change_Level_Actor_State(Level_Actor_States_Enum new_state)
+    {
+        switch (new_state)
         {
-            gameObject.transform.position = Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].actual_pos;
-            return true;
+            case Level_Actor_States_Enum.Normal:
+                break;
+            case Level_Actor_States_Enum.Dead:
+                break;
+            case Level_Actor_States_Enum.Frozen:
+                break;
+            case Level_Actor_States_Enum.Pause:
+                break;
+            case Level_Actor_States_Enum.Moving:
+                break;
+            default:
+                break;
         }
-        return false;
+        last_state = current_state;
+        current_state = new_state;
+        return current_state;
     }
+
+
+    public virtual void Pause_Resident(bool new_pause_state)
+    {
+        if(new_pause_state){Change_Level_Actor_State(Level_Actor_States_Enum.Pause);return;}
+        Change_Level_Actor_State(last_state);
+    }
+
+    public override void OnDestroy() 
+    {
+        base.OnDestroy();
+        Level_Events.pause_toggle_event -= Pause_Resident;
+    }
+
 }

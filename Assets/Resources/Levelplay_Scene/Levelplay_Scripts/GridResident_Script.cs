@@ -47,6 +47,11 @@ public class GridResident_Script : MonoBehaviour
     }
 
     public virtual void Local_Board_Changed(){
-        Level_Events.Invoke_Board_Changed_Event();
+        // Level_Events.Invoke_Board_Changed_Event();
+    }
+
+    public virtual void OnDestroy()
+    {
+
     }
 }

@@ -10,11 +10,11 @@ public enum Player_Direction_Enum
     left
 }
 
-public class LevelPlayer_Script : GridResident_Script
+public class LevelPlayer_Script : LevelActor_Script
 {
-    public Level_Actor_States_Enum current_player_state = Level_Actor_States_Enum.Pause;
+    
     private PlayerInputActions.PlayerControlsActions player_actions;
-    private float move_timer =0;
+    private float move_timer = 0;
 
 
     public override void Start()
@@ -28,30 +28,14 @@ public class LevelPlayer_Script : GridResident_Script
         // Input_Control_Events.move_left_event += Moveleft_Player;
     }
 
-    // private void Moveup_Player()
-    // {
-    //     Move((int)Player_Direction_Enum.up);
-    // }
-
-    // private void Movedown_Player()
-    // {
-    //     Move((int)Player_Direction_Enum.down);
-    // }
-
-    // private void Moveright_Player()
-    // {
-    //     Move((int)Player_Direction_Enum.right);
-    // }
-
-    // private void Moveleft_Player()
-    // {
-    //     Move((int)Player_Direction_Enum.left);
-    // }
-
     private void Update()
     {
-        if(Levelplay_Controller_Script.levelplay_controller_singleton.current_level_state != Level_States_Enum.Playing){return;}
-        if(current_player_state  == Level_Actor_States_Enum.Normal && move_timer <=0)
+        if(current_state == Level_Actor_States_Enum.Pause){return;}
+        if(current_state == Level_Actor_States_Enum.Moving && move_timer <=0)
+        {
+            Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
+        }
+        if(current_state == Level_Actor_States_Enum.Normal)
         {
             if(player_actions.MoveUp.IsPressed())
             {
@@ -76,6 +60,7 @@ public class LevelPlayer_Script : GridResident_Script
 
     public void Move(int Direction)
     {
+        Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
         Vector2Int desired_coord = Vector2Int.zero;
         switch (Direction)
         {
@@ -99,6 +84,7 @@ public class LevelPlayer_Script : GridResident_Script
         {
             Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident);
             move_timer = 0.25f;
+            return;
             // Swap_With_Rock(desired_coord);
         }
 
@@ -106,21 +92,10 @@ public class LevelPlayer_Script : GridResident_Script
         {
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
             Place_Resident(desired_coord);
-            move_timer = 0.10f;
+            move_timer = 0.10f;           
+            return;
             // Swap_With_Rock(desired_coord);
         }
+        
     }
-
-    public override bool Place_Resident(Vector2Int new_pos)
-    {
-        return base.Place_Resident(new_pos);
-    }
-
-    // private void OnDestroy()
-    // {
-    //     Input_Control_Events.move_up_event -= Moveup_Player;
-    //     Input_Control_Events.move_down_event -= Movedown_Player;
-    //     Input_Control_Events.move_right_event -= Moveright_Player;
-    //     Input_Control_Events.move_left_event -= Moveleft_Player;
-    // }
 }

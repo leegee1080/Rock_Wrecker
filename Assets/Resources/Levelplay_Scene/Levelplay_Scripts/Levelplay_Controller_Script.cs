@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public enum Rock_Types_Enum
 {
@@ -38,6 +39,7 @@ public enum Level_States_Enum
     Escape,
     Cleanup
 }
+
 public class Level_Events
 {
     #region board change event
@@ -45,6 +47,13 @@ public class Level_Events
     public static void Invoke_Board_Changed_Event()
     {
         board_changed_event?.Invoke();
+    }
+    #endregion
+    #region game pause toggle event
+    public static event System.Action<bool> pause_toggle_event;
+    public static void Invoke_Pause_Toggle_Event(bool new_pause_state)
+    {
+        pause_toggle_event?.Invoke(new_pause_state);
     }
     #endregion
 }
@@ -92,22 +101,27 @@ public class Timer<T>
 {
     private Func<T> timer_finished_func;
     public float timer_amount{get; private set;}
-    public bool timer_finished_bool{get; private set;}
+    public bool timer_finished_bool;
+    public bool timer_paused_bool{get; private set;}
+
+
 
     public Timer(float new_timer_amount, Func<T> new_timer_finished_func)
     {
         timer_finished_bool= false;
+        timer_paused_bool = false;
         timer_amount = new_timer_amount;
         timer_finished_func = new_timer_finished_func;
     }
 
     public void Pause_Timer(bool new_timer_state)
     {
-        timer_finished_bool = new_timer_state;
+        timer_paused_bool = new_timer_state;
     }
 
     public bool Decrement_Timer(float decrement_amount)
     {
+        if(timer_paused_bool){return false;}
         if(timer_finished_bool){return timer_finished_bool;}
 
         timer_amount -= decrement_amount;
@@ -126,6 +140,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private GameObject ingame_menu_container;
     [SerializeField]private GameObject score_menu_container;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
+    [SerializeField]private TMP_Text timer_text;
+    private Timer<bool> timer_text_ref;
+
+
 
 
     [Header("Level Gen Vars")]
@@ -135,6 +153,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [field: SerializeField]public Grid_Data[][] x_lead_map_coord_array{get; private set;}
     public GameObject TestRock;
     public GameObject TestWall;
+    public GameObject TestExit;
     public GameObject TestObjectContainer;
     [field: SerializeField]public Rock_ScriptableObject default_primary_rock_type{get; private set;}
     [field: SerializeField]public Secondary_Rock_ScriptableObject default_secondary_rock_type{get; private set;}
@@ -171,6 +190,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         current_player = null;
         current_player = Instantiate(current_player_serialized, parent: TestObjectContainer.transform);
 
@@ -204,6 +224,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         level_setup_timer = new Timer<bool>(level_setup_time, Activate_Playing_State);
         level_escape_timer = new Timer<bool>(level_escape_time, Activate_Escape_State);
         level_end_timer = new Timer<bool>(level_end_time, Cleanup_Level);
+
+        timer_text_ref = level_setup_timer;
     }
 
     private void Update()
@@ -213,7 +235,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             Clean_Rock_Queue();
         }
 
-        if(current_level_state == Level_States_Enum.Paused){return;}
+        timer_text.text = timer_text_ref.timer_amount + "";
         if(!level_setup_timer.timer_finished_bool){level_setup_timer.Decrement_Timer(Time.deltaTime);}
         if(!level_escape_timer.timer_finished_bool){level_escape_timer.Decrement_Timer(Time.deltaTime);}
         if(!level_end_timer.timer_finished_bool){level_end_timer.Decrement_Timer(Time.deltaTime);}
@@ -227,16 +249,25 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
                 break;
             case Level_States_Enum.Playing:
-
+                if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
+                timer_text_ref = level_escape_timer;
+                level_setup_timer.timer_finished_bool = true;
                 break;
             case Level_States_Enum.Paused:
-
+                Pause_Level();
                 break;
             case Level_States_Enum.Escape:
-
+                if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
+                timer_text.color = new Color(255,0,0,1);
+                timer_text_ref = level_end_timer;
+                level_setup_timer.timer_finished_bool = true;
+                level_escape_timer.timer_finished_bool = true;
                 break;
             case Level_States_Enum.Cleanup:
-
+                Level_Events.Invoke_Pause_Toggle_Event(true);
+                level_setup_timer.timer_finished_bool = true;
+                level_escape_timer.timer_finished_bool = true;
+                level_end_timer.timer_finished_bool = true;
                 break;
             default:
                 new_state = Level_States_Enum.Paused;
@@ -249,7 +280,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private bool Activate_Playing_State()
     {
-        level_setup_timer.Pause_Timer(true);
         Playerinput_Controller_Script.playerinput_controller_singleton.auto_camera_move_speed = 0.001f;
         Playerinput_Controller_Script.playerinput_controller_singleton.desired_camera_pos_offset = camera_offset;
         Playerinput_Controller_Script.playerinput_controller_singleton.follow_target = current_player.gameObject;
@@ -259,22 +289,43 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private bool Activate_Escape_State()
     {
-        level_setup_timer.Pause_Timer(true);
-        level_escape_timer.Pause_Timer(true);
         Change_Level_State(Level_States_Enum.Escape);
 
         //player needs to get back to start pos now
         Debug.Log("Player needs to get to this pos: " + player_start_gridpos);
+        TestExit.SetActive(true);
+        TestExit.transform.position = Find_Grid_Data(player_start_gridpos).actual_pos;
         return true;
     }
 
     private bool Cleanup_Level()
     {
+        
+        Change_Level_State(Level_States_Enum.Cleanup);
+        if(current_player.grid_pos == player_start_gridpos)
+        {
+            print("player escaped");
+            Exit_Level_To_Map();
+        }
+        return true;
+    }
+
+    private bool Pause_Level()
+    {
         level_setup_timer.Pause_Timer(true);
         level_escape_timer.Pause_Timer(true);
         level_end_timer.Pause_Timer(true);
-        current_level_state = Level_States_Enum.Cleanup;
+        Level_Events.Invoke_Pause_Toggle_Event(true);
         return true;
+    }
+
+    private bool Resume_Level()
+    {
+        level_setup_timer.Pause_Timer(false);
+        level_escape_timer.Pause_Timer(false);
+        level_end_timer.Pause_Timer(false);
+        Level_Events.Invoke_Pause_Toggle_Event(false);
+        return false;
     }
 
     public Grid_Data Find_Grid_Data(Vector2Int grid_pos)
@@ -338,7 +389,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 #region  MenuItems
     public void Show_Ingame_Menu()
     {
-        Exit_Level_To_Map();
+        Change_Level_State(Level_States_Enum.Paused);
     }
 
     public void Show_Ingame_Inventory()
@@ -489,7 +540,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             if(item.grid_pos == player_start_gridpos)
             {
                 current_player.Place_Resident(player_start_gridpos);
-                current_player.current_player_state = Level_Actor_States_Enum.Normal;
+                current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
                 continue;
             }
             if(item.grid_pos.x <= 0 || item.grid_pos.x >= map_x_size-1|| item.grid_pos.y <= 0 || item.grid_pos.y >= map_y_size-1) //make sure there is no edge matchables

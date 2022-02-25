@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4bfcc343f752c5429f9bfb76324e551, type: 3}
+  m_Name: New Map POI 3
+  m_EditorClassIdentifier: 
+  name: gdsfgr rdgs rg
+  played: 0
+  finished: 0
+  map_pos: {x: 5, y: 1}
+  poi_size: 1
+  poi_difficulty: 1
+  level_seed: 0
+  rotate_speed: 5
+  deco_count: 2
+  mesh_index: 4

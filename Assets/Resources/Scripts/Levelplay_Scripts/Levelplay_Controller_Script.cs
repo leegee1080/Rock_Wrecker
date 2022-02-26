@@ -155,8 +155,11 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObject TestWall;
     public GameObject TestExit;
     public GameObject floor_go;
-    public GameObject TestObjectContainer;
-    public List<Vector3> wall_coord_list = new List<Vector3>();
+    public GameObject floor_container;
+    public GameObject rock_container;
+    public GameObject wall_container;
+    public GameObject actor_container;
+    public List<Vector2Int> wall_coord_list = new List<Vector2Int>();
     [field: SerializeField]public Rock_ScriptableObject default_primary_rock_type{get; private set;}
     [field: SerializeField]public Secondary_Rock_ScriptableObject default_secondary_rock_type{get; private set;}
     public int void_percentage;
@@ -194,7 +197,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         current_player = null;
-        current_player = Instantiate(current_player_serialized, parent: TestObjectContainer.transform);
+        current_player = Instantiate(current_player_serialized, parent: actor_container.transform);
 
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
 
@@ -205,13 +208,14 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
         Gen_Map_Coords(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.level_seed);
         Find_Max_Play_Area(Find_Map_Breadth_Search_Seed());
-        Find_Player_Spawn();
         Gen_Map_Residents();
         Deliver_Rock_Types();
         Pregame_Board_Check();
         Clean_Rock_Queue();
 
-        floor_go.GetComponent<Floor_Script>().Build_Floor_Mesh();
+        Find_Player_Spawn();
+
+        // floor_go.GetComponent<Floor_Script>().Build_Floor_Mesh();
         // floor_go.transform.position = new Vector3(Find_Grid_Data(player_start_gridpos).actual_pos.x,Find_Grid_Data(player_start_gridpos).actual_pos.y,Find_Grid_Data(player_start_gridpos).actual_pos.z  +1);
 
         Camera.main.transform.position = new Vector3(Find_Grid_Data(player_start_gridpos).actual_pos.x, Find_Grid_Data(player_start_gridpos).actual_pos.y -10, Find_Grid_Data(player_start_gridpos).actual_pos.z - 20); 
@@ -481,14 +485,38 @@ public class Levelplay_Controller_Script : MonoBehaviour
     }
     private void Find_Player_Spawn()
     {
-        IEnumerable<Vector2Int> possible_player_start_locations = 
-            from row in x_lead_map_coord_array
-            from cell in row
-            where cell.noise_data > min_map_noise && cell.noise_data < Mathf.Lerp(min_map_noise,max_map_noise,player_spawn_percentage/100f) && cell.breadth_checked && cell.grid_pos.x > 0 && cell.grid_pos.x < map_x_size-1 && cell.grid_pos.y > 0 && cell.grid_pos.y < map_y_size-1
-            select cell.grid_pos;
-        player_start_gridpos = possible_player_start_locations.ElementAt((int)UnityEngine.Random.Range(0,possible_player_start_locations.Count()));
-        // player_start_gridpos = possible_player_start_locations.ElementAt((int)Global_Vars.rand_num_gen.Next(0,possible_player_start_locations.Count()));
+        player_start_gridpos = wall_coord_list.ElementAt((int)UnityEngine.Random.Range(0,wall_coord_list.Count()));
+
+        for (int i = 0; i < wall_coord_list.Count(); i++)
+        {
+            foreach (Grid_Data neh in Find_Grid_Data(player_start_gridpos).Return_Neighbors())
+            {
+                if(neh != null && neh.resident != null && neh.resident.matchable)
+                {
+                    Find_Grid_Data(player_start_gridpos).resident.gameObject.SetActive(false);
+
+                    Rock_Script matchable = (Rock_Script)neh.resident;
+                    matchable.Pop_Rock();
+                    current_player.Place_Resident(neh.grid_pos);
+
+                    current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
+
+                    return;
+                }
+            }
+            player_start_gridpos = wall_coord_list.ElementAt((int)Global_Vars.rand_num_gen.Next(0,wall_coord_list.Count()));
+        }
     }
+    // private void Find_Player_Spawn()
+    // {
+    //     IEnumerable<Vector2Int> possible_player_start_locations = 
+    //         from row in x_lead_map_coord_array
+    //         from cell in row
+    //         where cell.noise_data > min_map_noise && cell.noise_data < Mathf.Lerp(min_map_noise,max_map_noise,player_spawn_percentage/100f) && cell.breadth_checked && cell.grid_pos.x > 0 && cell.grid_pos.x < map_x_size-1 && cell.grid_pos.y > 0 && cell.grid_pos.y < map_y_size-1
+    //         select cell.grid_pos;
+    //     player_start_gridpos = possible_player_start_locations.ElementAt((int)UnityEngine.Random.Range(0,possible_player_start_locations.Count()));
+    //     // player_start_gridpos = possible_player_start_locations.ElementAt((int)Global_Vars.rand_num_gen.Next(0,possible_player_start_locations.Count()));
+    // }
     private List<Grid_Data> Find_Max_Play_Area(Vector2Int starting_grid_pos)
     {
         List<Grid_Data> playable_blob = new List<Grid_Data>();
@@ -546,22 +574,18 @@ public class Levelplay_Controller_Script : MonoBehaviour
         
         foreach (Grid_Data item in matchable_residents)
         {
-            if(item.grid_pos == player_start_gridpos)
-            {
-                current_player.Place_Resident(player_start_gridpos);
-                current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
-                continue;
-            }
             if(item.grid_pos.x <= 0 || item.grid_pos.x >= map_x_size-1|| item.grid_pos.y <= 0 || item.grid_pos.y >= map_y_size-1) //make sure there is no edge matchables
             {
-                new_go = Instantiate(TestWall, parent: TestObjectContainer.transform);
+                new_go = Instantiate(TestWall, parent: wall_container.transform);
                 new_go.GetComponent<GridResident_Script>().Place_Resident(item.grid_pos);
-                wall_coord_list.Add(new_go.transform.position);
+                wall_coord_list.Add(item.grid_pos);
                 continue;
             }
-            new_go = Instantiate(TestRock, parent: TestObjectContainer.transform);
+            new_go = Instantiate(TestRock, parent: rock_container.transform);
+            
             new_go.GetComponent<GridResident_Script>().Place_Resident(item.grid_pos);
-            wall_coord_list.Add(new_go.transform.position);
+
+            Instantiate(floor_go, new_go.transform.position, Quaternion.identity, floor_container.transform);
         }
 
         IEnumerable<Grid_Data> residents = 
@@ -577,9 +601,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
                 if(neighbor == null || !item.resident.matchable){continue;}
                 if(neighbor.resident == null)
                 {
-                    new_go = Instantiate(TestWall, parent: TestObjectContainer.transform);
+                    new_go = Instantiate(TestWall, parent: wall_container.transform);
                     new_go.GetComponent<GridResident_Script>().Place_Resident(neighbor.grid_pos);
-                    wall_coord_list.Add(new_go.transform.position);
+                    wall_coord_list.Add(neighbor.grid_pos);
                 }
             }
         }

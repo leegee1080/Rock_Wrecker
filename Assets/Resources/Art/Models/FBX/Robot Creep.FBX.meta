@@ -1,0 +1,158 @@
+fileFormatVersion: 2
+guid: c9e07fd3cb6c8034e975114a757930d2
+timeCreated: 1468391064
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Rig
+    100004: RigHead
+    100006: RigHeadGizmo
+    100008: RigLArm1
+    100010: RigLArm2
+    100012: RigLArm3
+    100014: RigLArm3Gizmo
+    100016: RigLArmPalm
+    100018: RigLArmPalmGizmo
+    100020: RigLBackLeg1
+    100022: RigLBackLeg2
+    100024: RigLBackLeg3
+    100026: RigLBackLegAnkle
+    100028: RigLBackLegPlatform
+    100030: RigLFrontLeg1
+    100032: RigLFrontLeg2
+    100034: RigLFrontLeg3
+    100036: RigLFrontLegAnkle
+    100038: RigLFrontLegPlatform
+    100040: RigPelvis
+    100042: RigPelvisGizmo
+    100044: RigRArm1
+    100046: RigRArm2
+    100048: RigRArm3
+    100050: RigRArm3Gizmo
+    100052: RigRArmPalm
+    100054: RigRArmPalmGizmo
+    100056: RigRBackLeg1
+    100058: RigRBackLeg2
+    100060: RigRBackLeg3
+    100062: RigRBackLegAnkle
+    100064: RigRBackLegPlatform
+    100066: RigRFrontLeg1
+    100068: RigRFrontLeg2
+    100070: RigRFrontLeg3
+    100072: RigRFrontLegAnkle
+    100074: RigRFrontLegPlatform
+    100076: RigSpine1
+    100078: RigSpine2
+    100080: Robot Creep
+    400000: //RootNode
+    400002: Rig
+    400004: RigHead
+    400006: RigHeadGizmo
+    400008: RigLArm1
+    400010: RigLArm2
+    400012: RigLArm3
+    400014: RigLArm3Gizmo
+    400016: RigLArmPalm
+    400018: RigLArmPalmGizmo
+    400020: RigLBackLeg1
+    400022: RigLBackLeg2
+    400024: RigLBackLeg3
+    400026: RigLBackLegAnkle
+    400028: RigLBackLegPlatform
+    400030: RigLFrontLeg1
+    400032: RigLFrontLeg2
+    400034: RigLFrontLeg3
+    400036: RigLFrontLegAnkle
+    400038: RigLFrontLegPlatform
+    400040: RigPelvis
+    400042: RigPelvisGizmo
+    400044: RigRArm1
+    400046: RigRArm2
+    400048: RigRArm3
+    400050: RigRArm3Gizmo
+    400052: RigRArmPalm
+    400054: RigRArmPalmGizmo
+    400056: RigRBackLeg1
+    400058: RigRBackLeg2
+    400060: RigRBackLeg3
+    400062: RigRBackLegAnkle
+    400064: RigRBackLegPlatform
+    400066: RigRFrontLeg1
+    400068: RigRFrontLeg2
+    400070: RigRFrontLeg3
+    400072: RigRFrontLegAnkle
+    400074: RigRFrontLegPlatform
+    400076: RigSpine1
+    400078: RigSpine2
+    400080: Robot Creep
+    2300000: //RootNode
+    2300002: Robot Creep
+    3300000: //RootNode
+    3300002: Robot Creep
+    4300000: Robot Creep
+    9500000: //RootNode
+    13700000: Robot Creep
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

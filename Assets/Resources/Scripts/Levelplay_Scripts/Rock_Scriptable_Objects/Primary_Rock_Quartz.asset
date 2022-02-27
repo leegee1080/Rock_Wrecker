@@ -15,4 +15,4 @@ MonoBehaviour:
   <name>k__BackingField: Quartz
   <rock_type>k__BackingField: 5
   <main_color>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <main_mesh>k__BackingField: {fileID: 9068077617592895683, guid: 6c76527c0c7c84746a87852b4a358577, type: 3}
+  <main_mesh>k__BackingField: {fileID: 4300000, guid: 4b40ad2cd55a9224a9710d9240cdc25c, type: 3}

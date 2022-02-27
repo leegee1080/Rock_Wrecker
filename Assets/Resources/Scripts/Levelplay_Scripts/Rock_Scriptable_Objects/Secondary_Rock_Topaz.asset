@@ -16,4 +16,4 @@ MonoBehaviour:
   <score_bonus>k__BackingField: 100
   <secondary_type>k__BackingField: 3
   <main_color>k__BackingField: {r: 1, g: 0.5478113, b: 0, a: 0}
-  <main_mesh>k__BackingField: {fileID: -7892325559877898083, guid: d2310045281eef24db5b12408e87597a, type: 3}
+  <main_mesh>k__BackingField: {fileID: 4300000, guid: 601ed48928c62b24f97ebfbf686023a2, type: 3}

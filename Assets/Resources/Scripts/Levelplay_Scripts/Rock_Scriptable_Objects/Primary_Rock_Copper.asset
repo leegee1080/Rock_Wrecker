@@ -15,4 +15,4 @@ MonoBehaviour:
   <name>k__BackingField: Copper
   <rock_type>k__BackingField: 0
   <main_color>k__BackingField: {r: 0, g: 1, b: 0.11046505, a: 0}
-  <main_mesh>k__BackingField: {fileID: -5982510736860283103, guid: 6a682d91f0358aa48a60c8581dfc0d6e, type: 3}
+  <main_mesh>k__BackingField: {fileID: 4300000, guid: 8a554fe057c28a54db02f9b4bad02207, type: 3}

@@ -195,6 +195,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private float level_exit_time;
     private Timer<bool> level_exit_timer;
     private bool player_left_exit;
+    public bool player_on_exit;
     public int[] resources_collected_array = new int[4];
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
@@ -290,9 +291,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
                 Pause_Level();
                 break;
             case Level_States_Enum.Escape:
-                if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
-                timer_text.color = new Color(255,0,0,1);
-                timer_text_ref = level_end_timer;
+                if(!player_on_exit)
+                {
+                    if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
+                    timer_text.color = new Color(255,0,0,1);
+                    timer_text_ref = level_end_timer;
+                }
                 level_setup_timer.timer_finished_bool = true;
                 level_escape_timer.timer_finished_bool = true;
                 break;
@@ -375,6 +379,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public void Player_Enter_Exit()
     {
         if(!player_left_exit){return;}
+        player_on_exit = true;
         level_exit_timer.Pause_Timer(false);
         timer_text_ref = level_exit_timer;
         timer_text.color = new Color(0,255,0,1);
@@ -383,6 +388,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public void Player_Left_Exit()
     {
         if(!player_left_exit){player_left_exit = true; Show_Exit();}
+        player_on_exit = false;
         level_exit_timer.Pause_Timer(true);
         level_exit_timer.Reset_Timer();
         if(current_level_state == Level_States_Enum.Escape)

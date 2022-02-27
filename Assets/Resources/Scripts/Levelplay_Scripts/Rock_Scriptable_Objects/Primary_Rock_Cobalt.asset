@@ -15,4 +15,4 @@ MonoBehaviour:
   <name>k__BackingField: Cobalt
   <rock_type>k__BackingField: 4
   <main_color>k__BackingField: {r: 0, g: 0.0575552, b: 1, a: 0}
-  <main_mesh>k__BackingField: {fileID: 8073139434892638107, guid: 85c83444acf1b3c4ab0d3a74c88545f9, type: 3}
+  <main_mesh>k__BackingField: {fileID: 4300000, guid: 4b40ad2cd55a9224a9710d9240cdc25c, type: 3}

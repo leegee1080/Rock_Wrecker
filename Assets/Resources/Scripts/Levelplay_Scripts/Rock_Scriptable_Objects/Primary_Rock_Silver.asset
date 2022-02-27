@@ -15,4 +15,4 @@ MonoBehaviour:
   <name>k__BackingField: Silver
   <rock_type>k__BackingField: 3
   <main_color>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
-  <main_mesh>k__BackingField: {fileID: -7737587777493837570, guid: d036f5b5e12d9934793c90cc3f8c1d1c, type: 3}
+  <main_mesh>k__BackingField: {fileID: 4300000, guid: 54c83cc49924ba94a892503e12a265b6, type: 3}

@@ -1,0 +1,263 @@
+fileFormatVersion: 2
+guid: 976ce773b8ae80547991abfb9f5c0201
+timeCreated: 1468399578
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Rig
+    100002: RigHead
+    100004: RigHeadGizmo
+    100006: RigLArm1
+    100008: RigLArm2
+    100010: RigLArm3
+    100012: RigLArm3Gizmo
+    100014: RigLArmPalm
+    100016: RigLArmPalmGizmo
+    100018: RigLBackLeg1
+    100020: RigLBackLeg2
+    100022: RigLBackLeg3
+    100024: RigLBackLegAnkle
+    100026: RigLBackLegPlatform
+    100028: RigLFrontLeg1
+    100030: RigLFrontLeg2
+    100032: RigLFrontLeg3
+    100034: RigLFrontLegAnkle
+    100036: RigLFrontLegPlatform
+    100038: RigPelvis
+    100040: RigPelvisGizmo
+    100042: RigRArm1
+    100044: RigRArm2
+    100046: RigRArm3
+    100048: RigRArm3Gizmo
+    100050: RigRArmPalm
+    100052: RigRArmPalmGizmo
+    100054: RigRBackLeg1
+    100056: RigRBackLeg2
+    100058: RigRBackLeg3
+    100060: RigRBackLegAnkle
+    100062: RigRBackLegPlatform
+    100064: RigRFrontLeg1
+    100066: RigRFrontLeg2
+    100068: RigRFrontLeg3
+    100070: RigRFrontLegAnkle
+    100072: RigRFrontLegPlatform
+    100074: RigSpine1
+    100076: RigSpine2
+    100078: Robot Creep
+    100080: //RootNode
+    400000: Rig
+    400002: RigHead
+    400004: RigHeadGizmo
+    400006: RigLArm1
+    400008: RigLArm2
+    400010: RigLArm3
+    400012: RigLArm3Gizmo
+    400014: RigLArmPalm
+    400016: RigLArmPalmGizmo
+    400018: RigLBackLeg1
+    400020: RigLBackLeg2
+    400022: RigLBackLeg3
+    400024: RigLBackLegAnkle
+    400026: RigLBackLegPlatform
+    400028: RigLFrontLeg1
+    400030: RigLFrontLeg2
+    400032: RigLFrontLeg3
+    400034: RigLFrontLegAnkle
+    400036: RigLFrontLegPlatform
+    400038: RigPelvis
+    400040: RigPelvisGizmo
+    400042: RigRArm1
+    400044: RigRArm2
+    400046: RigRArm3
+    400048: RigRArm3Gizmo
+    400050: RigRArmPalm
+    400052: RigRArmPalmGizmo
+    400054: RigRBackLeg1
+    400056: RigRBackLeg2
+    400058: RigRBackLeg3
+    400060: RigRBackLegAnkle
+    400062: RigRBackLegPlatform
+    400064: RigRFrontLeg1
+    400066: RigRFrontLeg2
+    400068: RigRFrontLeg3
+    400070: RigRFrontLegAnkle
+    400072: RigRFrontLegPlatform
+    400074: RigSpine1
+    400076: RigSpine2
+    400078: Robot Creep
+    400080: //RootNode
+    4300000: Robot Creep
+    7400000: Idle
+    9500000: //RootNode
+    13700000: Robot Creep
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: RigHeadGizmo
+        weight: 1
+      - path: RigLArm3Gizmo
+        weight: 1
+      - path: RigLArmPalmGizmo
+        weight: 1
+      - path: RigLBackLegPlatform
+        weight: 1
+      - path: RigLFrontLegPlatform
+        weight: 1
+      - path: RigPelvis
+        weight: 1
+      - path: RigPelvis/RigLBackLeg1
+        weight: 1
+      - path: RigPelvis/RigLBackLeg1/RigLBackLeg2
+        weight: 1
+      - path: RigPelvis/RigLBackLeg1/RigLBackLeg2/RigLBackLeg3
+        weight: 1
+      - path: RigPelvis/RigLBackLeg1/RigLBackLeg2/RigLBackLeg3/RigLBackLegAnkle
+        weight: 1
+      - path: RigPelvis/RigLFrontLeg1
+        weight: 1
+      - path: RigPelvis/RigLFrontLeg1/RigLFrontLeg2
+        weight: 1
+      - path: RigPelvis/RigLFrontLeg1/RigLFrontLeg2/RigLFrontLeg3
+        weight: 1
+      - path: RigPelvis/RigLFrontLeg1/RigLFrontLeg2/RigLFrontLeg3/RigLFrontLegAnkle
+        weight: 1
+      - path: RigPelvis/RigRBackLeg1
+        weight: 1
+      - path: RigPelvis/RigRBackLeg1/RigRBackLeg2
+        weight: 1
+      - path: RigPelvis/RigRBackLeg1/RigRBackLeg2/RigRBackLeg3
+        weight: 1
+      - path: RigPelvis/RigRBackLeg1/RigRBackLeg2/RigRBackLeg3/RigRBackLegAnkle
+        weight: 1
+      - path: RigPelvis/RigRFrontLeg1
+        weight: 1
+      - path: RigPelvis/RigRFrontLeg1/RigRFrontLeg2
+        weight: 1
+      - path: RigPelvis/RigRFrontLeg1/RigRFrontLeg2/RigRFrontLeg3
+        weight: 1
+      - path: RigPelvis/RigRFrontLeg1/RigRFrontLeg2/RigRFrontLeg3/RigRFrontLegAnkle
+        weight: 1
+      - path: RigPelvis/RigSpine1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigLArm1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigLArm1/RigLArm2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigLArm1/RigLArm2/RigLArm3
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigLArm1/RigLArm2/RigLArm3/RigLArmPalm
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigRArm1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigRArm1/RigRArm2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigRArm1/RigRArm2/RigRArm3
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigHead/RigRArm1/RigRArm2/RigRArm3/RigRArmPalm
+        weight: 1
+      - path: RigPelvisGizmo
+        weight: 1
+      - path: RigRArm3Gizmo
+        weight: 1
+      - path: RigRArmPalmGizmo
+        weight: 1
+      - path: RigRBackLegPlatform
+        weight: 1
+      - path: RigRFrontLegPlatform
+        weight: 1
+      - path: Robot Creep
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

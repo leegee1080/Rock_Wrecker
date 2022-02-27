@@ -60,6 +60,7 @@ public class LevelPlayer_Script : LevelActor_Script
 
     public void Move(int Direction)
     {
+
         Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
         Vector2Int desired_coord = Vector2Int.zero;
         switch (Direction)
@@ -80,6 +81,9 @@ public class LevelPlayer_Script : LevelActor_Script
                 Debug.LogError("No direction int passed to player!");
                 return;
         }
+        if(grid_pos == Levelplay_Controller_Script.levelplay_controller_singleton.player_start_gridpos){Levelplay_Controller_Script.levelplay_controller_singleton.Player_Left_Exit();}
+        if(desired_coord == Levelplay_Controller_Script.levelplay_controller_singleton.player_start_gridpos){Levelplay_Controller_Script.levelplay_controller_singleton.Player_Enter_Exit();}
+
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
             Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident);

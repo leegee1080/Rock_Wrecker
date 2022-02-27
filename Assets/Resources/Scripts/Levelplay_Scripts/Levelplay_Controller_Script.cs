@@ -100,6 +100,8 @@ public class Grid_Data{
 public class Timer<T>
 {
     private Func<T> timer_finished_func;
+
+    public float timer_max_amount{get; private set;}
     public float timer_amount{get; private set;}
     public bool timer_finished_bool;
     public bool timer_paused_bool{get; private set;}
@@ -110,8 +112,14 @@ public class Timer<T>
     {
         timer_finished_bool= false;
         timer_paused_bool = false;
-        timer_amount = new_timer_amount;
+        timer_max_amount = new_timer_amount;
         timer_finished_func = new_timer_finished_func;
+        timer_amount = timer_max_amount;
+    }
+
+    public void Reset_Timer()
+    {
+        timer_amount = timer_max_amount;
     }
 
     public void Pause_Timer(bool new_timer_state)
@@ -144,6 +152,18 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private Timer<bool> timer_text_ref;
 
 
+    [Header("Game Objects")]
+    public GameObject TestRock;
+    public GameObject TestWall;
+    public GameObject TestExit;
+    public DropShip_Script drop_ship;
+    public GameObject floor_go;
+    public GameObject floor_container;
+    public GameObject rock_go;
+    public GameObject rock_container;
+    public GameObject wall_go;
+    public GameObject wall_container;
+    public GameObject actor_container;
 
 
     [Header("Level Gen Vars")]
@@ -151,14 +171,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private int map_y_size;
     [SerializeField]private int map_unit_spacing;
     [field: SerializeField]public Grid_Data[][] x_lead_map_coord_array{get; private set;}
-    public GameObject TestRock;
-    public GameObject TestWall;
-    public GameObject TestExit;
-    public GameObject floor_go;
-    public GameObject floor_container;
-    public GameObject rock_container;
-    public GameObject wall_container;
-    public GameObject actor_container;
     public List<Vector2Int> wall_coord_list = new List<Vector2Int>();
     [field: SerializeField]public Rock_ScriptableObject default_primary_rock_type{get; private set;}
     [field: SerializeField]public Secondary_Rock_ScriptableObject default_secondary_rock_type{get; private set;}
@@ -180,10 +192,13 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private Timer<bool> level_escape_timer;
     [SerializeField]private float level_end_time;
     private Timer<bool> level_end_timer;
+    [SerializeField]private float level_exit_time;
+    private Timer<bool> level_exit_timer;
+    private bool player_left_exit;
     public int[] resources_collected_array = new int[4];
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
-    [SerializeField] private Vector2Int player_start_gridpos;
+    [SerializeField] public Vector2Int player_start_gridpos;
 
 
     [Header("Matching Vars")]
@@ -239,6 +254,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         level_setup_timer = new Timer<bool>(level_setup_time, Activate_Playing_State);
         level_escape_timer = new Timer<bool>(level_escape_time, Activate_Escape_State);
         level_end_timer = new Timer<bool>(level_end_time, Cleanup_Level);
+        level_exit_timer = new Timer<bool>(level_exit_time, Cleanup_Level);
+        level_exit_timer.Pause_Timer(true);
 
         timer_text_ref = level_setup_timer;
     }
@@ -254,6 +271,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         if(!level_setup_timer.timer_finished_bool){level_setup_timer.Decrement_Timer(Time.deltaTime);}
         if(!level_escape_timer.timer_finished_bool){level_escape_timer.Decrement_Timer(Time.deltaTime);}
         if(!level_end_timer.timer_finished_bool){level_end_timer.Decrement_Timer(Time.deltaTime);}
+        if(!level_exit_timer.timer_finished_bool){level_exit_timer.Decrement_Timer(Time.deltaTime);}
     }
 
     public Level_States_Enum Change_Level_State(Level_States_Enum new_state)
@@ -296,6 +314,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private bool Activate_Playing_State()
     {
         Change_Level_State(Level_States_Enum.Playing);
+        current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
         return true;
     }
 
@@ -305,14 +324,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
         //player needs to get back to start pos now
         Debug.Log("Player needs to get to this pos: " + player_start_gridpos);
-        TestExit.SetActive(true);
-        TestExit.transform.position = Find_Grid_Data(player_start_gridpos).actual_pos;
+        Show_Exit();
         return true;
     }
 
     private bool Cleanup_Level()
     {
-        
         Change_Level_State(Level_States_Enum.Cleanup);
         if(current_player.grid_pos == player_start_gridpos)
         {
@@ -347,6 +364,35 @@ public class Levelplay_Controller_Script : MonoBehaviour
             return null;
         }
         return x_lead_map_coord_array[grid_pos.x][grid_pos.y];
+    }
+
+    public void Show_Exit()
+    {
+        TestExit.SetActive(true);
+        TestExit.transform.position = Find_Grid_Data(player_start_gridpos).actual_pos;
+    }
+
+    public void Player_Enter_Exit()
+    {
+        if(!player_left_exit){return;}
+        level_exit_timer.Pause_Timer(false);
+        timer_text_ref = level_exit_timer;
+        timer_text.color = new Color(0,255,0,1);
+    }
+
+    public void Player_Left_Exit()
+    {
+        if(!player_left_exit){player_left_exit = true; Show_Exit();}
+        level_exit_timer.Pause_Timer(true);
+        level_exit_timer.Reset_Timer();
+        if(current_level_state == Level_States_Enum.Escape)
+        {
+            timer_text.color = new Color(255,0,0,1);
+            timer_text_ref = level_end_timer;
+            return;
+        }
+        timer_text.color = new Color(255,255,255,1);
+        timer_text_ref = level_escape_timer;
     }
 
 #region Scoring
@@ -497,17 +543,19 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
                     Rock_Script matchable = (Rock_Script)neh.resident;
                     matchable.Pop_Rock();
+                    
+
+                    drop_ship.Place_Dropship(player_start_gridpos, neh.grid_pos);
                     current_player.Place_Resident(neh.grid_pos);
-
-                    current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
-
+                    current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Frozen);
+                    player_start_gridpos = neh.grid_pos;
                     return;
                 }
             }
             player_start_gridpos = wall_coord_list.ElementAt((int)Global_Vars.rand_num_gen.Next(0,wall_coord_list.Count()));
         }
     }
-    // private void Find_Player_Spawn()
+    // private void Find_Player_Spawn() //this is the old spawn method that puts the player in the middle of the map
     // {
     //     IEnumerable<Vector2Int> possible_player_start_locations = 
     //         from row in x_lead_map_coord_array

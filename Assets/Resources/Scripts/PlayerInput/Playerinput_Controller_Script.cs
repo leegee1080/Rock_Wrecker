@@ -175,6 +175,25 @@ public class Playerinput_Controller_Script : MonoBehaviour
         on_screen_controls_allowed = false;
     }
 
+    public IEnumerator Shake_Camera(float duration, float magnitude)
+    {
+        Vector3 original_pos = transform.localPosition;
+
+        float elapsed = 0.0f;
+
+        while(elapsed < duration)
+        {
+            float x = Random.Range(-1f,1f) * magnitude;
+            float y = Random.Range(-1f,1f) * magnitude;
+
+            Camera.main.transform.position += new Vector3(x,y,original_pos.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+    }
+
     private void OnEnable(){
         player_input_actions.Enable();
     }

@@ -211,6 +211,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        Change_Level_State(Level_States_Enum.Setup);
+        drop_ship.Launch();
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         current_player = null;
         current_player = Instantiate(current_player_serialized, parent: actor_container.transform);
@@ -230,7 +232,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Clean_Rock_Queue();
 
         Find_Player_Spawn();
-
+        current_player.gameObject.SetActive(false);
         // floor_go.GetComponent<Floor_Script>().Build_Floor_Mesh();
         // floor_go.transform.position = new Vector3(Find_Grid_Data(player_start_gridpos).actual_pos.x,Find_Grid_Data(player_start_gridpos).actual_pos.y,Find_Grid_Data(player_start_gridpos).actual_pos.z  +1);
 
@@ -280,9 +282,11 @@ public class Levelplay_Controller_Script : MonoBehaviour
         switch (new_state)
         {
             case Level_States_Enum.Setup:
-
+                
                 break;
             case Level_States_Enum.Playing:
+                current_player.gameObject.SetActive(true);
+                drop_ship.Open_Door();
                 if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
                 timer_text_ref = level_escape_timer;
                 level_setup_timer.timer_finished_bool = true;

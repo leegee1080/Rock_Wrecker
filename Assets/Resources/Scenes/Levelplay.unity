@@ -1040,7 +1040,7 @@ MonoBehaviour:
   player_spawn_percentage: 5
   camera_offset: {x: 0, y: -12, z: -25}
   current_level_state: 0
-  level_setup_time: 2
+  level_setup_time: 3
   level_escape_time: 60
   level_end_time: 90
   level_exit_time: 3

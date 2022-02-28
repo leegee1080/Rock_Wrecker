@@ -236,7 +236,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
         Camera.main.transform.position = new Vector3(Find_Grid_Data(player_start_gridpos).actual_pos.x, Find_Grid_Data(player_start_gridpos).actual_pos.y -10, Find_Grid_Data(player_start_gridpos).actual_pos.z - 20); 
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
-        Playerinput_Controller_Script.playerinput_controller_singleton.auto_camera_move_speed = 0.002f;
+        Playerinput_Controller_Script.playerinput_controller_singleton.auto_camera_move_speed = 0.006f;
         Playerinput_Controller_Script.playerinput_controller_singleton.desired_camera_pos_offset = camera_offset;
         Playerinput_Controller_Script.playerinput_controller_singleton.follow_target = current_player.gameObject;
 

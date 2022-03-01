@@ -31,13 +31,14 @@ public enum Match_Direction_Enum
     left
 }
 
-public enum Level_States_Enum
+public enum LevelStatesEnum
 {
     Setup,
     Playing,
     Paused,
     Escape,
-    Cleanup
+    Cleanup,
+    Exit
 }
 
 public class Level_Events
@@ -149,7 +150,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private GameObject score_menu_container;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
     [SerializeField]private TMP_Text timer_text;
-    private Timer<bool> timer_text_ref;
+    public Timer<bool> timer_text_ref;
 
 
     [Header("Game Objects")]
@@ -184,8 +185,15 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Gameplay Vars")]
+    
+    [SerializeField]private LevelStatesEnum _inspectorLevelState; //do not change this directly
+    public LevelStatesEnum CurrentLevelState
+    {
+    get { return _inspectorLevelState; }
+    set { _inspectorLevelState = value; ChangeLevelState(CurrentLevelState);}
+    }
+    private LevelplayStatesAbstractClass _currentStateClass;
     [SerializeField]private Vector3 camera_offset;
-    public Level_States_Enum current_level_state;
     [SerializeField]private float level_setup_time;
     private Timer<bool> level_setup_timer;
     [SerializeField]private float level_escape_time;
@@ -211,7 +219,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private void Start()
     {
-        Change_Level_State(Level_States_Enum.Setup);
+        _currentStateClass = new LevelplayState_Setup();
+        Change_Level_State(LevelStatesEnum.Setup);
         drop_ship.Launch();
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         current_player = null;
@@ -265,7 +274,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private void Update()
     {
-        if(current_level_state == Level_States_Enum.Cleanup || current_level_state == Level_States_Enum.Paused){return;}
+        _currentStateClass.OnUpdateState(this);
+        if(CurrentLevelState == LevelStatesEnum.Cleanup || CurrentLevelState == LevelStatesEnum.Paused){return;}
         if(rocks_queue_for_destruction.Count > 0){
             Clean_Rock_Queue();
         }
@@ -277,58 +287,91 @@ public class Levelplay_Controller_Script : MonoBehaviour
         if(!level_exit_timer.timer_finished_bool){level_exit_timer.Decrement_Timer(Time.deltaTime);}
     }
 
-    public Level_States_Enum Change_Level_State(Level_States_Enum new_state)
+    private void ChangeLevelState(LevelStatesEnum _newState)
     {
+        // if(CurrentLevelState == _newState){return;}
+        if(_currentStateClass != null){_currentStateClass.OnExitState(this);}
+        switch (_newState)
+        {
+            case LevelStatesEnum.Setup:
+                _currentStateClass = new LevelplayState_Setup();
+                break;
+            case LevelStatesEnum.Playing:
+                _currentStateClass = new LevelplayState_Playing();
+                break;
+            case LevelStatesEnum.Paused:
+                _currentStateClass = new LevelplayState_Paused();
+                break;
+            case LevelStatesEnum.Escape:
+                _currentStateClass = new LevelplayState_Escape();
+                break;
+            case LevelStatesEnum.Cleanup:
+                _currentStateClass = new LevelplayState_Cleanup();
+                break;
+            case LevelStatesEnum.Exit:
+                _currentStateClass = new LevelplayState_Exit();
+                break;
+            default:
+                _currentStateClass = new LevelplayState_Paused();
+                break;
+        }
+        _currentStateClass.OnEnterState(this);
+    }
+
+    public LevelStatesEnum Change_Level_State(LevelStatesEnum new_state)
+    {
+        if(CurrentLevelState == new_state){return new_state;}
         switch (new_state)
         {
-            case Level_States_Enum.Setup:
+            case LevelStatesEnum.Setup:
                 
                 break;
-            case Level_States_Enum.Playing:
+            case LevelStatesEnum.Playing:
                 current_player.gameObject.SetActive(true);
                 drop_ship.Open_Door();
-                if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
+                if(CurrentLevelState == LevelStatesEnum.Paused){Resume_Level();}
                 timer_text_ref = level_escape_timer;
                 level_setup_timer.timer_finished_bool = true;
                 break;
-            case Level_States_Enum.Paused:
+            case LevelStatesEnum.Paused:
                 Pause_Level();
                 break;
-            case Level_States_Enum.Escape:
+            case LevelStatesEnum.Escape:
                 if(!player_on_exit)
                 {
-                    if(current_level_state == Level_States_Enum.Paused){Resume_Level();}
+                    if(CurrentLevelState == LevelStatesEnum.Paused){Resume_Level();}
                     timer_text.color = new Color(255,0,0,1);
                     timer_text_ref = level_end_timer;
                 }
                 level_setup_timer.timer_finished_bool = true;
                 level_escape_timer.timer_finished_bool = true;
                 break;
-            case Level_States_Enum.Cleanup:
+            case LevelStatesEnum.Cleanup:
                 Level_Events.Invoke_Pause_Toggle_Event(true);
                 level_setup_timer.timer_finished_bool = true;
                 level_escape_timer.timer_finished_bool = true;
                 level_end_timer.timer_finished_bool = true;
                 break;
             default:
-                new_state = Level_States_Enum.Paused;
+                new_state = LevelStatesEnum.Paused;
                 break;
         }
-        Debug.Log("Level State Changed to: '" + new_state + "' | From: '" + current_level_state + "'");
-        current_level_state = new_state;
-        return current_level_state;
+        Debug.Log("Level State Changed to: '" + new_state + "' | From: '" + CurrentLevelState + "'");
+        CurrentLevelState = new_state;
+        return CurrentLevelState;
     }
 
     private bool Activate_Playing_State()
     {
-        Change_Level_State(Level_States_Enum.Playing);
+        CurrentLevelState = LevelStatesEnum.Playing;
+        Change_Level_State(LevelStatesEnum.Playing);
         current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
         return true;
     }
 
     private bool Activate_Escape_State()
     {
-        Change_Level_State(Level_States_Enum.Escape);
+        Change_Level_State(LevelStatesEnum.Escape);
 
         //player needs to get back to start pos now
         Debug.Log("Player needs to get to this pos: " + player_start_gridpos);
@@ -338,7 +381,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private bool Cleanup_Level()
     {
-        Change_Level_State(Level_States_Enum.Cleanup);
+        Change_Level_State(LevelStatesEnum.Cleanup);
         if(current_player.grid_pos == player_start_gridpos)
         {
             print("player escaped");
@@ -395,7 +438,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         player_on_exit = false;
         level_exit_timer.Pause_Timer(true);
         level_exit_timer.Reset_Timer();
-        if(current_level_state == Level_States_Enum.Escape)
+        if(CurrentLevelState == LevelStatesEnum.Escape)
         {
             timer_text.color = new Color(255,0,0,1);
             timer_text_ref = level_end_timer;
@@ -415,7 +458,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
         rocks_queue_for_destruction.Clear();
 
-        if(current_level_state == Level_States_Enum.Playing)
+        if(CurrentLevelState == LevelStatesEnum.Playing)
         {
             StartCoroutine(Timed_Rock_Pop(instanced_rock_queue));
         }
@@ -457,7 +500,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 #region  MenuItems
     public void Show_Ingame_Menu()
     {
-        Change_Level_State(Level_States_Enum.Paused);
+        Change_Level_State(LevelStatesEnum.Paused);
     }
 
     public void Show_Ingame_Inventory()

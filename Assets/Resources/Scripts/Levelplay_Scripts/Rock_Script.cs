@@ -16,6 +16,8 @@ public class Rock_Script : GridResident_Script
     [SerializeField]private MeshRenderer secondary_renderer;
     [SerializeField]private MeshFilter secondary_filter;
     [SerializeField]private bool initialized;
+    [SerializeField]private ParticleSystem glow_ps;
+    [SerializeField]private ParticleSystem particle_ps;
 
     public void Check_Grid_Neighbor(Vector2Int starting_dir, Vector2Int checking_direction)
     {
@@ -93,6 +95,11 @@ public class Rock_Script : GridResident_Script
         primary_renderer.material.color = primary_rock_type.main_color;
         primary_filter.mesh = primary_rock_type.main_mesh;
         default_rock.transform.Rotate(new Vector3(0,Global_Vars.rand_num_gen.Next(0,180),0));
+
+        ParticleSystem.MainModule ps_main = glow_ps.main;
+        ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
+        ps_main = particle_ps.main;
+        ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
     }
 
     public void Update_Secondary_Rock_Type()

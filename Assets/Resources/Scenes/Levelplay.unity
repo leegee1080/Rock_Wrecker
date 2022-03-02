@@ -1038,12 +1038,12 @@ MonoBehaviour:
   wall_percentage: 50
   rock_percentage: 70
   player_spawn_percentage: 5
+  _inspectorLevelState: 0
   camera_offset: {x: 0, y: -12, z: -25}
-  current_level_state: 0
-  level_setup_time: 3
-  level_escape_time: 60
-  level_end_time: 90
-  level_exit_time: 3
+  level_setup_time: 2
+  level_escape_time: 10
+  level_end_time: 5
+  level_exit_time: 2
   player_on_exit: 0
   resources_collected_array: 00000000000000000000000000000000
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
@@ -2698,6 +2698,22 @@ PrefabInstance:
     - target: {fileID: 2109176336313575635, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_Name
       value: Timer_Container_Go
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_verticalMapping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_horizontalMapping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}

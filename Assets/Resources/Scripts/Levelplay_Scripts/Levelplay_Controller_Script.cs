@@ -36,9 +36,10 @@ public enum LevelStatesEnum
     Setup,
     Playing,
     Paused,
-    Escape,
-    Cleanup,
-    Exit
+    GetToEscape,
+    CleanupWin,
+    CleanupLose,
+    PlayerOnExit
 }
 
 public class Level_Events
@@ -98,9 +99,11 @@ public class Grid_Data{
     }
 }
 
-public class Timer<T>
+public class Timer<T, P> // first is the function return and second is the parameter passed
 {
-    private Func<T> timer_finished_func;
+    private Func<P, T> timer_finished_func;
+
+    private P _timerFinishedParameter;
 
     public float timer_max_amount{get; private set;}
     public float timer_amount{get; private set;}
@@ -109,12 +112,13 @@ public class Timer<T>
 
 
 
-    public Timer(float new_timer_amount, Func<T> new_timer_finished_func)
+    public Timer(float new_timer_amount, Func<P, T> new_timer_finished_func, P _newFuncParameter)
     {
         timer_finished_bool= false;
         timer_paused_bool = false;
         timer_max_amount = new_timer_amount;
         timer_finished_func = new_timer_finished_func;
+        _timerFinishedParameter = _newFuncParameter;
         timer_amount = timer_max_amount;
     }
 
@@ -134,7 +138,7 @@ public class Timer<T>
         if(timer_finished_bool){return timer_finished_bool;}
 
         timer_amount -= decrement_amount;
-        if(timer_amount <= 0){timer_finished_func(); timer_finished_bool = true;}
+        if(timer_amount <= 0){timer_finished_func(_timerFinishedParameter); timer_finished_bool = true;}
         return timer_finished_bool;
     }
 
@@ -149,8 +153,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private GameObject ingame_menu_container;
     [SerializeField]private GameObject score_menu_container;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
-    [SerializeField]private TMP_Text timer_text;
-    public Timer<bool> timer_text_ref;
+    [SerializeField]public TMP_Text timer_text;
+    public Timer<bool, LevelStatesEnum> timer_text_ref;
 
 
     [Header("Game Objects")]
@@ -195,13 +199,13 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private LevelplayStatesAbstractClass _currentStateClass;
     [SerializeField]private Vector3 camera_offset;
     [SerializeField]private float level_setup_time;
-    private Timer<bool> level_setup_timer;
+    public Timer<bool, LevelStatesEnum> level_setup_timer;
     [SerializeField]private float level_escape_time;
-    private Timer<bool> level_escape_timer;
+    public Timer<bool, LevelStatesEnum> level_escape_timer;
     [SerializeField]private float level_end_time;
-    private Timer<bool> level_end_timer;
+    public Timer<bool, LevelStatesEnum> level_end_timer;
     [SerializeField]private float level_exit_time;
-    private Timer<bool> level_exit_timer;
+    public Timer<bool, LevelStatesEnum> level_exit_timer;
     private bool player_left_exit;
     public bool player_on_exit;
     public int[] resources_collected_array = new int[4];
@@ -220,7 +224,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private void Start()
     {
         _currentStateClass = new LevelplayState_Setup();
-        Change_Level_State(LevelStatesEnum.Setup);
+        // Change_Level_State(LevelStatesEnum.Setup);
         drop_ship.Launch();
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         current_player = null;
@@ -238,7 +242,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Gen_Map_Residents();
         Deliver_Rock_Types();
         Pregame_Board_Check();
-        Clean_Rock_Queue();
+        Clean_Rock_Queue(true);
 
         Find_Player_Spawn();
         current_player.gameObject.SetActive(false);
@@ -263,10 +267,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
         if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
     
-        level_setup_timer = new Timer<bool>(level_setup_time, Activate_Playing_State);
-        level_escape_timer = new Timer<bool>(level_escape_time, Activate_Escape_State);
-        level_end_timer = new Timer<bool>(level_end_time, Cleanup_Level);
-        level_exit_timer = new Timer<bool>(level_exit_time, Cleanup_Level);
+        level_setup_timer = new Timer<bool, LevelStatesEnum>(level_setup_time, ChangeLevelState, LevelStatesEnum.Playing);
+        level_escape_timer = new Timer<bool, LevelStatesEnum>(level_escape_time, ChangeLevelState, LevelStatesEnum.GetToEscape);
+        level_end_timer = new Timer<bool, LevelStatesEnum>(level_end_time, ChangeLevelState, LevelStatesEnum.CleanupLose);
+        level_exit_timer = new Timer<bool, LevelStatesEnum>(level_exit_time, ChangeLevelState, LevelStatesEnum.CleanupWin);
         level_exit_timer.Pause_Timer(true);
 
         timer_text_ref = level_setup_timer;
@@ -275,19 +279,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private void Update()
     {
         _currentStateClass.OnUpdateState(this);
-        if(CurrentLevelState == LevelStatesEnum.Cleanup || CurrentLevelState == LevelStatesEnum.Paused){return;}
-        if(rocks_queue_for_destruction.Count > 0){
-            Clean_Rock_Queue();
-        }
-
         timer_text.text = timer_text_ref.timer_amount + "";
-        if(!level_setup_timer.timer_finished_bool){level_setup_timer.Decrement_Timer(Time.deltaTime);}
-        if(!level_escape_timer.timer_finished_bool){level_escape_timer.Decrement_Timer(Time.deltaTime);}
-        if(!level_end_timer.timer_finished_bool){level_end_timer.Decrement_Timer(Time.deltaTime);}
-        if(!level_exit_timer.timer_finished_bool){level_exit_timer.Decrement_Timer(Time.deltaTime);}
     }
 
-    private void ChangeLevelState(LevelStatesEnum _newState)
+    private bool ChangeLevelState(LevelStatesEnum _newState)
     {
         // if(CurrentLevelState == _newState){return;}
         if(_currentStateClass != null){_currentStateClass.OnExitState(this);}
@@ -302,110 +297,25 @@ public class Levelplay_Controller_Script : MonoBehaviour
             case LevelStatesEnum.Paused:
                 _currentStateClass = new LevelplayState_Paused();
                 break;
-            case LevelStatesEnum.Escape:
-                _currentStateClass = new LevelplayState_Escape();
+            case LevelStatesEnum.GetToEscape:
+                _currentStateClass = new LevelplayState_GetToEscape();
                 break;
-            case LevelStatesEnum.Cleanup:
-                _currentStateClass = new LevelplayState_Cleanup();
+            case LevelStatesEnum.CleanupLose:
+                if(player_on_exit){_currentStateClass = new LevelplayState_CleanupWin();break;}
+                _currentStateClass = new LevelplayState_CleanupLose();
                 break;
-            case LevelStatesEnum.Exit:
-                _currentStateClass = new LevelplayState_Exit();
+            case LevelStatesEnum.CleanupWin:
+                _currentStateClass = new LevelplayState_CleanupWin();
+                break;
+            case LevelStatesEnum.PlayerOnExit:
+                _currentStateClass = new LevelplayState_OnExit();
                 break;
             default:
-                _currentStateClass = new LevelplayState_Paused();
-                break;
+                Debug.LogWarning("Incorrect state passed to ChangeLevelState!");
+                return false;
         }
         _currentStateClass.OnEnterState(this);
-    }
-
-    public LevelStatesEnum Change_Level_State(LevelStatesEnum new_state)
-    {
-        if(CurrentLevelState == new_state){return new_state;}
-        switch (new_state)
-        {
-            case LevelStatesEnum.Setup:
-                
-                break;
-            case LevelStatesEnum.Playing:
-                current_player.gameObject.SetActive(true);
-                drop_ship.Open_Door();
-                if(CurrentLevelState == LevelStatesEnum.Paused){Resume_Level();}
-                timer_text_ref = level_escape_timer;
-                level_setup_timer.timer_finished_bool = true;
-                break;
-            case LevelStatesEnum.Paused:
-                Pause_Level();
-                break;
-            case LevelStatesEnum.Escape:
-                if(!player_on_exit)
-                {
-                    if(CurrentLevelState == LevelStatesEnum.Paused){Resume_Level();}
-                    timer_text.color = new Color(255,0,0,1);
-                    timer_text_ref = level_end_timer;
-                }
-                level_setup_timer.timer_finished_bool = true;
-                level_escape_timer.timer_finished_bool = true;
-                break;
-            case LevelStatesEnum.Cleanup:
-                Level_Events.Invoke_Pause_Toggle_Event(true);
-                level_setup_timer.timer_finished_bool = true;
-                level_escape_timer.timer_finished_bool = true;
-                level_end_timer.timer_finished_bool = true;
-                break;
-            default:
-                new_state = LevelStatesEnum.Paused;
-                break;
-        }
-        Debug.Log("Level State Changed to: '" + new_state + "' | From: '" + CurrentLevelState + "'");
-        CurrentLevelState = new_state;
-        return CurrentLevelState;
-    }
-
-    private bool Activate_Playing_State()
-    {
-        CurrentLevelState = LevelStatesEnum.Playing;
-        Change_Level_State(LevelStatesEnum.Playing);
-        current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
         return true;
-    }
-
-    private bool Activate_Escape_State()
-    {
-        Change_Level_State(LevelStatesEnum.Escape);
-
-        //player needs to get back to start pos now
-        Debug.Log("Player needs to get to this pos: " + player_start_gridpos);
-        Show_Exit();
-        return true;
-    }
-
-    private bool Cleanup_Level()
-    {
-        Change_Level_State(LevelStatesEnum.Cleanup);
-        if(current_player.grid_pos == player_start_gridpos)
-        {
-            print("player escaped");
-            Exit_Level_To_Map();
-        }
-        return true;
-    }
-
-    private bool Pause_Level()
-    {
-        level_setup_timer.Pause_Timer(true);
-        level_escape_timer.Pause_Timer(true);
-        level_end_timer.Pause_Timer(true);
-        Level_Events.Invoke_Pause_Toggle_Event(true);
-        return true;
-    }
-
-    private bool Resume_Level()
-    {
-        level_setup_timer.Pause_Timer(false);
-        level_escape_timer.Pause_Timer(false);
-        level_end_timer.Pause_Timer(false);
-        Level_Events.Invoke_Pause_Toggle_Event(false);
-        return false;
     }
 
     public Grid_Data Find_Grid_Data(Vector2Int grid_pos)
@@ -419,37 +329,26 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public void Show_Exit()
     {
+        if(TestExit.activeSelf){return;}
         TestExit.SetActive(true);
         TestExit.transform.position = Find_Grid_Data(player_start_gridpos).actual_pos;
     }
 
     public void Player_Enter_Exit()
     {
-        if(!player_left_exit){return;}
-        player_on_exit = true;
-        level_exit_timer.Pause_Timer(false);
-        timer_text_ref = level_exit_timer;
-        timer_text.color = new Color(0,255,0,1);
+        ChangeLevelState(LevelStatesEnum.PlayerOnExit);
     }
 
     public void Player_Left_Exit()
     {
         if(!player_left_exit){player_left_exit = true; Show_Exit();}
         player_on_exit = false;
-        level_exit_timer.Pause_Timer(true);
-        level_exit_timer.Reset_Timer();
-        if(CurrentLevelState == LevelStatesEnum.Escape)
-        {
-            timer_text.color = new Color(255,0,0,1);
-            timer_text_ref = level_end_timer;
-            return;
-        }
-        timer_text.color = new Color(255,255,255,1);
-        timer_text_ref = level_escape_timer;
+        if(!level_escape_timer.timer_finished_bool){ChangeLevelState(LevelStatesEnum.Playing);return;}
+        ChangeLevelState(LevelStatesEnum.GetToEscape);
     }
 
 #region Scoring
-    private void Clean_Rock_Queue()
+    public void Clean_Rock_Queue(bool _instantPop)
     {
         List<Rock_Script> instanced_rock_queue = new List<Rock_Script>();
         foreach (Rock_Script item in rocks_queue_for_destruction)
@@ -458,14 +357,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
         rocks_queue_for_destruction.Clear();
 
-        if(CurrentLevelState == LevelStatesEnum.Playing)
-        {
-            StartCoroutine(Timed_Rock_Pop(instanced_rock_queue));
-        }
-        else
-        {
-            Pregame_Rock_Pop(instanced_rock_queue);
-        }
+        if(_instantPop){Pregame_Rock_Pop(instanced_rock_queue); return;}
+
+        StartCoroutine(Timed_Rock_Pop(instanced_rock_queue));
     }
 
     private void Pregame_Rock_Pop(List<Rock_Script> new_rock_queue)
@@ -500,7 +394,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 #region  MenuItems
     public void Show_Ingame_Menu()
     {
-        Change_Level_State(LevelStatesEnum.Paused);
+        // Change_Level_State(LevelStatesEnum.Paused);
     }
 
     public void Show_Ingame_Inventory()
@@ -600,6 +494,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
                     drop_ship.Place_Dropship(player_start_gridpos, neh.grid_pos);
                     current_player.Place_Resident(neh.grid_pos);
+                    player_on_exit = true;
                     current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Frozen);
                     player_start_gridpos = neh.grid_pos;
                     return;
@@ -608,16 +503,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             player_start_gridpos = wall_coord_list.ElementAt((int)Global_Vars.rand_num_gen.Next(0,wall_coord_list.Count()));
         }
     }
-    // private void Find_Player_Spawn() //this is the old spawn method that puts the player in the middle of the map
-    // {
-    //     IEnumerable<Vector2Int> possible_player_start_locations = 
-    //         from row in x_lead_map_coord_array
-    //         from cell in row
-    //         where cell.noise_data > min_map_noise && cell.noise_data < Mathf.Lerp(min_map_noise,max_map_noise,player_spawn_percentage/100f) && cell.breadth_checked && cell.grid_pos.x > 0 && cell.grid_pos.x < map_x_size-1 && cell.grid_pos.y > 0 && cell.grid_pos.y < map_y_size-1
-    //         select cell.grid_pos;
-    //     player_start_gridpos = possible_player_start_locations.ElementAt((int)UnityEngine.Random.Range(0,possible_player_start_locations.Count()));
-    //     // player_start_gridpos = possible_player_start_locations.ElementAt((int)Global_Vars.rand_num_gen.Next(0,possible_player_start_locations.Count()));
-    // }
+
     private List<Grid_Data> Find_Max_Play_Area(Vector2Int starting_grid_pos)
     {
         List<Grid_Data> playable_blob = new List<Grid_Data>();

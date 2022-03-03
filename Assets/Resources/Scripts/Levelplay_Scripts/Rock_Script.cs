@@ -9,8 +9,6 @@ public class Rock_Script : GridResident_Script
 
     [field: SerializeField]public Secondary_Rock_ScriptableObject secondary_rock_type{get; private set;}
 
-    [SerializeField]private ParticleSystem[] _popParticles_ps;
-    [SerializeField]private ParticleSystem _landParticles_ps;
     [SerializeField]private GameObject _artContainer_go;
     [SerializeField]private GameObject default_rock;
     [SerializeField]private MeshRenderer primary_renderer;
@@ -48,7 +46,7 @@ public class Rock_Script : GridResident_Script
             grid_pos_to_check += direction_modifier;
         }
         if(match_list.Count < Levelplay_Controller_Script.levelplay_controller_singleton.required_match_number){return;}
-        //dump info into the queuefor delete
+        //dump info into the queue for delete
         foreach (Rock_Script item in match_list)
         {
             if(!Levelplay_Controller_Script.levelplay_controller_singleton.rocks_queue_for_destruction.Contains(item)) 
@@ -115,7 +113,9 @@ public class Rock_Script : GridResident_Script
     public override void LandAfterTween()
     {
         base.LandAfterTween();
-        _landParticles_ps.Play();
+        GameObject _dustPoof = Levelplay_Controller_Script.levelplay_controller_singleton.DustPoofPool.CallNext();
+        _dustPoof.SetActive(true);
+        _dustPoof.transform.position = gameObject.transform.position;
     }
 
     public void DeleteRock()
@@ -124,11 +124,8 @@ public class Rock_Script : GridResident_Script
         gameObject.SetActive(false);
     }
 
-    public void Pop_Rock(){
-        foreach (ParticleSystem ps in _popParticles_ps)
-        {
-            ps.Play();
-        }
+    public void Pop_Rock()
+    {
         Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
         _artContainer_go.SetActive(false);
     }

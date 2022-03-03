@@ -359,6 +359,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
         if(_instantPop){Pregame_Rock_Pop(instanced_rock_queue); return;}
 
+        StartCoroutine(Playerinput_Controller_Script.playerinput_controller_singleton.Shake_Camera(instanced_rock_queue.Count/4,0.08f));
         StartCoroutine(Timed_Rock_Pop(instanced_rock_queue));
     }
 
@@ -366,7 +367,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         foreach (Rock_Script item in new_rock_queue)
         {
-            item.Pop_Rock();
+            item.DeleteRock();
         }
     }
 
@@ -489,7 +490,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
                     Find_Grid_Data(player_start_gridpos).resident.gameObject.SetActive(false);
 
                     Rock_Script matchable = (Rock_Script)neh.resident;
-                    matchable.Pop_Rock();
+                    matchable.DeleteRock();
                     
 
                     drop_ship.Place_Dropship(player_start_gridpos, neh.grid_pos);

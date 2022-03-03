@@ -1041,8 +1041,8 @@ MonoBehaviour:
   _inspectorLevelState: 0
   camera_offset: {x: 0, y: -12, z: -25}
   level_setup_time: 2
-  level_escape_time: 10
-  level_end_time: 5
+  level_escape_time: 90
+  level_end_time: 10
   level_exit_time: 2
   player_on_exit: 0
   resources_collected_array: 00000000000000000000000000000000

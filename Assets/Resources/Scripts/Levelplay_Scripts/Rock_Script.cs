@@ -9,15 +9,18 @@ public class Rock_Script : GridResident_Script
 
     [field: SerializeField]public Secondary_Rock_ScriptableObject secondary_rock_type{get; private set;}
 
-
+    [SerializeField]private ParticleSystem[] _popParticles_ps;
+    [SerializeField]private ParticleSystem _landParticles_ps;
+    [SerializeField]private GameObject _artContainer_go;
     [SerializeField]private GameObject default_rock;
     [SerializeField]private MeshRenderer primary_renderer;
     [SerializeField]private MeshFilter primary_filter;
     [SerializeField]private MeshRenderer secondary_renderer;
     [SerializeField]private MeshFilter secondary_filter;
     [SerializeField]private bool initialized;
-    [SerializeField]private ParticleSystem glow_ps;
-    [SerializeField]private ParticleSystem particle_ps;
+    [SerializeField]private ParticleSystem _secGlow_ps;
+    [SerializeField]private ParticleSystem _glowParticle_ps;
+    
 
     public void Check_Grid_Neighbor(Vector2Int starting_dir, Vector2Int checking_direction)
     {
@@ -96,9 +99,9 @@ public class Rock_Script : GridResident_Script
         primary_filter.mesh = primary_rock_type.main_mesh;
         default_rock.transform.Rotate(new Vector3(0,Global_Vars.rand_num_gen.Next(0,180),0));
 
-        ParticleSystem.MainModule ps_main = glow_ps.main;
+        ParticleSystem.MainModule ps_main = _secGlow_ps.main;
         ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
-        ps_main = particle_ps.main;
+        ps_main = _glowParticle_ps.main;
         ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
     }
 
@@ -109,8 +112,24 @@ public class Rock_Script : GridResident_Script
         secondary_renderer.material.color = secondary_rock_type.main_color;
     }
 
-    public void Pop_Rock(){
+    public override void LandAfterTween()
+    {
+        base.LandAfterTween();
+        _landParticles_ps.Play();
+    }
+
+    public void DeleteRock()
+    {
         Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
         gameObject.SetActive(false);
+    }
+
+    public void Pop_Rock(){
+        foreach (ParticleSystem ps in _popParticles_ps)
+        {
+            ps.Play();
+        }
+        Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
+        _artContainer_go.SetActive(false);
     }
 }

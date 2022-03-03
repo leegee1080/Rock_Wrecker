@@ -16,6 +16,8 @@ public class LevelPlayer_Script : LevelActor_Script
     private PlayerInputActions.PlayerControlsActions player_actions;
     private float move_timer = 0;
 
+    [SerializeField] ParticleSystem _pickUpRock_ps;
+
 
     public override void Start()
     {
@@ -85,23 +87,29 @@ public class LevelPlayer_Script : LevelActor_Script
 
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
-            Check_For_Exit_Tile(desired_coord);
-            Swap_Residents(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident);
             move_timer = 0.25f;
+            Check_For_Exit_Tile(desired_coord);
+            _pickUpRock_ps.Play();
+            SwapResidentsTweened(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident, 1f);
             return;
             // Swap_With_Rock(desired_coord);
         }
 
         if(desired_coord.x > 0 && desired_coord.y > 0 && desired_coord.x < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array.Length && desired_coord.y < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x].Length && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
         {
+            move_timer = 0.10f; 
             Check_For_Exit_Tile(desired_coord);
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
-            Place_Resident(desired_coord);
-            move_timer = 0.10f;        
+            PlaceResidentTween(desired_coord,move_timer,false);       
             return;
             // Swap_With_Rock(desired_coord);
         }
         
+    }
+
+    public override void Local_Board_Changed()
+    {
+        return; // no need to check player for matches
     }
 
     private void Check_For_Exit_Tile(Vector2Int desired_coord)

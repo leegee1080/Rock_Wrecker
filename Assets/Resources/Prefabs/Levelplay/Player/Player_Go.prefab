@@ -117,8 +117,10 @@ MonoBehaviour:
   matchable: 0
   current_state: 0
   last_state: 0
+  _inspectorPlayerState: 0
+  move_timer: 0
   _pickUpRock_ps: {fileID: 1113455142565035525}
-  _playerAnimator: {fileID: 5677367176903736509}
+  playerAnimator: {fileID: 5677367176903736509}
 --- !u!1001 &458391495098249604
 PrefabInstance:
   m_ObjectHideFlags: 0

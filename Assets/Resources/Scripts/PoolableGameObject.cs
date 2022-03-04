@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PooledObject : MonoBehaviour
+public class PoolableGameObject : MonoBehaviour
 {
     [SerializeField]private float _timerAmount;
     [SerializeField]private Vector3 _homeLocation;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameObjectPooler
+public class GameObjectPooler<T> where T : MonoBehaviour
 {
     public GameObject[] gameObjectArray;
     private int index = 0;

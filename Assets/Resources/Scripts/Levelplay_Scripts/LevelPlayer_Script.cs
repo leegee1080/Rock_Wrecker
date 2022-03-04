@@ -17,6 +17,8 @@ public class LevelPlayer_Script : LevelActor_Script
     private float move_timer = 0;
 
     [SerializeField] ParticleSystem _pickUpRock_ps;
+    [SerializeField] Animator _playerAnimator;
+
 
 
     public override void Start()
@@ -36,28 +38,39 @@ public class LevelPlayer_Script : LevelActor_Script
         if(current_state == Level_Actor_States_Enum.Moving && move_timer <=0)
         {
             Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
+            _playerAnimator.SetBool("Run", false);
         }
         if(current_state == Level_Actor_States_Enum.Normal)
         {
             if(player_actions.MoveUp.IsPressed())
             {
+                RotatePlayer(Vector3.zero);
                 Move((int)Player_Direction_Enum.up);
             }
             else if(player_actions.MoveRight.IsPressed())
             {
+                RotatePlayer(new Vector3(0,90,0));
                 Move((int)Player_Direction_Enum.right);
             }
             else if(player_actions.MoveDown.IsPressed())
             {
+                RotatePlayer(new Vector3(0,180,0));
                 Move((int)Player_Direction_Enum.down);
             }
             else if(player_actions.MoveLeft.IsPressed())
             {
+                RotatePlayer(new Vector3(0,270,0));
                 Move((int)Player_Direction_Enum.left);
             }
             
         }
         if(move_timer >0){ move_timer -= Time.deltaTime;}
+    }
+
+    public void RotatePlayer(Vector3 eulerAngles)
+    {
+        if(transform.localEulerAngles == eulerAngles){return;}
+        transform.localEulerAngles = eulerAngles;
     }
 
     public void Move(int Direction)
@@ -89,20 +102,20 @@ public class LevelPlayer_Script : LevelActor_Script
         {
             move_timer = 0.25f;
             Check_For_Exit_Tile(desired_coord);
+            _playerAnimator.SetTrigger("Melee Attack");
             _pickUpRock_ps.Play();
             SwapResidentsTweened(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident, 1f);
             return;
-            // Swap_With_Rock(desired_coord);
         }
 
         if(desired_coord.x > 0 && desired_coord.y > 0 && desired_coord.x < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array.Length && desired_coord.y < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x].Length && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
         {
-            move_timer = 0.10f; 
+            move_timer = 0.10f;
+            _playerAnimator.SetBool("Run", true);
             Check_For_Exit_Tile(desired_coord);
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
             PlaceResidentTween(desired_coord,move_timer,false);       
             return;
-            // Swap_With_Rock(desired_coord);
         }
         
     }

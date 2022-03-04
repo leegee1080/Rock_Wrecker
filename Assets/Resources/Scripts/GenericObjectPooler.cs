@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GenericObjectPooler<T> where T: new()
 {
     public T[] objectArray; 

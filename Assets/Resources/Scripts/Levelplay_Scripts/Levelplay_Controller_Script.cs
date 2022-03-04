@@ -218,9 +218,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     [Header("Object Pools")]
     [SerializeField]private GameObject _pooledParticlesParent;
-    public GameObjectPooler DustMotePool;
-    public GameObjectPooler DustPoofPool;
-    public GameObjectPooler RockExplosionPool;
+    public GameObjectPooler<PoolableGameObject> DustMotePool;
+    public GameObjectPooler<PoolableGameObject> DustPoofPool;
+    public GameObjectPooler<PoolableGameObject> RockExplosionPool;
 
 
     [Header("Matching Vars")]
@@ -245,9 +245,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         map_y_size = Global_Vars.level_starting_y_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
 
         //create object pools
-        DustPoofPool = new GameObjectPooler(10,dustPoof_GO,_pooledParticlesParent);
-        RockExplosionPool = new GameObjectPooler(10,rockExplosion_GO,_pooledParticlesParent);
-        DustMotePool = new GameObjectPooler(20,dustMote_GO,_pooledParticlesParent);
+        DustPoofPool = new GameObjectPooler<PoolableGameObject>(10,dustPoof_GO,_pooledParticlesParent);
+        RockExplosionPool = new GameObjectPooler<PoolableGameObject>(10,rockExplosion_GO,_pooledParticlesParent);
+        DustMotePool = new GameObjectPooler<PoolableGameObject>(20,dustMote_GO,_pooledParticlesParent);
         
 
         UnityEngine.Random.InitState(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.level_seed);

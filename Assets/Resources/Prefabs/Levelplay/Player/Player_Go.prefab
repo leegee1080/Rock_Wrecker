@@ -32,6 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 455878619633345654}
+  - {fileID: 5677367176895973565}
   - {fileID: 1113455142545546121}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,7 +52,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7849392580223437443}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -117,6 +118,7 @@ MonoBehaviour:
   current_state: 0
   last_state: 0
   _pickUpRock_ps: {fileID: 1113455142565035525}
+  _playerAnimator: {fileID: 5677367176903736509}
 --- !u!1001 &458391495098249604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,19 +218,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 470424, guid: 0a09a3a2bbd2966428434f3fade79433, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 470424, guid: 0a09a3a2bbd2966428434f3fade79433, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.74
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 470424, guid: 0a09a3a2bbd2966428434f3fade79433, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 470424, guid: 0a09a3a2bbd2966428434f3fade79433, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.69
       objectReference: {fileID: 0}
     - target: {fileID: 470424, guid: 0a09a3a2bbd2966428434f3fade79433, type: 3}
       propertyPath: m_LocalRotation.w
@@ -289,4 +291,83 @@ Transform:
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 19843092, guid: 0a09a3a2bbd2966428434f3fade79433, type: 3}
   m_PrefabInstance: {fileID: 1113455142545749521}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5677367176896356275
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7849392580223437442}
+    m_Modifications:
+    - target: {fileID: 198036, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_Name
+      value: Robot Creep - Purple
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+--- !u!4 &5677367176895973565 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 415502, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+  m_PrefabInstance: {fileID: 5677367176896356275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5677367176903736509 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9544462, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+  m_PrefabInstance: {fileID: 5677367176896356275}
   m_PrefabAsset: {fileID: 0}

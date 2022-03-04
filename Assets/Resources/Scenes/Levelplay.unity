@@ -731,6 +731,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85bf54120ccf71a4ab82b69ffe242652, type: 3}
+--- !u!1 &844893185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2900015259458691382, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+  m_PrefabInstance: {fileID: 1727972122}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &992593815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1033,10 @@ MonoBehaviour:
   wall_go: {fileID: 0}
   wall_container: {fileID: 2048395014}
   actor_container: {fileID: 1916730589}
+  rockExplosion_GO: {fileID: 153374218622253240, guid: 35b211afd19cadd429e1005a17847e21, type: 3}
+  dustPoof_GO: {fileID: 153374218622253240, guid: bb5040e5a1fd5e94bbb225f924674165, type: 3}
+  dustMote_GO: {fileID: 153374218622253240, guid: 41c2aacef84b6f24383ea873fb05a5a4, type: 3}
+  auraPiller_GO: {fileID: 844893185}
   map_x_size: 0
   map_y_size: 0
   map_unit_spacing: 2
@@ -1041,13 +1050,14 @@ MonoBehaviour:
   _inspectorLevelState: 0
   camera_offset: {x: 0, y: -12, z: -25}
   level_setup_time: 2
-  level_escape_time: 90
+  level_escape_time: 120
   level_end_time: 10
   level_exit_time: 2
   player_on_exit: 0
   resources_collected_array: 00000000000000000000000000000000
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
   player_start_gridpos: {x: 0, y: 0}
+  _pooledParticlesParent: {fileID: 2054928273}
   rocks_queue_for_destruction: []
   <required_match_number>k__BackingField: 4
 --- !u!114 &1166955261
@@ -1572,6 +1582,63 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1080266347037914976, guid: 5ecfca158a60d534881939e65f642e1a, type: 3}
   m_PrefabInstance: {fileID: 1630513760}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1727972122
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691381, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2900015259458691382, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
+      propertyPath: m_Name
+      value: MagicPillar
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eec036ce357eb304e8c903114f2cfa3d, type: 3}
 --- !u!1 &1763527019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,6 +2343,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b988b9920eb3b540a5dac099e69e75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2054928273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2054928274}
+  m_Layer: 0
+  m_Name: PooledParticls_Go
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2054928274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054928273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2123815082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2431,7 +2528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 710902507271551109, guid: 3bf1d707c2d30994f814e1f93ff28ce3, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 710902507271551109, guid: 3bf1d707c2d30994f814e1f93ff28ce3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2730,7 +2827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6933803542332497423, guid: b9312f14b39be55459dbd838cd5e71ba, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6933803542332497423, guid: b9312f14b39be55459dbd838cd5e71ba, type: 3}
       propertyPath: m_LocalPosition.x

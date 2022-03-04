@@ -169,6 +169,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObject wall_go;
     public GameObject wall_container;
     public GameObject actor_container;
+    public GameObject rockExplosion_GO;
+    public GameObject dustPoof_GO;
+    public GameObject dustMote_GO;
+    public GameObject auraPiller_GO;
 
 
     [Header("Level Gen Vars")]
@@ -189,12 +193,11 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Gameplay Vars")]
-    
     [SerializeField]private LevelStatesEnum _inspectorLevelState; //do not change this directly
     public LevelStatesEnum CurrentLevelState
     {
-    get { return _inspectorLevelState; }
-    set { _inspectorLevelState = value; ChangeLevelState(CurrentLevelState);}
+        get { return _inspectorLevelState; }
+        set { _inspectorLevelState = value; ChangeLevelState(CurrentLevelState);}
     }
     private LevelplayStatesAbstractClass _currentStateClass;
     [SerializeField]private Vector3 camera_offset;
@@ -212,6 +215,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
     [SerializeField] public Vector2Int player_start_gridpos;
+
+    [Header("Object Pools")]
+    [SerializeField]private GameObject _pooledParticlesParent;
+    public GameObjectPooler<PoolableGameObject> DustMotePool;
+    public GameObjectPooler<PoolableGameObject> DustPoofPool;
+    public GameObjectPooler<PoolableGameObject> RockExplosionPool;
 
 
     [Header("Matching Vars")]
@@ -235,6 +244,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
         map_x_size = Global_Vars.level_starting_x_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
         map_y_size = Global_Vars.level_starting_y_size * Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size;
 
+        //create object pools
+        DustPoofPool = new GameObjectPooler<PoolableGameObject>(10,dustPoof_GO,_pooledParticlesParent);
+        RockExplosionPool = new GameObjectPooler<PoolableGameObject>(10,rockExplosion_GO,_pooledParticlesParent);
+        DustMotePool = new GameObjectPooler<PoolableGameObject>(20,dustMote_GO,_pooledParticlesParent);
+        
+
         UnityEngine.Random.InitState(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.level_seed);
 
         Gen_Map_Coords(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.level_seed);
@@ -255,15 +270,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Playerinput_Controller_Script.playerinput_controller_singleton.desired_camera_pos_offset = camera_offset;
         Playerinput_Controller_Script.playerinput_controller_singleton.follow_target = current_player.gameObject;
 
-        // Vector3 map_middle = Vector3.zero;
-        // foreach (Transform child in TestObjectContainer.transform){map_middle += child.transform.position;}
-        // map_middle = map_middle/TestObjectContainer.transform.childCount;
-
-        // Camera.main.transform.position = map_middle;
-        
-        // Playerinput_Controller_Script.playerinput_controller_singleton.auto_camera_move_speed = 0.003f;
-        // Playerinput_Controller_Script.playerinput_controller_singleton.desired_camera_pos = Camera.main.transform.position + (camera_offset*Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_size*2);
-
 
         if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
     
@@ -274,6 +280,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         level_exit_timer.Pause_Timer(true);
 
         timer_text_ref = level_setup_timer;
+
+        //extras
+        StartCoroutine(MotePlacer());
     }
 
     private void Update()
@@ -329,9 +338,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public void Show_Exit()
     {
-        if(TestExit.activeSelf){return;}
+        if(TestExit.activeSelf){PlaceExitAura(Find_Grid_Data(player_start_gridpos).actual_pos); return;}
         TestExit.SetActive(true);
         TestExit.transform.position = Find_Grid_Data(player_start_gridpos).actual_pos;
+        PlaceExitAura(Find_Grid_Data(player_start_gridpos).actual_pos);
     }
 
     public void Player_Enter_Exit()
@@ -375,6 +385,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         foreach (Rock_Script item in new_rock_queue)
         {
+            GameObject _rockExpl = RockExplosionPool.CallNext();
+            _rockExpl.SetActive(true);            
+            _rockExpl.transform.position = Find_Grid_Data(item.grid_pos).actual_pos;
+
             resources_collected_array[0] += 100;
             if(item.secondary_rock_type.secondary_type != Secondary_Rock_Types_Enum.none){resources_collected_array[(int)item.secondary_rock_type.secondary_type] += 1;}
             item.Pop_Rock();
@@ -698,4 +712,21 @@ public class Levelplay_Controller_Script : MonoBehaviour
     
 #endregion
 
+#region Juice
+    private void PlaceExitAura(Vector3 _newPos)
+    {
+        auraPiller_GO.SetActive(true);
+        auraPiller_GO.transform.position = _newPos;
+    }
+    private IEnumerator MotePlacer()
+    {
+        while(true)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            GameObject _dustmote_GO = DustMotePool.CallNext();
+            _dustmote_GO.SetActive(true);
+            _dustmote_GO.transform.position = Find_Grid_Data(new Vector2Int(Global_Vars.rand_num_gen.Next(0,map_x_size),Global_Vars.rand_num_gen.Next(0,map_y_size))).actual_pos;
+        }
+    }
+#endregion
 }

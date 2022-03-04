@@ -17,13 +17,21 @@ public class LevelActor_Script : GridResident_Script
     public Level_Actor_States_Enum current_state;
     public Level_Actor_States_Enum last_state;
 
+    [SerializeField]private Level_Actor_States_Enum _inspectorPlayerState; //do not change this directly
+    public Level_Actor_States_Enum CurrentPlayerState
+    {
+        get { return _inspectorPlayerState; }
+        set { _inspectorPlayerState = value; Change_Level_Actor_State(CurrentPlayerState);}
+    }
+    private LevelplayStatesAbstractClass _currentStateClass;
+
     public override void Start()
     {
         base.Start();
         Level_Events.pause_toggle_event += Pause_Resident;
     }
 
-    public Level_Actor_States_Enum Change_Level_Actor_State(Level_Actor_States_Enum new_state)
+    public virtual Level_Actor_States_Enum Change_Level_Actor_State(Level_Actor_States_Enum new_state)
     {
         switch (new_state)
         {
@@ -38,7 +46,7 @@ public class LevelActor_Script : GridResident_Script
             case Level_Actor_States_Enum.Moving:
                 break;
             default:
-                break;
+                return current_state;
         }
         last_state = current_state;
         current_state = new_state;

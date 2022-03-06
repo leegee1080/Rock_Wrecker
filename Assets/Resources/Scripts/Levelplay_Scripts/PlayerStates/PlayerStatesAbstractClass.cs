@@ -10,7 +10,7 @@ public abstract class PlayerStatesAbstractClass
 }
 public class PlayerState_Frozen: PlayerStatesAbstractClass
 {
-    public override void OnEnterState(LevelPlayer_Script _cont)
+     public override void OnEnterState(LevelPlayer_Script _cont)
     {
         
     }   

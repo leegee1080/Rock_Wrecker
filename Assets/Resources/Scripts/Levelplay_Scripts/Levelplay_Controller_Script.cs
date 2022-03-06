@@ -234,6 +234,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private void Start()
     {
         _currentStateClass = new LevelplayState_Setup();
+        _currentStateClass.OnEnterState(this);
         // Change_Level_State(LevelStatesEnum.Setup);
         drop_ship.Launch();
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);

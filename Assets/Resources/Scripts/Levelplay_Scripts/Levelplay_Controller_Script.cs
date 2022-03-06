@@ -152,6 +152,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [Header("Canvas Elements")]
     [SerializeField]private GameObject ingame_menu_container;
     [SerializeField]private GameObject score_menu_container;
+    [SerializeField]private Animator UI_animator;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
     [SerializeField]public TMP_Text timer_text;
     public Timer<bool, LevelStatesEnum> timer_text_ref;
@@ -233,6 +234,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private void Start()
     {
         _currentStateClass = new LevelplayState_Setup();
+        _currentStateClass.OnEnterState(this);
         // Change_Level_State(LevelStatesEnum.Setup);
         drop_ship.Launch();
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
@@ -414,15 +416,16 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public void Show_Ingame_Inventory()
     {
-        if(!score_menu_container.activeSelf)
+        if(!UI_animator.GetBool("Open"))
         {
-            score_menu_container.SetActive(true);
+            UI_animator.SetBool("Open", true);
             foreach (ScoreItem_Script item in ui_scoreitems)
             {
                 item.Update_My_Score(resources_collected_array);
             }
+            return;
         }
-        else{score_menu_container.SetActive(false);}
+        UI_animator.SetBool("Open", false);
         
     }
 

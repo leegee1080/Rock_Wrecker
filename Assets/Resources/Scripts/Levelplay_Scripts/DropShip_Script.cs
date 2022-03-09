@@ -5,12 +5,15 @@ using UnityEngine;
 public class DropShip_Script : MonoBehaviour
 {
 
+    private Vector2Int _gridPos;
     [SerializeField]private Animator animator_ani;
     [SerializeField]private GameObject dropship_mesh_go;
     [SerializeField]private ParticleSystem explosion_ps;
     [SerializeField]private ParticleSystem door_ps;
     public void Place_Dropship(Vector2Int location_to_place, Vector2Int location_to_face)
     {
+        _gridPos = location_to_place;
+
         dropship_mesh_go.SetActive(true);
         
         gameObject.transform.position = Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(location_to_place).actual_pos;
@@ -43,6 +46,9 @@ public class DropShip_Script : MonoBehaviour
     {
         StartCoroutine(Playerinput_Controller_Script.playerinput_controller_singleton.Shake_Camera(1f,0.1f));
         explosion_ps.Play();
+
+        Wall_Script wall = (Wall_Script)Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(_gridPos).resident;
+        wall.CrushRock();
     } 
     public void Launch()
     {

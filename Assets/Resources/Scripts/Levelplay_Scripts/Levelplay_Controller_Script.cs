@@ -504,7 +504,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
             {
                 if(neh != null && neh.resident != null && neh.resident.matchable)
                 {
-                    Find_Grid_Data(player_start_gridpos).resident.gameObject.SetActive(false);
 
                     Rock_Script matchable = (Rock_Script)neh.resident;
                     matchable.DeleteRock();
@@ -589,6 +588,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
             new_go = Instantiate(TestRock, parent: rock_container.transform);
             
             new_go.GetComponent<GridResident_Script>().Place_Resident(item.grid_pos);
+            
+            if(item.grid_pos.y <= 0){new_go.GetComponent<Wall_Script>().FadeRock();}
 
             Instantiate(floor_go, new_go.transform.position, Quaternion.identity, floor_container.transform);
         }
@@ -608,6 +609,14 @@ public class Levelplay_Controller_Script : MonoBehaviour
                 {
                     new_go = Instantiate(TestWall, parent: wall_container.transform);
                     new_go.GetComponent<GridResident_Script>().Place_Resident(neighbor.grid_pos);
+
+                    Vector2Int northVector = new Vector2Int(new_go.GetComponent<GridResident_Script>().grid_pos.x,new_go.GetComponent<GridResident_Script>().grid_pos.y + 1);
+                    if
+                    (
+                         Find_Grid_Data(northVector).resident != null &&
+                         Find_Grid_Data(northVector).resident.matchable
+                    )
+                    {new_go.GetComponent<Wall_Script>().FadeRock();}
                     wall_coord_list.Add(neighbor.grid_pos);
                 }
             }

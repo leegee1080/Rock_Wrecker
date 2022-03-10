@@ -15,7 +15,7 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
         _cont.timer_text.color = new Color32(129,255,200,255);
-        _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(129,255,200,1));
+        _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(2,255,200,1));
     }   
     public override void OnExitState(Levelplay_Controller_Script _cont)
     {
@@ -35,7 +35,7 @@ public class LevelplayState_Playing: LevelplayStatesAbstractClass
     {
         _cont.timer_text_ref = _cont.level_escape_timer;
         _cont.timer_text.color = new Color32(129,255,200,255);
-        _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(129,255,200,1));
+        _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(2,255,200,1));
         _cont.level_setup_timer.timer_finished_bool = true;
     }   
     public override void OnExitState(Levelplay_Controller_Script _cont)

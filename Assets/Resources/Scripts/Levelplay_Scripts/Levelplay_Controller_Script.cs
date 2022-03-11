@@ -273,7 +273,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Playerinput_Controller_Script.playerinput_controller_singleton.follow_target = current_player.gameObject;
 
 
-        if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
+        // if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
     
         level_setup_timer = new Timer<bool, LevelStatesEnum>(level_setup_time, ChangeLevelState, LevelStatesEnum.Playing);
         level_escape_timer = new Timer<bool, LevelStatesEnum>(level_escape_time, ChangeLevelState, LevelStatesEnum.GetToEscape);

@@ -151,6 +151,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     [Header("Canvas Elements")]
     [SerializeField]private GameObject ingame_menu_container;
+    [SerializeField]private ParticleSystem CollectSparkle;
     [SerializeField]private GameObject score_menu_container;
     [SerializeField]private Animator UI_animator;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
@@ -402,7 +403,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         {
             foreach (ScoreItem_Script item in ui_scoreitems)
             {
+
                 item.Update_My_Score(resources_collected_array);
+                CollectSparkle.Play();
             }
         }
     }

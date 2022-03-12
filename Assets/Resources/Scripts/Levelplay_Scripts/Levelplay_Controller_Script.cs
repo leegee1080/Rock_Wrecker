@@ -175,6 +175,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObject dustPoof_GO;
     public GameObject dustMote_GO;
     public GameObject auraPiller_GO;
+    public GameObject scoreParticles_GO;
+    public BoxCollider2D scoreCollector_GO;
 
 
     [Header("Level Gen Vars")]
@@ -223,6 +225,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObjectPooler<PoolableGameObject> DustMotePool;
     public GameObjectPooler<PoolableGameObject> DustPoofPool;
     public GameObjectPooler<PoolableGameObject> RockExplosionPool;
+    public GameObjectPooler<PoolableGameObject> ScoreParticlesPool;
 
 
     [Header("Matching Vars")]
@@ -251,6 +254,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         DustPoofPool = new GameObjectPooler<PoolableGameObject>(10,dustPoof_GO,_pooledParticlesParent);
         RockExplosionPool = new GameObjectPooler<PoolableGameObject>(10,rockExplosion_GO,_pooledParticlesParent);
         DustMotePool = new GameObjectPooler<PoolableGameObject>(20,dustMote_GO,_pooledParticlesParent);
+        ScoreParticlesPool = new GameObjectPooler<PoolableGameObject>(20,scoreParticles_GO,_pooledParticlesParent);
         
 
         UnityEngine.Random.InitState(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.level_seed);
@@ -392,12 +396,23 @@ public class Levelplay_Controller_Script : MonoBehaviour
             _rockExpl.SetActive(true);            
             _rockExpl.transform.position = Find_Grid_Data(item.grid_pos).actual_pos;
 
-            resources_collected_array[0] += 100;
+            GameObject _scoreParticles = ScoreParticlesPool.CallNext();
+            _scoreParticles.SetActive(true);            
+            _scoreParticles.transform.position = Find_Grid_Data(item.grid_pos).actual_pos;
+
+            
             if(item.secondary_rock_type.secondary_type != Secondary_Rock_Types_Enum.none){resources_collected_array[(int)item.secondary_rock_type.secondary_type] += 1;}
             item.Pop_Rock();
 
             yield return new WaitForSeconds(.05f);
         }
+
+    }
+
+    public void AddScore()
+    {
+        resources_collected_array[0] += 5;
+        CollectSparkle.Play();
 
         if(score_menu_container.activeSelf)
         {
@@ -405,7 +420,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             {
 
                 item.Update_My_Score(resources_collected_array);
-                CollectSparkle.Play();
+                
             }
         }
     }

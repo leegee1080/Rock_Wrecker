@@ -12,28 +12,31 @@ public class ProjectileBurstToTarget : MonoBehaviour
     public float burstMagnitude;
     void Start()
     {
-        iTween.ValueTo(uGuiElement.gameObject, iTween.Hash(
-            "from", uGuiElement.anchoredPosition,
-            "to", burstLocation,
-            "speed", burstMagnitude,
-            "onupdatetarget", gameObject, 
-            "onupdate", "MoveGuiElement",
-            "oncompletetarget", "BurstEnd"));
+        // iTween.ValueTo(uGuiElement.gameObject, iTween.Hash(
+        //     "from", uGuiElement.anchoredPosition,
+        //     "to", burstLocation,
+        //     "time", burstMagnitude,
+        //     "onupdatetarget", gameObject, 
+        //     "onupdate", "MoveGuiElement",
+        //     "easetype", iTween.EaseType.easeOutSine));
+
+        // iTween.ValueTo(uGuiElement.gameObject, iTween.Hash(
+        //     "from", burstLocation,
+        //     "to", targetPosition,
+        //     "delay", burstTime,
+        //     "time", animationTime,
+        //     "onupdatetarget", gameObject, 
+        //     "onupdate", "MoveGuiElement"));
 
     }
-    public void MoveGuiElement(Vector2 position)
+
+    private void Update()
     {
-        uGuiElement.anchoredPosition = position;
+        uGuiElement.transform.localPosition += new Vector3(burstMagnitude,0,0);
     }
 
-    public void BurstEnd()
-    {
-        iTween.ValueTo(uGuiElement.gameObject, iTween.Hash(
-            "from", uGuiElement.anchoredPosition,
-            "to", targetPosition,
-            "delay", burstTime,
-            "time", animationTime,
-            "onupdatetarget", gameObject, 
-            "onupdate", "MoveGuiElement"));
-    }
+    // public void MoveGuiElement(Vector2 position)
+    // {
+    //     uGuiElement.anchoredPosition = position;
+    // }
 }

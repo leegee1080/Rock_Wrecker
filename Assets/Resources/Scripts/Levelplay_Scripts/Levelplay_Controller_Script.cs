@@ -221,6 +221,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField] public Vector2Int player_start_gridpos;
 
     [Header("Object Pools")]
+    [SerializeField] int _playerViewCullDist;
     [SerializeField]private GameObject _pooledParticlesParent;
     public GameObjectPooler<PoolableGameObject> DustMotePool;
     public GameObjectPooler<PoolableGameObject> DustPoofPool;
@@ -529,6 +530,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
                     drop_ship.Place_Dropship(player_start_gridpos, neh.grid_pos);
                     current_player.Place_Resident(neh.grid_pos);
+                    CheckToCull();
                     player_on_exit = true;
                     current_player.Change_Level_Actor_State(Level_Actor_States_Enum.Frozen);
                     player_start_gridpos = neh.grid_pos;
@@ -609,7 +611,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
             
             if(item.grid_pos.y <= 0){new_go.GetComponent<Wall_Script>().FadeRock();}
 
-            Instantiate(floor_go, new_go.transform.position, Quaternion.identity, floor_container.transform);
+            Instantiate(floor_go, new_go.transform.position, Quaternion.AngleAxis(Global_Vars.rand_num_gen.Next(0,180), Vector3.forward), floor_container.transform);
         }
 
         IEnumerable<Grid_Data> residents = 
@@ -740,6 +742,36 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     }
     
+#endregion
+
+#region Opti
+    public void CheckToCull()
+    {
+        // Vector2Int _maxCoord = new Vector2Int(current_player.grid_pos.x + _playerViewCullDist, current_player.grid_pos.y + _playerViewCullDist);
+        // Vector2Int _minCoord = new Vector2Int(current_player.grid_pos.x - _playerViewCullDist, current_player.grid_pos.y - _playerViewCullDist);;
+
+        IEnumerable<GridResident_Script> grid_res = 
+            from row in x_lead_map_coord_array
+            from cell in row
+            where cell.resident != null
+            select cell.resident;
+        
+        foreach (GridResident_Script res in grid_res)
+        {
+
+            // if(res.grid_pos.x > _maxCoord.x || res.grid_pos.y > _maxCoord.y || res.grid_pos.x < _minCoord.x || res.grid_pos.y < _minCoord.y)
+            // {
+            //     res.gameObject.SetActive(false);
+            // }
+            // res.gameObject.SetActive(true);
+            if(Vector3.Distance(current_player.gameObject.transform.position, res.gameObject.transform.position) > _playerViewCullDist)
+            {
+                res.gameObject.SetActive(false);
+                continue;
+            }
+            res.gameObject.SetActive(true);
+        }
+    }
 #endregion
 
 #region Juice

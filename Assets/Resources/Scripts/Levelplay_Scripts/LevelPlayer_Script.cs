@@ -96,7 +96,7 @@ public class LevelPlayer_Script : LevelActor_Script
                 Debug.LogError("No direction int passed to player!");
                 return;
         }
-
+        Levelplay_Controller_Script.levelplay_controller_singleton.CheckToCull();
 
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {

@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Actor_Direction_Enum
+{
+    up,
+    right,
+    down,
+    left
+}
+
 public enum Level_Actor_States_Enum
 {   
+    Setup,
     Normal,
     Dead,
     Frozen,
@@ -53,6 +62,11 @@ public class LevelActor_Script : GridResident_Script
         return current_state;
     }
 
+    public void RotateActor(Vector3 eulerAngles)
+    {
+        if(transform.localEulerAngles == eulerAngles){return;}
+        transform.localEulerAngles = eulerAngles;
+    }
 
     public virtual void Pause_Resident(bool new_pause_state)
     {

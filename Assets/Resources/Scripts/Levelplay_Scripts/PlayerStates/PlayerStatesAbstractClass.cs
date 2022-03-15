@@ -37,23 +37,19 @@ public class PlayerState_Normal: PlayerStatesAbstractClass
     {
         if(_cont.player_actions.MoveUp.IsPressed())
         {
-            _cont.RotatePlayer(Vector3.zero);
-            _cont.Move((int)Player_Direction_Enum.up);
+            _cont.Move((int)Actor_Direction_Enum.up);
         }
         else if(_cont.player_actions.MoveRight.IsPressed())
         {
-            _cont.RotatePlayer(new Vector3(0,90,0));
-            _cont.Move((int)Player_Direction_Enum.right);
+            _cont.Move((int)Actor_Direction_Enum.right);
         }
         else if(_cont.player_actions.MoveDown.IsPressed())
         {
-            _cont.RotatePlayer(new Vector3(0,180,0));
-            _cont.Move((int)Player_Direction_Enum.down);
+            _cont.Move((int)Actor_Direction_Enum.down);
         }
         else if(_cont.player_actions.MoveLeft.IsPressed())
         {
-            _cont.RotatePlayer(new Vector3(0,270,0));
-            _cont.Move((int)Player_Direction_Enum.left);
+            _cont.Move((int)Actor_Direction_Enum.left);
         } 
     }   
 }

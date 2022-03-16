@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <name>k__BackingField: Test Pill
   <enemyType>k__BackingField: 1
-  <bodyGO>k__BackingField: {fileID: 0}
-  <spawnParticleGO>k__BackingField: {fileID: 0}
+  <bodyGO>k__BackingField: {fileID: 7037138832937157945, guid: ee962d11fdfd95a47840ec0e79ba2482, type: 3}
+  <spawnParticleGO>k__BackingField: {fileID: 710902507271551108, guid: 3bf1d707c2d30994f814e1f93ff28ce3, type: 3}

@@ -8,36 +8,64 @@ public enum EnemyTypes
     Killable
 }
 
+interface IcollectParent
+{
+    void GatherData();
+}
+
 interface Iattack
 {
-    public void Attack();
+    void Attack();
 }
-public abstract class AttackTypeClass: Iattack
+
+interface IBeh
 {
-    public abstract void Attack();
+    void ProcessEnemyTurn();
 }
 
 
+// LevelEnemy_Script requires the GameObject to have a AttackTypeClass component and a BehTypeClass component
+[RequireComponent(typeof(EnemyAttack_Base))]
+[RequireComponent(typeof(EnemyBeh_Base))]
 public class LevelEnemy_Script : LevelActor_Script
 {
+    //stats
+    public EnemyScriptableObject MyDataSO;
+    public EnemyTypes _type;
+    private GameObject _bodyGO;
+    private GameObject _spawnParticleGO;
+
+
+    //data
     public float move_timer = 0;
     public float spawnTimer = 0;
     private EnemyStatesAbstractClass _currentEnemyStateClass;
     public Animator enemyAnimator;
+    public EnemyAttack_Base _enemyAttackClass;
+    public EnemyBeh_Base _enemyBehClass;
 
 
 
     public override void Start()
     {
         base.Start();
+        StartSpawn();
     }
 
-    public void StartSpawn()//enemy type so)
+    public void StartSpawn()
     {
+        name = MyDataSO.name;
+        _type = MyDataSO.enemyType;
+        _bodyGO = Instantiate(MyDataSO.bodyGO, parent: gameObject.transform);
+        _spawnParticleGO = Instantiate(MyDataSO.spawnParticleGO, parent: gameObject.transform);
+
         //grab stats from SO
         //grab animator from instanced GO
         _currentEnemyStateClass = new EnemyState_Start();
         _currentEnemyStateClass.OnEnterState(this);
+
+        _enemyAttackClass = GetComponent<EnemyAttack_Base>();
+        _enemyBehClass = GetComponent<EnemyBeh_Base>();
     }
 
     
@@ -101,7 +129,7 @@ public class LevelEnemy_Script : LevelActor_Script
                 desired_coord = grid_pos + new Vector2Int(-1,0);
                 break;
             default:
-                Debug.LogError("No direction int passed to player!");
+                Debug.LogError("No direction int passed to enemay!" + name);
                 return;
         }
         Levelplay_Controller_Script.levelplay_controller_singleton.CheckToCull();
@@ -109,7 +137,7 @@ public class LevelEnemy_Script : LevelActor_Script
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
             move_timer = 0.25f;
-            if(GetComponent<AttackTypeClass>() != null){GetComponent<AttackTypeClass>().Attack();}
+            if(_enemyAttackClass != null){_enemyAttackClass.Attack();}
             return;
         }
 
@@ -128,7 +156,7 @@ public class LevelEnemy_Script : LevelActor_Script
 
     public override void Local_Board_Changed()
     {
-        return; // no need to check player for matches
+        return; // no need to check enemy for matches
     }
 
     private void Check_For_Exit_Tile(Vector2Int desired_coord)

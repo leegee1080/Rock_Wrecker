@@ -20,7 +20,7 @@ public class EnemyState_Start: EnemyStatesAbstractClass
     }   
     public override void OnUpdateState(LevelEnemy_Script _cont)
     {
-        _cont.spawnTimer -= 1;
+        _cont.spawnTimer -= Time.deltaTime;;
         if(_cont.spawnTimer > 0){return;}
         _cont.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);
     }   

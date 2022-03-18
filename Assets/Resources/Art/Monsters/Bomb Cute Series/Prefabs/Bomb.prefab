@@ -385,7 +385,7 @@ Animator:
   m_GameObject: {fileID: 7037138832937157945}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 629e310e69885ce44a15ca55050cdbe9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0fb40ce8da2f81044ae9e76a8705897f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0c30a409140d6ac4097fc14a7d54fc24, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -439,6 +439,8 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -450,6 +452,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -548,71 +551,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7037138832937195787}
     m_Modifications:
-    - target: {fileID: 2591572351042154621, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_Name
-      value: FX Spark
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.083
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.023
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.32429546
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.029789386
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.9087701
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.26092538
-      objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.083
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.023
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.26092538
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.32429546
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.029789386
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.9087701
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-        type: 3}
+    - target: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591572351042154621, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
+      propertyPath: m_Name
+      value: FX Spark
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
 --- !u!4 &4782802089901604183 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 2591572351042154496, guid: 2e78e06fcf30c0a4993cde911703d443, type: 3}
   m_PrefabInstance: {fileID: 7037138831489092951}
   m_PrefabAsset: {fileID: 0}

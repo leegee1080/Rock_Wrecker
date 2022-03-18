@@ -49,6 +49,7 @@ public class LevelplayState_Playing: LevelplayStatesAbstractClass
             _cont.Clean_Rock_Queue(false);
         }
         _cont.level_escape_timer.Decrement_Timer(Time.deltaTime); 
+        _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime); 
     }   
 }
 public class LevelplayState_Paused: LevelplayStatesAbstractClass
@@ -58,6 +59,7 @@ public class LevelplayState_Paused: LevelplayStatesAbstractClass
         _cont.level_setup_timer.Pause_Timer(true);
         _cont.level_escape_timer.Pause_Timer(true);
         _cont.level_end_timer.Pause_Timer(true);
+        _cont.enemySpawn_Timer.Pause_Timer(true);
         Level_Events.Invoke_Pause_Toggle_Event(true);
     }   
     public override void OnExitState(Levelplay_Controller_Script _cont)
@@ -65,6 +67,7 @@ public class LevelplayState_Paused: LevelplayStatesAbstractClass
         _cont.level_setup_timer.Pause_Timer(false);
         _cont.level_escape_timer.Pause_Timer(false);
         _cont.level_end_timer.Pause_Timer(false);
+        _cont.enemySpawn_Timer.Pause_Timer(false);
         Level_Events.Invoke_Pause_Toggle_Event(false);
     }   
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
@@ -93,7 +96,8 @@ public class LevelplayState_GetToEscape: LevelplayStatesAbstractClass
         {
             _cont.Clean_Rock_Queue(false);
         }
-        _cont.level_end_timer.Decrement_Timer(Time.deltaTime);   
+        _cont.level_end_timer.Decrement_Timer(Time.deltaTime);
+        _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime); 
     }   
 }
 public class LevelplayState_CleanupLose: LevelplayStatesAbstractClass

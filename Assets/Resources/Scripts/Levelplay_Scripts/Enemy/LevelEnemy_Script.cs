@@ -58,6 +58,7 @@ public class LevelEnemy_Script : LevelActor_Script
         _type = MyDataSO.enemyType;
         _bodyGO = Instantiate(MyDataSO.bodyGO, parent: gameObject.transform);
         _spawnParticleGO = Instantiate(MyDataSO.spawnParticleGO, parent: gameObject.transform);
+        enemyAnimator = _bodyGO.GetComponent<Animator>();
 
         //grab stats from SO
         //grab animator from instanced GO

@@ -64,6 +64,7 @@ public class Grid_Data{
 
     public Vector2Int grid_pos{get; private set;}
     public GridResident_Script resident{get; set;}
+    public bool playable;
     public Vector3 actual_pos{get; private set;}
     public float noise_data;
     public bool breadth_checked = false;
@@ -219,6 +220,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private LevelPlayer_Script current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
     [SerializeField] public Vector2Int player_start_gridpos;
+    [SerializeField] private LevelEnemy_Storage _enemyStorageScript;
+    [SerializeField]private float _enemySpawnTime;
+    public Timer<bool, float> enemySpawn_Timer;
+
 
     [Header("Object Pools")]
     [SerializeField] int _playerViewCullDist;
@@ -285,6 +290,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         level_escape_timer = new Timer<bool, LevelStatesEnum>(level_escape_time, ChangeLevelState, LevelStatesEnum.GetToEscape);
         level_end_timer = new Timer<bool, LevelStatesEnum>(level_end_time, ChangeLevelState, LevelStatesEnum.CleanupLose);
         level_exit_timer = new Timer<bool, LevelStatesEnum>(level_exit_time, ChangeLevelState, LevelStatesEnum.CleanupWin);
+        enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
         level_exit_timer.Pause_Timer(true);
 
         timer_text_ref = level_setup_timer;
@@ -342,6 +348,27 @@ public class Levelplay_Controller_Script : MonoBehaviour
             return null;
         }
         return x_lead_map_coord_array[grid_pos.x][grid_pos.y];
+    }
+
+    public bool SpawnEnemy(float timeReset)
+    {
+
+        IEnumerable<Grid_Data> emptyGridPos = 
+            from row in x_lead_map_coord_array
+            from cell in row
+            where cell.resident == null && cell.playable
+            select cell;
+        
+        print(emptyGridPos.Count());
+        if(emptyGridPos.Count() == 0)
+        {
+            return false;
+        }
+        
+
+        _enemyStorageScript.SpawnEnemy(emptyGridPos.ElementAt((int)Global_Vars.rand_num_gen.Next(0,emptyGridPos.Count())).grid_pos,0);
+        enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
+        return true;
     }
 
     public void Show_Exit()
@@ -612,6 +639,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
             if(item.grid_pos.y <= 0){new_go.GetComponent<Wall_Script>().FadeRock();}
 
             Instantiate(floor_go, new_go.transform.position, Quaternion.AngleAxis(Global_Vars.rand_num_gen.Next(0,180), Vector3.forward), floor_container.transform);
+
+            item.playable = true;
         }
 
         IEnumerable<Grid_Data> residents = 

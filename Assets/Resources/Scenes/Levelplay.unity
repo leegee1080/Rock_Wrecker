@@ -203,35 +203,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122846943}
   m_CullTransparentMesh: 1
---- !u!1001 &166245986
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
-      propertyPath: m_Name
-      value: GenericEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5411526565022296226, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 5411526565022296226, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5411526565022296226, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5411526565022296226, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
 --- !u!1 &207469538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,6 +1669,7 @@ GameObject:
   - component: {fileID: 1166955259}
   - component: {fileID: 1166955260}
   - component: {fileID: 1166955261}
+  - component: {fileID: 1166955262}
   m_Layer: 0
   m_Name: LevelPlay_Controller_Sys
   m_TagString: Untagged
@@ -1778,6 +1750,8 @@ MonoBehaviour:
   resources_collected_array: 00000000000000000000000000000000
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
   player_start_gridpos: {x: 0, y: 0}
+  _enemyStorageScript: {fileID: 1166955262}
+  _enemySpawnTime: 2
   _playerViewCullDist: 40
   _pooledParticlesParent: {fileID: 2054928273}
   rocks_queue_for_destruction: []
@@ -1807,6 +1781,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1aff162c7698fef41a74cc612390c682, type: 2}
   - {fileID: 11400000, guid: 60d5da43f1bfaa044b6aae0d6e44cf8f, type: 2}
   - {fileID: 11400000, guid: cd7c2ee69b9144847bb4ab260f802ce0, type: 2}
+--- !u!114 &1166955262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166955258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9153f986a21049c49a41fbdd3759b951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PossibleEnemies:
+  - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  _actorParentGO: {fileID: 1916730590}
 --- !u!1 &1303013016
 GameObject:
   m_ObjectHideFlags: 0

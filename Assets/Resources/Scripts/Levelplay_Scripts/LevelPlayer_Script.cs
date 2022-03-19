@@ -15,6 +15,8 @@ public class LevelPlayer_Script : LevelActor_Script
     [SerializeField] ParticleSystem _pickUpRock_ps;
     public Animator playerAnimator;
 
+    [SerializeField] GameObject deathParticle;
+
 
 
     public override void Start()
@@ -30,7 +32,7 @@ public class LevelPlayer_Script : LevelActor_Script
 
     public override Level_Actor_States_Enum Change_Level_Actor_State(Level_Actor_States_Enum new_state)
     {
-
+        if(new_state == current_state){return current_state;}
         if(_currentPlayerStateClass != null){ _currentPlayerStateClass.OnExitState(this);}
         switch (new_state)
         {
@@ -112,6 +114,14 @@ public class LevelPlayer_Script : LevelActor_Script
             return;
         }
         
+    }
+
+    public override void Attacked(GridResident_Script attacker)
+    {
+        if(current_state == Level_Actor_States_Enum.Dead){return;}
+        deathParticle.SetActive(true);
+        Change_Level_Actor_State(Level_Actor_States_Enum.Dead);
+        Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.CleanupLose);
     }
 
     public override void Local_Board_Changed()

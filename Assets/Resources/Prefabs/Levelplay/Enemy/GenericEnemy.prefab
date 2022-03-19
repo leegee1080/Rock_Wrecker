@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5411526565022296226}
   - component: {fileID: 8483565352210887192}
   - component: {fileID: -2734782493824642358}
-  - component: {fileID: 1598287128070768171}
+  - component: {fileID: 1340173081151712358}
   m_Layer: 0
   m_Name: GenericEnemy
   m_TagString: Untagged
@@ -54,7 +54,7 @@ MonoBehaviour:
   MyDataSO: {fileID: 11400000, guid: 4340c11be75000444ae9bd5445cf5b33, type: 2}
   _type: 0
   move_timer: 0
-  spawnTimer: 10
+  spawnTime: 2
   enemyAnimator: {fileID: 0}
   _enemyAttackClass: {fileID: 0}
   _enemyBehClass: {fileID: 0}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f64314a6e92a6746861c6957f8f5029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1598287128070768171
+--- !u!114 &1340173081151712358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,6 +79,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4698076374342778106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0658e872cd7c5f34580f9bd2b91f9aeb, type: 3}
+  m_Script: {fileID: 11500000, guid: c196f3f92288e5f4484c67868e66ab1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

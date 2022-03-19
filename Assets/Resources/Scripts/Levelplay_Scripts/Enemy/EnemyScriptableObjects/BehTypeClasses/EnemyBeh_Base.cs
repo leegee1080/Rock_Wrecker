@@ -5,13 +5,13 @@ using UnityEngine;
 public class EnemyBeh_Base :MonoBehaviour, IBeh, IcollectParent
 {
     protected LevelEnemy_Script _parentScript;
-    public void ProcessEnemyTurn()
+    public virtual void ProcessEnemyTurn()
     {
         return;
     }
 
 
-    public void GatherData()
+    public virtual void GatherData()
     {
         _parentScript = GetComponent<LevelEnemy_Script>();
     }

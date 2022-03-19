@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid_pos: {x: 0, y: 0}
-  moveable: 0
+  moveable: 1
   matchable: 0
   current_state: 0
   last_state: 0
@@ -121,6 +121,7 @@ MonoBehaviour:
   move_timer: 0
   _pickUpRock_ps: {fileID: 1113455142565035525}
   playerAnimator: {fileID: 5677367176903736509}
+  deathParticle: {fileID: 457117847470369818}
 --- !u!1001 &458391495098249604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,7 +159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4243645500020210, guid: dd2abe81893672541a12f012f740db94, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.321
+      value: 2.29
       objectReference: {fileID: 0}
     - target: {fileID: 4243645500020210, guid: dd2abe81893672541a12f012f740db94, type: 3}
       propertyPath: m_LocalPosition.z
@@ -194,14 +195,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198138275254360526, guid: dd2abe81893672541a12f012f740db94, type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198505279871828984, guid: dd2abe81893672541a12f012f740db94, type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd2abe81893672541a12f012f740db94, type: 3}
+--- !u!1 &457117847470369818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1278596724448670, guid: dd2abe81893672541a12f012f740db94, type: 3}
+  m_PrefabInstance: {fileID: 458391495098249604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &455878619633345654 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4243645500020210, guid: dd2abe81893672541a12f012f740db94, type: 3}

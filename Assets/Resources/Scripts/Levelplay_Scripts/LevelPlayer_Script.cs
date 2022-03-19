@@ -118,9 +118,10 @@ public class LevelPlayer_Script : LevelActor_Script
 
     public override void Attacked(GridResident_Script attacker)
     {
-        if(current_state == Level_Actor_States_Enum.Dead){return;}
+        if(current_state == Level_Actor_States_Enum.Dead || current_state == Level_Actor_States_Enum.Pause){return;}
         deathParticle.SetActive(true);
         Change_Level_Actor_State(Level_Actor_States_Enum.Dead);
+        Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
         Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.CleanupLose);
     }
 

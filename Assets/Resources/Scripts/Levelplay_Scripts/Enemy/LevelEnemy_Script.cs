@@ -86,6 +86,9 @@ public class LevelEnemy_Script : LevelActor_Script
         if(_currentEnemyStateClass != null){ _currentEnemyStateClass.OnExitState(this);}
         switch (new_state)
         {
+            case Level_Actor_States_Enum.Setup:
+                _currentEnemyStateClass = new EnemyState_Start();
+                break;
             case Level_Actor_States_Enum.Normal:
                 _currentEnemyStateClass = new EnemyState_Normal();
                 break;

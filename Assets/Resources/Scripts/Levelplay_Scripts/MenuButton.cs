@@ -10,6 +10,7 @@ public class MenuButton : MonoBehaviour
 
     public void ToggleMenu()
     {
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.Setup){return;}
         if(!_buttonGroup.activeSelf)
         {
             _buttonGroup.SetActive(true);

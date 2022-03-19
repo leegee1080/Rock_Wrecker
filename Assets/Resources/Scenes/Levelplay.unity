@@ -1740,7 +1740,8 @@ MonoBehaviour:
   wall_percentage: 50
   rock_percentage: 70
   player_spawn_percentage: 5
-  _inspectorLevelState: 0
+  CurrentLevelState: 0
+  LastLevelState: 0
   camera_offset: {x: 0, y: -12, z: -25}
   level_setup_time: 2
   level_escape_time: 90
@@ -5031,7 +5032,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -9825,7 +9826,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class LevelPlayer_Script : LevelActor_Script
 {
+    public Player_ScriptableObject data;
+    [SerializeField] private GameObject _mainMeshGO;
+    [SerializeField] private GameObject _deathMeshGO;
     
     public PlayerInputActions.PlayerControlsActions player_actions{get; private set;}
     public float move_timer = 0;
@@ -22,8 +25,9 @@ public class LevelPlayer_Script : LevelActor_Script
     public override void Start()
     {
         base.Start();
-
+        name = data.name;
         player_actions = Playerinput_Controller_Script.playerinput_controller_singleton.player_input_actions.PlayerControls;
+        _deathMeshGO = data.deathMesh;
         // Input_Control_Events.move_up_event += Moveup_Player;
         // Input_Control_Events.move_down_event += Movedown_Player;
         // Input_Control_Events.move_right_event += Moveright_Player;
@@ -122,6 +126,8 @@ public class LevelPlayer_Script : LevelActor_Script
         deathParticle.SetActive(true);
         Change_Level_Actor_State(Level_Actor_States_Enum.Dead);
         Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
+        _mainMeshGO.SetActive(false);
+        _deathMeshGO = Instantiate(_deathMeshGO, parent: transform);
         Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.CleanupLose);
     }
 

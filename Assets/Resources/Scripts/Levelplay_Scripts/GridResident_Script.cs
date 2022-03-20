@@ -10,7 +10,6 @@ public class GridResident_Script : MonoBehaviour
 
 
     public virtual void Start() {
-        name = grid_pos.ToString();
         Level_Events.pause_toggle_event += PauseResident;
     }
 

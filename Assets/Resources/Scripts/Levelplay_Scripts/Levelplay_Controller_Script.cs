@@ -365,7 +365,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         
 
         _enemyStorageScript.SpawnEnemy(emptyGridPos.ElementAt((int)Global_Vars.rand_num_gen.Next(0,emptyGridPos.Count())).grid_pos,0);
-        // enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
+        enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
         return true;
     }
 

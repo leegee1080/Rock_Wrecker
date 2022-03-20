@@ -51,6 +51,7 @@ public class LevelEnemy_Script : LevelActor_Script
     public override void Start()
     {
         base.Start();
+        name = MyDataSO.name;
         StartSpawn();
     }
 

@@ -16,7 +16,7 @@ public class Wall_Script : GridResident_Script
     public override void Start()
     {
         base.Start();
-
+        name = grid_pos.ToString();
         wallmesh_object.transform.Rotate(new Vector3(0,UnityEngine.Random.Range(0,90),0), Space.Self);
         primary_filter.mesh = wallmesh_list [UnityEngine.Random.Range(0, wallmesh_list.Length)];
         

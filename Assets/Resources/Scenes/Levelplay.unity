@@ -1740,7 +1740,8 @@ MonoBehaviour:
   wall_percentage: 50
   rock_percentage: 70
   player_spawn_percentage: 5
-  _inspectorLevelState: 0
+  CurrentLevelState: 0
+  LastLevelState: 0
   camera_offset: {x: 0, y: -12, z: -25}
   level_setup_time: 2
   level_escape_time: 90
@@ -1751,7 +1752,7 @@ MonoBehaviour:
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
   player_start_gridpos: {x: 0, y: 0}
   _enemyStorageScript: {fileID: 1166955262}
-  _enemySpawnTime: 2
+  _enemySpawnTime: 5
   _playerViewCullDist: 40
   _pooledParticlesParent: {fileID: 2054928273}
   rocks_queue_for_destruction: []
@@ -5031,7 +5032,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -9825,7 +9826,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

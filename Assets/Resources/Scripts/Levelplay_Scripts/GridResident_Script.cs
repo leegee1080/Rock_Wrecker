@@ -10,19 +10,19 @@ public class GridResident_Script : MonoBehaviour
 
 
     public virtual void Start() {
-        name = grid_pos.ToString();
+        Level_Events.pause_toggle_event += PauseResident;
     }
 
-    public virtual bool Place_Resident(Vector2Int new_pos)
+    public virtual Vector3 Place_Resident(Vector2Int new_pos)
     {
         if (Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].resident == null)
         {
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].resident = this;
             gameObject.transform.position = Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[new_pos.x][new_pos.y].actual_pos;
             grid_pos = new_pos;
-            return true;
+            return gameObject.transform.position;
         }
-        return false;
+        return Vector3.zero;
     }
     public virtual bool PlaceResidentTween(Vector2Int new_pos, float time, bool hop)
     {
@@ -113,6 +113,16 @@ public class GridResident_Script : MonoBehaviour
         return false;
     }
 
+    public virtual void PauseResident(bool paused)
+    {
+
+    }
+
+    public virtual void Attacked(GridResident_Script attacker)
+    {
+
+    }
+
     public virtual void LandAfterTween()
     {
         
@@ -124,6 +134,6 @@ public class GridResident_Script : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-
+        Level_Events.pause_toggle_event -= PauseResident;
     }
 }

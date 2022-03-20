@@ -18,7 +18,13 @@ public class Rock_Script : GridResident_Script
     [SerializeField]private bool initialized;
     [SerializeField]private ParticleSystem _secGlow_ps;
     [SerializeField]private ParticleSystem _glowParticle_ps;
-    
+
+
+    public override void Start()
+    {
+        base.Start();
+        name = grid_pos.ToString();
+    }
 
     public void Check_Grid_Neighbor(Vector2Int starting_dir, Vector2Int checking_direction)
     {

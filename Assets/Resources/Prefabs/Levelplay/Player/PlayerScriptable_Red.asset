@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e8b4b3d1eea2947b11f0f01888fd9f, type: 3}
+  m_Name: PlayerScriptable_Red
+  m_EditorClassIdentifier: Assembly-CSharp::NewBehaviourScript
+  <name>k__BackingField: Red
+  <mainMesh>k__BackingField: {fileID: 102046, guid: 455f47546458e9e418fac63faa9f70ea, type: 3}
+  <deathMesh>k__BackingField: {fileID: 160448, guid: e5952134d32d7c340aeb8139168ccb0b, type: 3}

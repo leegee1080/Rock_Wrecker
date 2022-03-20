@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e8b4b3d1eea2947b11f0f01888fd9f, type: 3}
+  m_Name: PlayerScriptable_Purple
+  m_EditorClassIdentifier: Assembly-CSharp::NewBehaviourScript
+  <name>k__BackingField: Purple
+  <mainMesh>k__BackingField: {fileID: 198036, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
+  <deathMesh>k__BackingField: {fileID: 138558, guid: aa07dc95bfb2a2c4bb8362d3267bd8f4, type: 3}

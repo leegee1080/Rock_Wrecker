@@ -8,16 +8,19 @@ public class MenuButton : MonoBehaviour
     [SerializeField]GameObject _buttonGroup;
 
 
-
     public void ToggleMenu()
     {
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.Setup){return;}
         if(!_buttonGroup.activeSelf)
         {
             _buttonGroup.SetActive(true);
             _animator.SetBool("MenuOpen",true);
+            Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.Paused);
             return;
         };
         _animator.SetBool("MenuOpen",false);
+        Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(Levelplay_Controller_Script.levelplay_controller_singleton.LastLevelState);
+
     }
 
     public void HideButtons()

@@ -15,7 +15,7 @@ interface IcollectParent
 
 interface Iattack
 {
-    void Attack();
+    void Attack(Vector2Int gridPos);
 }
 
 interface IBeh
@@ -37,8 +37,10 @@ public class LevelEnemy_Script : LevelActor_Script
 
 
     //data
+    public Timer<bool, bool> decisionTimer;
     public float move_timer = 0;
-    public float spawnTimer = 0;
+    public float spawnTime = 0;
+    public Timer<Level_Actor_States_Enum, Level_Actor_States_Enum> spawnTimer;
     private EnemyStatesAbstractClass _currentEnemyStateClass;
     public Animator enemyAnimator;
     public EnemyAttack_Base _enemyAttackClass;
@@ -49,6 +51,7 @@ public class LevelEnemy_Script : LevelActor_Script
     public override void Start()
     {
         base.Start();
+        name = MyDataSO.name;
         StartSpawn();
     }
 
@@ -60,23 +63,33 @@ public class LevelEnemy_Script : LevelActor_Script
         _spawnParticleGO = Instantiate(MyDataSO.spawnParticleGO, parent: gameObject.transform);
         enemyAnimator = _bodyGO.GetComponent<Animator>();
 
-        //grab stats from SO
-        //grab animator from instanced GO
         _currentEnemyStateClass = new EnemyState_Start();
         _currentEnemyStateClass.OnEnterState(this);
 
         _enemyAttackClass = GetComponent<EnemyAttack_Base>();
+        _enemyAttackClass.GatherData();
         _enemyBehClass = GetComponent<EnemyBeh_Base>();
+        _enemyBehClass.GatherData();
+
+        spawnTimer = new Timer<Level_Actor_States_Enum, Level_Actor_States_Enum>(spawnTime, Change_Level_Actor_State, Level_Actor_States_Enum.Normal);
+        decisionTimer = new Timer<bool, bool>(MyDataSO.decisionTime, MakeDecision, true);
     }
 
-    
+    private bool MakeDecision(bool behSelected)
+    {
+        _enemyBehClass.ProcessEnemyTurn();
+        return true;
+    }
 
     public override Level_Actor_States_Enum Change_Level_Actor_State(Level_Actor_States_Enum new_state)
     {
-
+        if(new_state == current_state){return current_state;}
         if(_currentEnemyStateClass != null){ _currentEnemyStateClass.OnExitState(this);}
         switch (new_state)
         {
+            case Level_Actor_States_Enum.Setup:
+                _currentEnemyStateClass = new EnemyState_Start();
+                break;
             case Level_Actor_States_Enum.Normal:
                 _currentEnemyStateClass = new EnemyState_Normal();
                 break;
@@ -133,20 +146,20 @@ public class LevelEnemy_Script : LevelActor_Script
                 Debug.LogError("No direction int passed to enemay!" + name);
                 return;
         }
-        Levelplay_Controller_Script.levelplay_controller_singleton.CheckToCull();
 
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
             move_timer = 0.25f;
-            if(_enemyAttackClass != null){_enemyAttackClass.Attack();}
+            enemyAnimator.SetTrigger("Attack");
+            _enemyAttackClass.Attack(desired_coord);
+            Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
             return;
         }
 
-        if(desired_coord.x > 0 && desired_coord.y > 0 && desired_coord.x < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array.Length && desired_coord.y < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x].Length && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
         {
-            move_timer = 0.10f;
+            move_timer = 0.1f;
             enemyAnimator.SetBool("Run", true);
-            Check_For_Exit_Tile(desired_coord);
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
             PlaceResidentTween(desired_coord,move_timer,false);
             Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
@@ -160,9 +173,4 @@ public class LevelEnemy_Script : LevelActor_Script
         return; // no need to check enemy for matches
     }
 
-    private void Check_For_Exit_Tile(Vector2Int desired_coord)
-    {
-        if(grid_pos == Levelplay_Controller_Script.levelplay_controller_singleton.player_start_gridpos){Levelplay_Controller_Script.levelplay_controller_singleton.Player_Left_Exit();}
-        if(desired_coord == Levelplay_Controller_Script.levelplay_controller_singleton.player_start_gridpos){Levelplay_Controller_Script.levelplay_controller_singleton.Player_Enter_Exit();}
-    }
 }

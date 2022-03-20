@@ -23,7 +23,7 @@ public enum Secondary_Rock_Types_Enum
     Topaz//orange
 }
 
-public enum Match_Direction_Enum
+public enum Match_Direction_EnumS
 {
     up,
     right,
@@ -126,6 +126,7 @@ public class Timer<T, P> // first is the function return and second is the param
     public void Reset_Timer()
     {
         timer_amount = timer_max_amount;
+        timer_finished_bool = false;
     }
 
     public void Pause_Timer(bool new_timer_state)
@@ -198,12 +199,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Gameplay Vars")]
-    [SerializeField]private LevelStatesEnum _inspectorLevelState; //do not change this directly
-    public LevelStatesEnum CurrentLevelState
-    {
-        get { return _inspectorLevelState; }
-        set { _inspectorLevelState = value; ChangeLevelState(CurrentLevelState);}
-    }
+    public LevelStatesEnum CurrentLevelState;
+    public LevelStatesEnum LastLevelState;
     private LevelplayStatesAbstractClass _currentStateClass;
     [SerializeField]private Vector3 camera_offset;
     [SerializeField]private float level_setup_time;
@@ -305,9 +302,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         timer_text.text = timer_text_ref.timer_amount + "";
     }
 
-    private bool ChangeLevelState(LevelStatesEnum _newState)
+    public bool ChangeLevelState(LevelStatesEnum _newState)
     {
-        // if(CurrentLevelState == _newState){return;}
+        if(CurrentLevelState == _newState){return false;}
         if(_currentStateClass != null){_currentStateClass.OnExitState(this);}
         switch (_newState)
         {
@@ -337,7 +334,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
                 Debug.LogWarning("Incorrect state passed to ChangeLevelState!");
                 return false;
         }
+        LastLevelState = CurrentLevelState;
         _currentStateClass.OnEnterState(this);
+        CurrentLevelState = _newState;
         return true;
     }
 
@@ -356,10 +355,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         IEnumerable<Grid_Data> emptyGridPos = 
             from row in x_lead_map_coord_array
             from cell in row
-            where cell.resident == null && cell.playable
+            where cell.resident == null && cell.playable && Vector3.Distance(cell.actual_pos, current_player.transform.position) > 10 && Vector3.Distance(cell.actual_pos, current_player.transform.position) < _playerViewCullDist
             select cell;
         
-        print(emptyGridPos.Count());
         if(emptyGridPos.Count() == 0)
         {
             return false;

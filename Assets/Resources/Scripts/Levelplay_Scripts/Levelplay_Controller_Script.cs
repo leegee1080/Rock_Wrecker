@@ -140,7 +140,7 @@ public class Timer<T, P> // first is the function return and second is the param
         if(timer_finished_bool){return timer_finished_bool;}
 
         timer_amount -= decrement_amount;
-        if(timer_amount <= 0){timer_finished_func(_timerFinishedParameter); timer_finished_bool = true;}
+        if(timer_amount <= 0){timer_finished_func(_timerFinishedParameter); timer_finished_bool = true; }
         return timer_finished_bool;
     }
 
@@ -364,7 +364,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         }
         
 
-        _enemyStorageScript.SpawnEnemy(emptyGridPos.ElementAt((int)Global_Vars.rand_num_gen.Next(0,emptyGridPos.Count())).grid_pos,0);
+        _enemyStorageScript.SpawnEnemy(emptyGridPos.ElementAt((int)Global_Vars.rand_num_gen.Next(0,emptyGridPos.Count())).grid_pos,-1);
         enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
         return true;
     }

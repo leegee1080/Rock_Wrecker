@@ -8,7 +8,6 @@ public class EnemyAttack_Base :MonoBehaviour, Iattack, IcollectParent
     public virtual void Attack(Vector2Int gridPos)
     {
         Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(gridPos).resident.Attacked(_parentScript);
-        return;
     }
 
     public virtual void GatherData()

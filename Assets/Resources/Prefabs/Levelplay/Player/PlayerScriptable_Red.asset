@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e8b4b3d1eea2947b11f0f01888fd9f, type: 3}
   m_Name: PlayerScriptable_Red
   m_EditorClassIdentifier: Assembly-CSharp::NewBehaviourScript
-  <name>k__BackingField: Red
+  <name>k__BackingField: Red Player
   <mainMesh>k__BackingField: {fileID: 102046, guid: 455f47546458e9e418fac63faa9f70ea, type: 3}
   <deathMesh>k__BackingField: {fileID: 160448, guid: e5952134d32d7c340aeb8139168ccb0b, type: 3}

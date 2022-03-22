@@ -42,7 +42,7 @@ public class EnemyState_Normal: EnemyStatesAbstractClass
 {
     public override void OnEnterState(LevelEnemy_Script _cont)
     {
-        _cont.decisionTimer.Reset_Timer();
+        
     }   
     public override void OnExitState(LevelEnemy_Script _cont)
     {

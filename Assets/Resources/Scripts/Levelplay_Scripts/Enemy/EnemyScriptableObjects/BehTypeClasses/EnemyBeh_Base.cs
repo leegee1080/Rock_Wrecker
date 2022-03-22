@@ -7,7 +7,7 @@ public class EnemyBeh_Base :MonoBehaviour, IBeh, IcollectParent
     protected LevelEnemy_Script _parentScript;
     public virtual void ProcessEnemyTurn()
     {
-        return;
+
     }
 
 

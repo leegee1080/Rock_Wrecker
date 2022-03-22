@@ -6,6 +6,8 @@ public class EnemyBeh_UpFirstOpeningWalkThenAttack :EnemyBeh_Base, IBeh, Icollec
 {
     public override void ProcessEnemyTurn()
     {
+        base.ProcessEnemyTurn();
+
         Grid_Data[] neh = Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(_parentScript.grid_pos).Return_Neighbors();
         for (int i = 0; i < 4; i++)
         {

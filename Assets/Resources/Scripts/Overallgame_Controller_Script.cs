@@ -28,7 +28,7 @@ public static class Global_Vars{
     public const int min_planet_size = 1;
     public const int max_planet_coord = 500;
     public const int min_planet_coord = -500;
-    public const int max_planet_difficulty = 10;
+    public const int max_planet_difficulty = 3;
     public const int max_planet_mesh_index = 10;
 
     [Header("POI Data")]

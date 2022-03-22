@@ -32,7 +32,7 @@ public class LevelEnemy_Script : LevelActor_Script
     //stats
     public EnemyScriptableObject MyDataSO;
     public EnemyTypes _type;
-    private GameObject _bodyGO;
+    [HideInInspector]public GameObject _bodyGO;
     private GameObject _spawnParticleGO;
 
 
@@ -78,6 +78,7 @@ public class LevelEnemy_Script : LevelActor_Script
     private bool MakeDecision(bool behSelected)
     {
         _enemyBehClass.ProcessEnemyTurn();
+        decisionTimer = new Timer<bool, bool>(MyDataSO.decisionTime, MakeDecision, true);
         return true;
     }
 
@@ -118,8 +119,6 @@ public class LevelEnemy_Script : LevelActor_Script
     {
         _currentEnemyStateClass.OnUpdateState(this);
     }
-
-
 
     public void Move(int Direction)
     {

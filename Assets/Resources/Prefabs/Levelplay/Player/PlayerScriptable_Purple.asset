@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e8b4b3d1eea2947b11f0f01888fd9f, type: 3}
   m_Name: PlayerScriptable_Purple
   m_EditorClassIdentifier: Assembly-CSharp::NewBehaviourScript
-  <name>k__BackingField: Purple
+  <name>k__BackingField: Purple Player
   <mainMesh>k__BackingField: {fileID: 198036, guid: de0f936ced6f82e439608a4d891daba0, type: 3}
   <deathMesh>k__BackingField: {fileID: 138558, guid: aa07dc95bfb2a2c4bb8362d3267bd8f4, type: 3}

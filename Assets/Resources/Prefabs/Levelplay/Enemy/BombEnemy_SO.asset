@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37b7edb9c779a034f882dd34b069f9ce, type: 3}
-  m_Name: TargetDummyEnemy_SO
+  m_Name: BombEnemy_SO
   m_EditorClassIdentifier: 
-  <name>k__BackingField: Target Dummy Enemy
+  <name>k__BackingField: Bomb Enemy
   <enemyType>k__BackingField: 0
-  <bodyGO>k__BackingField: {fileID: 7153565290161904987, guid: a1f7bfe70f7f21d4c9613bfa012751c0, type: 3}
+  <bodyGO>k__BackingField: {fileID: 7037138832937157945, guid: ee962d11fdfd95a47840ec0e79ba2482, type: 3}
   <spawnParticleGO>k__BackingField: {fileID: 121806, guid: 4dbaeaca9d7e967419f27723f2718287, type: 3}
-  <decisionTime>k__BackingField: 0.2
+  <decisionTime>k__BackingField: 0.4

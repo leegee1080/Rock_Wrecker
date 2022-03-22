@@ -1794,7 +1794,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9153f986a21049c49a41fbdd3759b951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PossibleEnemies:
+  PossibleEnemies1:
+  - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
+  - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  PossibleEnemies2:
+  - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
+  - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  PossibleEnemies3:
+  - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
   _actorParentGO: {fileID: 1916730590}
 --- !u!1 &1303013016
@@ -4711,7 +4718,7 @@ PrefabInstance:
     - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: ef5a154915f35fa468a0ed11974d7c6f, type: 2}
+      objectReference: {fileID: 11400000, guid: bab2b5c38920b034dbdfe5e07415ca52, type: 2}
     - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_fontStyle
       value: 1
@@ -4727,7 +4734,7 @@ PrefabInstance:
     - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 7476227250479730739, guid: ef5a154915f35fa468a0ed11974d7c6f, type: 2}
+      objectReference: {fileID: 7476227250479730739, guid: bab2b5c38920b034dbdfe5e07415ca52, type: 2}
     - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_verticalMapping
       value: 1

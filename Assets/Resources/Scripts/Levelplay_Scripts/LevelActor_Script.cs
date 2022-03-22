@@ -62,6 +62,17 @@ public class LevelActor_Script : GridResident_Script
         return current_state;
     }
 
+    public Actor_Direction_Enum NormalVectorToDirection(Vector2 desired_coord)
+    {
+
+        if(desired_coord.y == 1){return Actor_Direction_Enum.up;}
+        if(desired_coord.x == 1){return Actor_Direction_Enum.right;}
+        if(desired_coord.y == -1){return Actor_Direction_Enum.down;}
+        if(desired_coord.x == -1){return Actor_Direction_Enum.left;}
+
+        return Actor_Direction_Enum.up;
+    }
+
     public void RotateActor(Vector3 eulerAngles)
     {
         if(transform.localEulerAngles == eulerAngles){return;}

@@ -1,6 +1,7 @@
 using UnityEngine;
 public class EnemyBeh_TowardsPlayerThenAttack :EnemyBeh_Base, IBeh, IcollectParent
 {
+    [SerializeField]private float _speedAddition;
     public override void ProcessEnemyTurn()
     {
         base.ProcessEnemyTurn();
@@ -36,6 +37,6 @@ public class EnemyBeh_TowardsPlayerThenAttack :EnemyBeh_Base, IBeh, IcollectPare
         }
 
 
-        _parentScript.Move((int)_parentScript.NormalVectorToDirection(direction));
+        _parentScript.Move((int)_parentScript.NormalVectorToDirection(direction), _speedAddition);
     }
 }

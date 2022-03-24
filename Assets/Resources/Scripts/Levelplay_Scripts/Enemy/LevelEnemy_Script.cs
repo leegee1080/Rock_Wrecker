@@ -120,7 +120,7 @@ public class LevelEnemy_Script : LevelActor_Script
         _currentEnemyStateClass.OnUpdateState(this);
     }
 
-    public void Move(int Direction)
+    public void Move(int Direction, float moveTimerAddition = 0)
     {
         Vector2Int desired_coord = Vector2Int.zero;
         switch (Direction)
@@ -148,7 +148,7 @@ public class LevelEnemy_Script : LevelActor_Script
 
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident != null && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident.moveable)
         {
-            move_timer = 0.25f;
+            move_timer = 0.25f + moveTimerAddition;
             enemyAnimator.SetTrigger("Attack");
             _enemyAttackClass.Attack(desired_coord);
             Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
@@ -157,7 +157,7 @@ public class LevelEnemy_Script : LevelActor_Script
 
         if(Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
         {
-            move_timer = 0.1f;
+            move_timer = 0.1f + moveTimerAddition;
             enemyAnimator.SetBool("Run", true);
             Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[grid_pos.x][grid_pos.y].resident = null;
             PlaceResidentTween(desired_coord,move_timer,false);

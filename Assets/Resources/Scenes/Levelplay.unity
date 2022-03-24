@@ -1796,13 +1796,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PossibleEnemies1:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
-  - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
   PossibleEnemies2:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
   PossibleEnemies3:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  LateSpawnEnemies:
+  - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
   _actorParentGO: {fileID: 1916730590}
 --- !u!1 &1303013016
 GameObject:

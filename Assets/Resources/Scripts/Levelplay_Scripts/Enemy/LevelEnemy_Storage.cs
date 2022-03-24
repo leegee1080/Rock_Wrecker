@@ -6,18 +6,24 @@ public class LevelEnemy_Storage : MonoBehaviour
     public GameObject[] PossibleEnemies1;
     public GameObject[] PossibleEnemies2;
     public GameObject[] PossibleEnemies3;
+    public GameObject[] LateSpawnEnemies;
 
     private List<GameObject[]> _arrayPossibleEnemyArrays = new List<GameObject[]>{};
 
     [SerializeField]private Transform _actorParentGO;
 
-    public LevelEnemy_Script SpawnEnemy(Vector2Int newGridPos, int index)//set indext to less than 0 to be random
+    public LevelEnemy_Script SpawnEnemy(Vector2Int newGridPos, int index)//set index to less than 0 to be random
     {
+
+        //select spawn based on level dificulty, do this check every time becuase I would like to change the level diff in game
          _arrayPossibleEnemyArrays.Add(PossibleEnemies1);
          _arrayPossibleEnemyArrays.Add(PossibleEnemies2);
          _arrayPossibleEnemyArrays.Add(PossibleEnemies3);
 
         GameObject[] selectedEnemiesArray = _arrayPossibleEnemyArrays[Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty -1];
+
+        //change the spawn list to a special list for late game
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.GetToEscape){selectedEnemiesArray = LateSpawnEnemies;}
 
         if(index < 0 || index >= selectedEnemiesArray.Length){index  = Global_Vars.rand_num_gen.Next(0, selectedEnemiesArray.Length);}
 

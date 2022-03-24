@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 public class EnemyBeh_RandomFirstOpeningWalkThenAttack :EnemyBeh_Base, IBeh, IcollectParent
 {
+    [SerializeField]private float _speedAddition;
     public override void ProcessEnemyTurn()
     {
         base.ProcessEnemyTurn();
@@ -26,6 +28,6 @@ public class EnemyBeh_RandomFirstOpeningWalkThenAttack :EnemyBeh_Base, IBeh, Ico
         if(possibleMoveLocations.Count() <= 0){return;}
 
         int randIndex = Global_Vars.rand_num_gen.Next(0,possibleMoveLocations.Count());
-        _parentScript.Move(possibleMoveLocations.ElementAt(randIndex));
+        _parentScript.Move(possibleMoveLocations.ElementAt(randIndex),_speedAddition);
     }
 }

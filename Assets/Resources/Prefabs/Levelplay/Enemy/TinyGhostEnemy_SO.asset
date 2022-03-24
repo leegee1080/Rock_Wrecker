@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b7edb9c779a034f882dd34b069f9ce, type: 3}
+  m_Name: TinyGhostEnemy_SO
+  m_EditorClassIdentifier: 
+  <name>k__BackingField: Tiny Ghost Enemy
+  <enemyType>k__BackingField: 0
+  <bodyGO>k__BackingField: {fileID: 4524045572467879168, guid: 478a472dd6ec52e4fbc9c3ae78f2b558, type: 3}
+  <spawnParticleGO>k__BackingField: {fileID: 121806, guid: 4dbaeaca9d7e967419f27723f2718287, type: 3}
+  <decisionTime>k__BackingField: 0.3

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5411526565022296226}
   - component: {fileID: 8483565352210887192}
-  - component: {fileID: -7702919686415821508}
-  - component: {fileID: 1340173081151712358}
+  - component: {fileID: -2734782493824642358}
+  - component: {fileID: 2261859759480436950}
   m_Layer: 0
-  m_Name: BombEnemy
+  m_Name: ShellEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4698076374342778106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   current_state: 0
   last_state: 0
   _inspectorPlayerState: 0
-  MyDataSO: {fileID: 11400000, guid: 106462b6b5b30574f9aadf69881e4f41, type: 2}
+  MyDataSO: {fileID: 11400000, guid: 073ce48a483ba184e8527d7f151ea36b, type: 2}
   _type: 0
   _bodyGO: {fileID: 0}
   move_timer: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
   enemyAnimator: {fileID: 0}
   _enemyAttackClass: {fileID: 0}
   _enemyBehClass: {fileID: 0}
---- !u!114 &-7702919686415821508
+--- !u!114 &-2734782493824642358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,11 +68,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4698076374342778106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9fafe6a1112ac444bc162a14cdbac20, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f64314a6e92a6746861c6957f8f5029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explodeGameObject: {fileID: 1636806931387756, guid: 448e8d4f82f29da4298ec7ad31825184, type: 3}
---- !u!114 &1340173081151712358
+--- !u!114 &2261859759480436950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,7 +80,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4698076374342778106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c196f3f92288e5f4484c67868e66ab1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c8af390b24e90343a3cbc8a0c98d79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedAddition: 0.3
+  _speedAddition: 0.2

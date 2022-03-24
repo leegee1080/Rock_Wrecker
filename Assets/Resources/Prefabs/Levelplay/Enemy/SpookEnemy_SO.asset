@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37b7edb9c779a034f882dd34b069f9ce, type: 3}
-  m_Name: TinyMushroomEnemy_SO
+  m_Name: SpookEnemy_SO
   m_EditorClassIdentifier: 
-  <name>k__BackingField: Tiny Mushroom Enemy
+  <name>k__BackingField: Spook Enemy
   <enemyType>k__BackingField: 0
-  <bodyGO>k__BackingField: {fileID: 4558253575625511845, guid: 91b5d5ead6cb5f045bb0139cedb0e524, type: 3}
-  <spawnParticleGO>k__BackingField: {fileID: 121806, guid: f2fbf171810fa8045b65f6517f18ec42, type: 3}
-  <decisionTime>k__BackingField: 0.5
+  <bodyGO>k__BackingField: {fileID: 2143963233178108554, guid: 646cf81af973f0647b302702d8983dd5, type: 3}
+  <spawnParticleGO>k__BackingField: {fileID: 121806, guid: 4dbaeaca9d7e967419f27723f2718287, type: 3}
+  <decisionTime>k__BackingField: 0.3

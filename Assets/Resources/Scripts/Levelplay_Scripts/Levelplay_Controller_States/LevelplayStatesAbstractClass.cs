@@ -105,6 +105,7 @@ public class LevelplayState_CleanupLose: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
+        _cont.ingame_menu_container.GetComponent<MenuButton>().ToggleMenu();
         Level_Events.Invoke_Pause_Toggle_Event(true);
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;
@@ -124,6 +125,7 @@ public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
+        _cont.ingame_menu_container.GetComponent<MenuButton>().ToggleMenu();
         Level_Events.Invoke_Pause_Toggle_Event(true);
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;

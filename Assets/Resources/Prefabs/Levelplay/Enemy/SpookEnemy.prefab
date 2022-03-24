@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5411526565022296226}
   - component: {fileID: 8483565352210887192}
   - component: {fileID: -2734782493824642358}
-  - component: {fileID: 2261859759480436950}
+  - component: {fileID: 664677635533770886}
   m_Layer: 0
-  m_Name: TinyMushroomEnemy
+  m_Name: SpookEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   current_state: 0
   last_state: 0
   _inspectorPlayerState: 0
-  MyDataSO: {fileID: 11400000, guid: 020c7b2648db3bc48b67bd41e4027809, type: 2}
+  MyDataSO: {fileID: 11400000, guid: 60a43aa2e74a0be45947e344d4e7e91e, type: 2}
   _type: 0
   _bodyGO: {fileID: 0}
   move_timer: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f64314a6e92a6746861c6957f8f5029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2261859759480436950
+--- !u!114 &664677635533770886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -80,7 +80,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4698076374342778106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c8af390b24e90343a3cbc8a0c98d79a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b48fcadaa62eb548ad8355daa60472d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedAddition: 0.1
+  _target: {fileID: 9039172565531931256, guid: edbd7a7b8a519ee439599f823706d502, type: 3}
+  _speed: 1.5

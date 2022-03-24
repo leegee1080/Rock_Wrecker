@@ -1703,7 +1703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee78ba9ae82efd4fac363d29a0586ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingame_menu_container: {fileID: 0}
+  ingame_menu_container: {fileID: 955418121842097225}
   CollectSparkle: {fileID: 6376633577199485554}
   score_menu_container: {fileID: 1548879601}
   UI_animator: {fileID: 1493602623}
@@ -1752,7 +1752,7 @@ MonoBehaviour:
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
   player_start_gridpos: {x: 0, y: 0}
   _enemyStorageScript: {fileID: 1166955262}
-  _enemySpawnTime: 5
+  _enemySpawnTime: 20
   _playerViewCullDist: 40
   _pooledParticlesParent: {fileID: 2054928273}
   rocks_queue_for_destruction: []
@@ -1796,14 +1796,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PossibleEnemies1:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
+  - {fileID: 4698076374342778106, guid: 88b692cc76290074f97fa9c4a3e8bb94, type: 3}
+  - {fileID: 4698076374342778106, guid: 88b692cc76290074f97fa9c4a3e8bb94, type: 3}
+  - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
   - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
   PossibleEnemies2:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
+  - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
+  - {fileID: 4698076374342778106, guid: 308d5b07aa13798499c4f5d6cf509e15, type: 3}
+  - {fileID: 4698076374342778106, guid: 308d5b07aa13798499c4f5d6cf509e15, type: 3}
   PossibleEnemies3:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  - {fileID: 4698076374342778106, guid: b6019a555c18f234a8943b8a1679c2e6, type: 3}
+  - {fileID: 4698076374342778106, guid: 308d5b07aa13798499c4f5d6cf509e15, type: 3}
+  - {fileID: 4698076374342778106, guid: 88b692cc76290074f97fa9c4a3e8bb94, type: 3}
   LateSpawnEnemies:
+  - {fileID: 4698076374342778106, guid: a2174426653311141b045d01cb385003, type: 3}
+  - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
+  - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
   - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
   _actorParentGO: {fileID: 1916730590}
 --- !u!1 &1303013016
@@ -14864,18 +14877,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1166955260}
-        m_TargetAssemblyTypeName: Levelplay_Controller_Script, Assembly-CSharp
-        m_MethodName: Show_Ingame_Menu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 853703992}
         m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
         m_MethodName: ToggleMenu

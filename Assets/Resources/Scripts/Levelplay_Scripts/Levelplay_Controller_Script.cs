@@ -152,7 +152,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public static Levelplay_Controller_Script levelplay_controller_singleton;
 
     [Header("Canvas Elements")]
-    [SerializeField]private GameObject ingame_menu_container;
+    [SerializeField]public GameObject ingame_menu_container;
     [SerializeField]private ParticleSystem CollectSparkle;
     [SerializeField]private GameObject score_menu_container;
     [SerializeField]private Animator UI_animator;
@@ -242,7 +242,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         _currentStateClass = new LevelplayState_Setup();
         _currentStateClass.OnEnterState(this);
-        // Change_Level_State(LevelStatesEnum.Setup);
+
         drop_ship.Launch();
         print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
         current_player = null;
@@ -282,7 +282,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
         // if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
-    
+        _enemySpawnTime = _enemySpawnTime / Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty;
+
         level_setup_timer = new Timer<bool, LevelStatesEnum>(level_setup_time, ChangeLevelState, LevelStatesEnum.Playing);
         level_escape_timer = new Timer<bool, LevelStatesEnum>(level_escape_time, ChangeLevelState, LevelStatesEnum.GetToEscape);
         level_end_timer = new Timer<bool, LevelStatesEnum>(level_end_time, ChangeLevelState, LevelStatesEnum.CleanupLose);
@@ -453,11 +454,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
 #endregion
 
 #region  MenuItems
-    public void Show_Ingame_Menu()
-    {
-        // Change_Level_State(LevelStatesEnum.Paused);
-    }
-
     public void Show_Ingame_Inventory()
     {
         if(!UI_animator.GetBool("Open"))

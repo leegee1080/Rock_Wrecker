@@ -96,6 +96,6 @@ public class PlayerState_Moving: PlayerStatesAbstractClass
     public override void OnUpdateState(LevelPlayer_Script _cont)
     {
         if(_cont.move_timer >0){_cont.move_timer -= Time.deltaTime;}
-        if(_cont.move_timer<=0){_cont.Change_Level_Actor_State(_cont.last_state);}
+        if(_cont.move_timer<=0){_cont.Change_Level_Actor_State(Level_Actor_States_Enum.Normal);}
     }   
 }

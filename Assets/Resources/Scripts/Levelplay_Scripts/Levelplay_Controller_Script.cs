@@ -300,7 +300,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private void Update()
     {
         _currentStateClass.OnUpdateState(this);
-        timer_text.text = timer_text_ref.timer_amount + "";
     }
 
     public bool ChangeLevelState(LevelStatesEnum _newState)
@@ -469,10 +468,11 @@ public class Levelplay_Controller_Script : MonoBehaviour
         
     }
 
-    public void Exit_Level_To_Map()
+    public bool Exit_Level_To_Map(bool unUsed)
     {
         Overallgame_Controller_Script.overallgame_controller_singleton.player_score += Level_Exit_Score_Calc();
         Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
+        return true; //unUsed
     }
     public void Exit_Level_To_MainMenu()
     {

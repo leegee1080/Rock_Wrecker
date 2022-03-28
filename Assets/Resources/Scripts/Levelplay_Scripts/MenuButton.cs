@@ -10,7 +10,13 @@ public class MenuButton : MonoBehaviour
 
     public void ToggleMenu()
     {
-        if(Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.Setup){return;}
+        if
+        (
+            Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.Setup ||
+            Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.CleanupLose ||
+            Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.CleanupWin
+        ){return;}
+        
         if(!_buttonGroup.activeSelf)
         {
             _buttonGroup.SetActive(true);
@@ -26,5 +32,23 @@ public class MenuButton : MonoBehaviour
     public void HideButtons()
     {
         _buttonGroup.SetActive(false);
+    }
+
+    public void OptionsBtn()
+    {   
+
+    }
+
+    public void QuitBtn()
+    {   
+        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("quit confirm", AnnounceTypeEnum.TwoBtn, "Confirm Quit?", "", ConfirmExitToMap);
+        AnnouncerScript.singleton.ChangeOpenState(true);
+    }
+
+    static bool ConfirmExitToMap(bool choice)
+    {
+        if(choice == false){return false;}
+        Levelplay_Controller_Script.levelplay_controller_singleton.Exit_Level_To_Map(choice);
+        return true;
     }
 }

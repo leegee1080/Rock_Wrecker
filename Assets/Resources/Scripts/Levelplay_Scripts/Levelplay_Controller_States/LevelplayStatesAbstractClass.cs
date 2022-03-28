@@ -27,6 +27,7 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
         _cont.level_setup_timer.Decrement_Timer(Time.deltaTime);
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
     }   
 }
 public class LevelplayState_Playing: LevelplayStatesAbstractClass
@@ -49,7 +50,8 @@ public class LevelplayState_Playing: LevelplayStatesAbstractClass
             _cont.Clean_Rock_Queue(false);
         }
         _cont.level_escape_timer.Decrement_Timer(Time.deltaTime); 
-        _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime); 
+        _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime);
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
     }   
 }
 public class LevelplayState_Paused: LevelplayStatesAbstractClass
@@ -99,17 +101,20 @@ public class LevelplayState_GetToEscape: LevelplayStatesAbstractClass
         }
         _cont.level_end_timer.Decrement_Timer(Time.deltaTime);
         _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime); 
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
     }   
 }
 public class LevelplayState_CleanupLose: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
-        _cont.ingame_menu_container.GetComponent<MenuButton>().ToggleMenu();
         Level_Events.Invoke_Pause_Toggle_Event(true);
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;
         _cont.level_end_timer.timer_finished_bool = true;
+
+        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("lose confirm", AnnounceTypeEnum.OneBtn, "Resources Lost!", "Drone has been destroyed...", _cont.Exit_Level_To_Map);
+        AnnouncerScript.singleton.ChangeOpenState(true);
         Debug.Log("Level Lose");
     }   
     public override void OnExitState(Levelplay_Controller_Script _cont)
@@ -118,19 +123,20 @@ public class LevelplayState_CleanupLose: LevelplayStatesAbstractClass
     }   
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
-        
+        _cont.timer_text.text = "0.00";
     }   
 }
 public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
-        _cont.ingame_menu_container.GetComponent<MenuButton>().ToggleMenu();
         Level_Events.Invoke_Pause_Toggle_Event(true);
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;
         _cont.level_end_timer.timer_finished_bool = true;
-        _cont.Exit_Level_To_Map();
+
+        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("win confirm", AnnounceTypeEnum.OneBtn, "Resources Saved!", "Drone has been extracted, resources sent to ship!", _cont.Exit_Level_To_Map);
+        AnnouncerScript.singleton.ChangeOpenState(true);
         Debug.Log("Level Win");
     }   
     public override void OnExitState(Levelplay_Controller_Script _cont)
@@ -139,7 +145,7 @@ public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
     }   
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
-        
+        _cont.timer_text.text = "0.00";
     }   
 }
 public class LevelplayState_OnExit: LevelplayStatesAbstractClass
@@ -162,5 +168,6 @@ public class LevelplayState_OnExit: LevelplayStatesAbstractClass
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
         _cont.level_exit_timer.Decrement_Timer(Time.deltaTime);
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
     }   
 }

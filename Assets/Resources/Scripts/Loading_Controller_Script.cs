@@ -51,6 +51,6 @@ public class Loading_Controller_Script : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log("scene load done");
+        Debug.Log("scene load " + (Scene_Enums)next_scene + " done");
     }
 }

@@ -50,17 +50,17 @@ public class AnnouncerScript : MonoBehaviour
     [SerializeField]private GameObject _smallTxtCanv;
     [SerializeField]private TMP_Text _smallTxt;
 
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(100, 100, 50, 50), "Open"))
-        {
-            ChangeOpenState(true);
-        }
-        if (GUI.Button(new Rect(100, 200, 50, 50), "Close"))
-        {
-            ChangeOpenState(false);
-        }
-    }
+    // void OnGUI()
+    // {
+    //     if (GUI.Button(new Rect(100, 100, 50, 50), "Open"))
+    //     {
+    //         ChangeOpenState(true);
+    //     }
+    //     if (GUI.Button(new Rect(100, 200, 50, 50), "Close"))
+    //     {
+    //         ChangeOpenState(false);
+    //     }
+    // }
 
     private void Start()
     {

@@ -8,6 +8,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     private List<MapPOI_ScriptableObject> map_poi_list;
     [SerializeField] private MapPOI_Script map_poi_go;
+    [SerializeField] private Animator _selectionHighlightAnimator;
 
     [Header("Selection Vars")]
     [SerializeField] private float selection_visual_offset;
@@ -53,6 +54,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void Communicate_Selected_POI(MapPOI_Script tapped_poi){
         selected_poi = tapped_poi;
         Overallgame_Controller_Script.overallgame_controller_singleton.selected_level = tapped_poi.poi_info_so;
+        _selectionHighlightAnimator.SetTrigger("Open");
     }
 
     public void Center_Screen(){

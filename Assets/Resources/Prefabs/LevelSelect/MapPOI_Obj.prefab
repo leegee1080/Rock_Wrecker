@@ -73,6 +73,9 @@ MonoBehaviour:
   - {fileID: 4300000, guid: 3ef4f27cefae9714999be8b86a844e06, type: 3}
   - {fileID: 4300000, guid: 43837abd2aa70124e8937429fa54cf46, type: 3}
   - {fileID: 4300000, guid: 1d4381c34363cde458743078c5f69835, type: 3}
+  _decoMeshes:
+  - {fileID: 7610232699531778420, guid: 44a61044e0f37724e8e7a56e54261452, type: 3}
+  _decoDistFromCenter: 0
 --- !u!114 &83390382460858359
 MonoBehaviour:
   m_ObjectHideFlags: 0

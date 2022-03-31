@@ -31,6 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2614912765168966430}
+  - {fileID: 359458172736373411}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <poi_info_so>k__BackingField: {fileID: 0}
+  _middlePoint: {fileID: 3064932063207125909}
   poi_mesh_renderer: {fileID: 3867881874943069168}
   poi_mesh_filter: {fileID: 7608726181132084550}
   asteroid_meshs:
@@ -75,7 +77,9 @@ MonoBehaviour:
   - {fileID: 4300000, guid: 1d4381c34363cde458743078c5f69835, type: 3}
   _decoMeshes:
   - {fileID: 7610232699531778420, guid: 44a61044e0f37724e8e7a56e54261452, type: 3}
-  _decoDistFromCenter: 0
+  - {fileID: 7610232699531778420, guid: d83e385aec375c146b9682d3598c663c, type: 3}
+  - {fileID: 7610232699531778420, guid: 0f9cf460e8fa98241b68760d36aca9cc, type: 3}
+  _decoDistFromCenter: 1
 --- !u!114 &83390382460858359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,3 +188,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3064932063207125909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359458172736373411}
+  m_Layer: 0
+  m_Name: MiddlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &359458172736373411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3064932063207125909}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 83390382460858360}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

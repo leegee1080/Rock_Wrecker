@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapPOI_Script : MonoBehaviour
 {
     [field: SerializeField]public MapPOI_ScriptableObject poi_info_so {get; private set;}
+    [SerializeField]private GameObject _middlePoint;
     [SerializeField]private MeshRenderer poi_mesh_renderer;
     [SerializeField]private MeshFilter poi_mesh_filter;
     [SerializeField]private Mesh[] asteroid_meshs;
@@ -34,6 +35,9 @@ public class MapPOI_Script : MonoBehaviour
         for (int i = 0; i < poi_info_so.deco_count; i++)
         {
             GameObject _newDeco = Instantiate(_decoMeshes[Global_Vars.rand_num_gen.Next(0, _decoMeshes.Length)], parent: this.transform);
+            // _newDeco.transform.LookAt(_middlePoint.transform.position, Vector3.up);
+            _newDeco.transform.RotateAround(_middlePoint.transform.position, Vector3.right, Global_Vars.rand_num_gen.Next(0, 360));
+            _newDeco.transform.localPosition += new Vector3(0,0,_decoDistFromCenter* poi_info_so.poi_size);
         }
     }
 

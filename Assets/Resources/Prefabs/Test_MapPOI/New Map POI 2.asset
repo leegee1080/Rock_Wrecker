@@ -15,9 +15,9 @@ MonoBehaviour:
   name: 'thfthdh '
   played: 0
   finished: 0
-  map_pos: {x: 3, y: 1}
-  poi_size: 1
-  poi_difficulty: 1
+  map_pos: {x: 30, y: 10}
+  poi_size: 3
+  poi_difficulty: 3
   level_seed: 0
   rotate_speed: 3
   deco_count: 3

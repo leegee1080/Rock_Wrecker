@@ -15,9 +15,9 @@ MonoBehaviour:
   name: KLJSHDF09874
   played: 0
   finished: 0
-  map_pos: {x: -1, y: -1}
+  map_pos: {x: 10, y: -10}
   poi_size: 1
-  poi_difficulty: 1
+  poi_difficulty: 3
   level_seed: 0
   rotate_speed: 4
   deco_count: 1

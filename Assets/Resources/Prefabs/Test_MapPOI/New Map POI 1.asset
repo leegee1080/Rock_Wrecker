@@ -15,9 +15,9 @@ MonoBehaviour:
   name: asdgasdg
   played: 0
   finished: 0
-  map_pos: {x: 1, y: 2}
-  poi_size: 1
-  poi_difficulty: 1
+  map_pos: {x: 2, y: 27}
+  poi_size: 2
+  poi_difficulty: 2
   level_seed: 0
   rotate_speed: 1
   deco_count: 4

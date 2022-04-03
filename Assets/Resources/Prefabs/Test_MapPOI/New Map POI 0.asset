@@ -15,7 +15,7 @@ MonoBehaviour:
   name: asdf
   played: 0
   finished: 0
-  map_pos: {x: 2, y: 2}
+  map_pos: {x: 5, y: 5}
   poi_size: 1
   poi_difficulty: 1
   level_seed: 0

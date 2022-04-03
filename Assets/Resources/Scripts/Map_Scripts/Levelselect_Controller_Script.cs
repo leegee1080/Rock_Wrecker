@@ -55,6 +55,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
         selected_poi = tapped_poi;
         Overallgame_Controller_Script.overallgame_controller_singleton.selected_level = tapped_poi.poi_info_so;
         _selectionHighlightAnimator.SetTrigger("Open");
+        _selectionHighlightAnimator.GetComponent<MapSelectCursor_Script>().UpdateInfo(tapped_poi.poi_info_so);
     }
 
     public void Center_Screen(){

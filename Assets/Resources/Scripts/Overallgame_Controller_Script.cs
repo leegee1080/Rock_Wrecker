@@ -29,10 +29,10 @@ public static class Global_Vars{
     public const int max_planet_coord = 500;
     public const int min_planet_coord = -500;
     public const int max_planet_difficulty = 3;
-    public const int max_planet_mesh_index = 10;
+    public const int max_planet_mesh_index = 7;
 
     [Header("POI Data")]
-    public const int max_poi_deco = 10;
+    public const int max_poi_deco = 2;
     public const int max_poi_rot_speed = 10;
 
     [Header("Level Data")]
@@ -85,7 +85,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
             new_mappoi_so.poi_difficulty = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_difficulty+1);
             new_mappoi_so.poi_size = (int)Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_size,Global_Vars.max_planet_size+1);
             new_mappoi_so.rotate_speed = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_poi_rot_speed+1);
-            new_mappoi_so.deco_count = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_poi_deco+1);
+            new_mappoi_so.deco_count = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_poi_deco * (new_mappoi_so.poi_difficulty+ 1) * new_mappoi_so.poi_size);
             new_mappoi_so.level_seed = (int)Global_Vars.rand_num_gen.Next(1,9999999);
             new_mappoi_so.mesh_index = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_mesh_index);
             Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1), Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1));

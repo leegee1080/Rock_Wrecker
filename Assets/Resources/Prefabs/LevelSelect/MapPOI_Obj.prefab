@@ -46,7 +46,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.71
+  m_Radius: 1.31
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &83390382460858364
 MonoBehaviour:
@@ -65,21 +65,20 @@ MonoBehaviour:
   poi_mesh_renderer: {fileID: 3867881874943069168}
   poi_mesh_filter: {fileID: 7608726181132084550}
   asteroid_meshs:
-  - {fileID: 4300000, guid: 387b964012dd6d94bb07789cf0731dfb, type: 3}
-  - {fileID: 4300000, guid: e76b489f2c0dcee468a4643e8277a236, type: 3}
-  - {fileID: 4300000, guid: b1fc5ae39a01d5b4ca8e92cfcd492f03, type: 3}
-  - {fileID: 4300000, guid: b49983a0f7ad7074faad9e7f88640f9a, type: 3}
-  - {fileID: 4300000, guid: 8e977e30e3801b94192c9847f17a7224, type: 3}
-  - {fileID: 4300000, guid: 02abea0108edbf74bb5802eda9200744, type: 3}
-  - {fileID: 4300000, guid: da502c7d6803e5c42b412ee69971f19a, type: 3}
-  - {fileID: 4300000, guid: 3ef4f27cefae9714999be8b86a844e06, type: 3}
-  - {fileID: 4300000, guid: 43837abd2aa70124e8937429fa54cf46, type: 3}
-  - {fileID: 4300000, guid: 1d4381c34363cde458743078c5f69835, type: 3}
+  - {fileID: 4300000, guid: bec5317061f75c540816821c2ead1926, type: 3}
+  - {fileID: 4300000, guid: 661a05960c40a9343b647698faf19239, type: 3}
+  - {fileID: 4300000, guid: 8d85220cb8fe685489255581912a9894, type: 3}
+  - {fileID: 4300000, guid: ed33027662c7a3747a37e8411e001396, type: 3}
+  - {fileID: 4300000, guid: 0fd34597db5ca1c4aa3678e16644eeb1, type: 3}
+  - {fileID: 4300000, guid: 8c75832eccc5fb24b836a1fb4d4d98fe, type: 3}
+  - {fileID: 4300000, guid: 49ac5e8680ee70f4ba05722caa1d7caa, type: 3}
   _decoMeshes:
   - {fileID: 7610232699531778420, guid: 44a61044e0f37724e8e7a56e54261452, type: 3}
-  - {fileID: 7610232699531778420, guid: d83e385aec375c146b9682d3598c663c, type: 3}
   - {fileID: 7610232699531778420, guid: 0f9cf460e8fa98241b68760d36aca9cc, type: 3}
-  _decoDistFromCenter: 1
+  - {fileID: 7610232699531778420, guid: 99594b0d2bf6af5449754b9a093ac1e5, type: 3}
+  - {fileID: 7610232699531778420, guid: 8b302bf037037434589c2ef1dc0f13a6, type: 3}
+  - {fileID: 7610232699531778420, guid: d83e385aec375c146b9682d3598c663c, type: 3}
+  _decoDistFromCenter: 0.6
 --- !u!114 &83390382460858359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 1595004007284565736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.45614636, y: 0.45614636, z: 0.45614636}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 83390382460858360}
   m_RootOrder: 0
@@ -146,7 +145,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595004007284565736}
-  m_Mesh: {fileID: 4300000, guid: 387b964012dd6d94bb07789cf0731dfb, type: 3}
+  m_Mesh: {fileID: 4300000, guid: bec5317061f75c540816821c2ead1926, type: 3}
 --- !u!23 &3867881874943069168
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -166,7 +165,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4cee7a5983b187943adc589b9cb1f084, type: 2}
+  - {fileID: 2100000, guid: 31b29cea830e0e24da72018652e5ed31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -6,6 +6,8 @@ public class MapPOI_Script : MonoBehaviour
 {
     [field: SerializeField]public MapPOI_ScriptableObject poi_info_so {get; private set;}
     [SerializeField]private GameObject _middlePoint;
+    [SerializeField]private SphereCollider _sphereCollider;
+
     [SerializeField]private MeshRenderer poi_mesh_renderer;
     [SerializeField]private MeshFilter poi_mesh_filter;
     [SerializeField]private Mesh[] asteroid_meshs;
@@ -20,6 +22,7 @@ public class MapPOI_Script : MonoBehaviour
         poi_mesh_filter.mesh = asteroid_meshs[new_poi_info_so.mesh_index];
         transform.position = new_poi_info_so.map_pos;
         poi_mesh_renderer.transform.localScale *= new_poi_info_so.poi_size * 0.8f;
+        _sphereCollider.radius *= new_poi_info_so.poi_size * 0.8f;
         name = poi_info_so.name;
         gameObject.transform.Rotate(new Vector3(0,0,poi_info_so.rotate_speed));
         Spawn_Deco();

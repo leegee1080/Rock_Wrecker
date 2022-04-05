@@ -16,6 +16,8 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
     {
         _cont.timer_text.color = new Color32(129,255,200,255);
         _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(2,255,200,1));
+
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = true;
     }   
     public override void OnExitState(Levelplay_Controller_Script _cont)
     {

@@ -62,6 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <poi_info_so>k__BackingField: {fileID: 0}
   _middlePoint: {fileID: 3064932063207125909}
+  _sphereCollider: {fileID: 83390382460858363}
   poi_mesh_renderer: {fileID: 3867881874943069168}
   poi_mesh_filter: {fileID: 7608726181132084550}
   asteroid_meshs:

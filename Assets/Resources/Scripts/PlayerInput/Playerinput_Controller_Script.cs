@@ -39,6 +39,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
     public PlayerInputActions player_input_actions;
 
     public bool camera_controls_allowed;
+    public bool camera_follow_allowed;
 
 
     [Header("TapConfirm Vars")]
@@ -109,6 +110,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
     private void LateUpdate() //automatic camera
     {
         if(camera_controls_allowed){return;}
+        if(!camera_follow_allowed){return;}
         Camera.main.transform.position = Vector3.MoveTowards
             (
                 Camera.main.transform.position,

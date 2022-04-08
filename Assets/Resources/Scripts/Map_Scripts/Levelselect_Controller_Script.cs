@@ -9,13 +9,12 @@ public class Levelselect_Controller_Script : MonoBehaviour
     private List<MapPOI_ScriptableObject> map_poi_list;
     [SerializeField] private MapPOI_Script map_poi_go;
     [SerializeField] public Animator _selectionHighlightAnimator;
+    [SerializeField] private GameObject _shipGameObject;
 
     [Header("Selection Vars")]
     [SerializeField] private float selection_visual_offset;
     [SerializeField] private Vector3 selection_original_scale;
     [SerializeField] private float selection_visual_camera_zoom_ratio;
-
-
     [SerializeField]private MapPOI_Script selected_poi;
     [SerializeField]private GameObject selection_highlight_go;
 
@@ -91,7 +90,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
                 _currentStateClass = new LevelselectState_Deploy();
                 break;
             default:
-                Debug.LogWarning("Hey idiot, you need a enum for this class change (84): " + _newState);
+                Debug.LogWarning("You need a enum for this class change (84): " + _newState);
                 return;
         }
         _currentStateClass.OnEnterState(this);
@@ -125,6 +124,11 @@ public class Levelselect_Controller_Script : MonoBehaviour
     {
         Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }
+
+    public void MoveShipGameObject()
+    {
+        _shipGameObject.transform.position = Camera.main.transform.position;
+    }
 }
 
 public enum LevelselectStatesEnum
@@ -150,6 +154,7 @@ public class LevelselectState_Setup: LevelselectStatesAbstractClass
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = false;
         _cont.CinematicAnimator.SetBool("InShip", false);
+
     }   
     public override void OnExitState(Levelselect_Controller_Script _cont)
     {
@@ -184,6 +189,7 @@ public class LevelselectState_Ship: LevelselectStatesAbstractClass
         Debug.Log("ship");
         _cont._selectionHighlightAnimator.Play("Base Layer.MapSelectionClose", 0 ,0);
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
+        _cont.MoveShipGameObject();
         _cont.CinematicAnimator.SetBool("InShip", true);
     }   
     public override void OnExitState(Levelselect_Controller_Script _cont)

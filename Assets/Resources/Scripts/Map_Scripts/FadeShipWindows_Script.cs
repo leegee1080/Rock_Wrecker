@@ -14,4 +14,15 @@ public class FadeShipWindows_Script : MonoBehaviour
     {
         iTween.FadeTo(_shipWindow,0.5f,_fadeTime);
     }
+
+    public void FinishMapTrans()
+    {
+        Levelselect_Controller_Script.levelselect_controller_singletion.FinishToMapTrans();
+        Levelselect_Controller_Script.levelselect_controller_singletion.HideShipGameObject();
+    }
+
+        public void FinishShipTrans()
+    {
+        Levelselect_Controller_Script.levelselect_controller_singletion.FinishToShipTrans();
+    }
 }

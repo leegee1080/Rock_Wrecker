@@ -19,30 +19,31 @@ public class Levelselect_Controller_Script : MonoBehaviour
     [SerializeField]private GameObject selection_highlight_go;
 
     [Header("State Vars")]
+    public MapUI_Script UIScript;
     private LevelselectStatesAbstractClass _currentStateClass;
     [SerializeField]private LevelselectStatesEnum _currentStateEnum;
     public Animator CinematicAnimator;
 
 
-    void OnGUI()
-    {
-        if(GUI.Button(new Rect(100, 100, 50, 50),LevelselectStatesEnum.Deploy + ""))
-        {
-            ChangeState(LevelselectStatesEnum.Deploy);
-        }
-        if(GUI.Button(new Rect(100, 150, 50, 50),LevelselectStatesEnum.Select + ""))
-        {
-            ChangeState(LevelselectStatesEnum.Select);
-        }
-        if(GUI.Button(new Rect(150, 100, 50, 50),LevelselectStatesEnum.Setup + ""))
-        {
-            ChangeState(LevelselectStatesEnum.Setup);
-        }
-        if(GUI.Button(new Rect(150, 150, 50, 50),LevelselectStatesEnum.Ship + ""))
-        {
-            ChangeState(LevelselectStatesEnum.Ship);
-        }
-    }
+    // void OnGUI()
+    // {
+    //     if(GUI.Button(new Rect(100, 100, 50, 50),LevelselectStatesEnum.Deploy + ""))
+    //     {
+    //         ChangeState(LevelselectStatesEnum.Deploy);
+    //     }
+    //     if(GUI.Button(new Rect(100, 150, 50, 50),LevelselectStatesEnum.Select + ""))
+    //     {
+    //         ChangeState(LevelselectStatesEnum.Select);
+    //     }
+    //     if(GUI.Button(new Rect(150, 100, 50, 50),LevelselectStatesEnum.Setup + ""))
+    //     {
+    //         ChangeState(LevelselectStatesEnum.Setup);
+    //     }
+    //     if(GUI.Button(new Rect(150, 150, 50, 50),LevelselectStatesEnum.Ship + ""))
+    //     {
+    //         ChangeState(LevelselectStatesEnum.Ship);
+    //     }
+    // }
 
     void Awake() => levelselect_controller_singletion = this;
 
@@ -74,6 +75,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void ChangeState(LevelselectStatesEnum _newState)
     {
+        if(_currentStateEnum == _newState){return;}
         if(_currentStateClass != null){_currentStateClass.OnExitState(this);}
         switch (_newState)
         {
@@ -120,6 +122,11 @@ public class Levelselect_Controller_Script : MonoBehaviour
         ChangeState(LevelselectStatesEnum.Ship);
     }
 
+    public void SwitchToSelect()
+    {
+        ChangeState(LevelselectStatesEnum.Select);
+    }
+
     public void Back_to_Menu()
     {
         Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
@@ -127,12 +134,27 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void MoveShipGameObject()
     {
+        _shipGameObject.SetActive(true);
         _shipGameObject.transform.position = Camera.main.transform.position;
+    }
+    public void HideShipGameObject()
+    {
+        _shipGameObject.SetActive(false);
+    }
+    public void FinishToMapTrans()
+    {
+        UIScript.OpenSelectionMiniMenu();
+        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
+    }
+    public void FinishToShipTrans()
+    {
+        UIScript.OpenShipMiniMenu();
     }
 }
 
 public enum LevelselectStatesEnum
 {
+    Null,
     Setup,
     Select,
     Ship,
@@ -170,8 +192,9 @@ public class LevelselectState_Select: LevelselectStatesAbstractClass
     public override void OnEnterState(Levelselect_Controller_Script _cont)
     {
         Debug.Log("select");
-        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
+        _cont.UIScript.CloseShipMiniMenu();
         _cont.CinematicAnimator.SetBool("InShip", false);
+        
     }   
     public override void OnExitState(Levelselect_Controller_Script _cont)
     {
@@ -187,10 +210,11 @@ public class LevelselectState_Ship: LevelselectStatesAbstractClass
     public override void OnEnterState(Levelselect_Controller_Script _cont)
     {
         Debug.Log("ship");
-        _cont._selectionHighlightAnimator.Play("Base Layer.MapSelectionClose", 0 ,0);
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
         _cont.MoveShipGameObject();
+        _cont._selectionHighlightAnimator.Play("Base Layer.MapSelectionClose", 0 ,0);
         _cont.CinematicAnimator.SetBool("InShip", true);
+        _cont.UIScript.CloseSelectionMiniMenu();
     }   
     public override void OnExitState(Levelselect_Controller_Script _cont)
     {

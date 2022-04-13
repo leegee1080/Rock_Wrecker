@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Levelselect_Controller_Script : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     [SerializeField] private GameObject _shipGameObject;
 
     [Header("Selection Vars")]
+    public TMP_Text DroneCountText;
     [SerializeField] private float selection_visual_offset;
     [SerializeField] private Vector3 selection_original_scale;
     [SerializeField] private float selection_visual_camera_zoom_ratio;
@@ -173,6 +175,8 @@ public class LevelselectState_Setup: LevelselectStatesAbstractClass
     public override void OnEnterState(Levelselect_Controller_Script _cont)
     {
         Debug.Log("setup");
+
+        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = false;
         _cont.CinematicAnimator.SetBool("InShip", false);
@@ -192,6 +196,8 @@ public class LevelselectState_Select: LevelselectStatesAbstractClass
     public override void OnEnterState(Levelselect_Controller_Script _cont)
     {
         Debug.Log("select");
+
+        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
         _cont.UIScript.CloseShipMiniMenu();
         _cont.CinematicAnimator.SetBool("InShip", false);
         

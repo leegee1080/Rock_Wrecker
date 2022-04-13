@@ -46,6 +46,8 @@ public class Overallgame_Controller_Script : MonoBehaviour
 
     [Header("Global Player Stats")]
     public int player_score;
+    public int PlayerFuel;
+    public int PlayerDrones;
     public GameObject player_model;
     public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
 

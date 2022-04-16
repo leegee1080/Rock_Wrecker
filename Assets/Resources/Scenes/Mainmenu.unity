@@ -1241,6 +1241,14 @@ PrefabInstance:
       value: Overallgame_Controller_Sys
       objectReference: {fileID: 0}
     - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: PlayerFuel
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: PlayerDrones
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
       propertyPath: chosen_scene_enum
       value: 1
       objectReference: {fileID: 0}

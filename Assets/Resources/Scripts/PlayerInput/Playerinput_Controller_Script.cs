@@ -67,6 +67,9 @@ public class Playerinput_Controller_Script : MonoBehaviour
     public GameObject follow_target = null;
     public float auto_camera_move_speed;
 
+    [Header("IEnumerators")]
+    private IEnumerator _camShakeCoroutine;
+
     private void Awake()
     {
         playerinput_controller_singleton = this;
@@ -175,6 +178,13 @@ public class Playerinput_Controller_Script : MonoBehaviour
         left_on_screen_controlls_container.SetActive(false);
         right_on_screen_controlls_container.SetActive(false);
         on_screen_controls_allowed = false;
+    }
+
+    public void StartCamShake(float duration, float magnitude)
+    {
+        if(_camShakeCoroutine != null){StopCoroutine(_camShakeCoroutine);}
+        _camShakeCoroutine = Shake_Camera(duration, magnitude);
+        StartCoroutine(_camShakeCoroutine);
     }
 
     public IEnumerator Shake_Camera(float duration, float magnitude)

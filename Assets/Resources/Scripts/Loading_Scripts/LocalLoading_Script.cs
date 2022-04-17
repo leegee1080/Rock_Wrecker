@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LocalLoading_Script : MonoBehaviour
 {
+    [SerializeField]private float _loadingDelay;
     private void Start()
     {
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
@@ -15,7 +16,8 @@ public class LocalLoading_Script : MonoBehaviour
 
         private IEnumerator IFinished_Loading_Animation()
     {
-        yield return new WaitForSeconds(1f);
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene();
+        yield return new WaitForSeconds(_loadingDelay);
+        ScnTrans_Script.singleton.ScnTransOut();
+        // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene();
     }
 }

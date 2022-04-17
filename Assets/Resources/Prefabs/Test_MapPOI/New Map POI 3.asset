@@ -18,7 +18,7 @@ MonoBehaviour:
   map_pos: {x: 5, y: 1}
   poi_size: 1
   poi_difficulty: 0
-  level_seed: 0
+  level_seed: 123
   rotate_speed: 5
   deco_count: 2
   mesh_index: 4

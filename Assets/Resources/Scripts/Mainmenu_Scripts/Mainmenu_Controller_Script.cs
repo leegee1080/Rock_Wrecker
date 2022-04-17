@@ -42,6 +42,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     public void New_Game(){
         Overallgame_Controller_Script.overallgame_controller_singleton.Create_Map();
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
+        // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
+
+        ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelselect);
     }
 }

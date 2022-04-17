@@ -19,9 +19,9 @@ public class Levelselect_Controller_Script : MonoBehaviour
     [SerializeField] private float selection_visual_offset;
     [SerializeField] private Vector3 selection_original_scale;
     [SerializeField] private float selection_visual_camera_zoom_ratio;
-    [SerializeField]private MapPOI_Script selected_poi;
+    [SerializeField]public MapPOI_Script selected_poi;
     [SerializeField]public MapPOI_Script OccupiedPOI;
-    [SerializeField]private GameObject selection_highlight_go;
+    [SerializeField]public GameObject selection_highlight_go;
 
     [Header("State Vars")]
     public MapUI_Script UIScript;
@@ -41,8 +41,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
     private IEnumerator _runningDustPlacerRountine;
 
     [Header("GameJuice")]
+    [SerializeField] private GameObject _dropShip_Go;
     public GameObject DecoContainer;
-
     public float MapDecoDistFromCam;
     [SerializeField]private GameObject _spaceDustPrefab;
     [SerializeField]private GameObject _spaceCloudPrefab;
@@ -149,16 +149,17 @@ public class Levelselect_Controller_Script : MonoBehaviour
             BlinkGameObject(DroneCountText.gameObject);
             return;
         }
-
-        Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones -= 1;
-        DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
-        OccupiedPOI = selected_poi;
         ChangeState(LevelselectStatesEnum.Deploy);
-        print("launched mission to: "+ selected_poi.name);
+    }
+
+    public void FinishedDeploy()
+    {
+        ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelplay);
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelplay);
     }
 
     public void Communicate_Selected_POI(MapPOI_Script tapped_poi){
+        if(_currentStateEnum == LevelselectStatesEnum.Deploy){return;}
         selected_poi = tapped_poi;
         Overallgame_Controller_Script.overallgame_controller_singleton.selected_level = tapped_poi.poi_info_so;
         _selectionHighlightAnimator.Play("Base Layer.MapSelectionOpen", 0 ,0);
@@ -178,7 +179,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
              }
         }
         OccupiedPOI = nearestCenterPOI;
-        Communicate_Selected_POI(nearestCenterPOI);
+        // Communicate_Selected_POI(nearestCenterPOI);
         Camera.main.transform.position = new Vector3(OccupiedPOI.gameObject.transform.position.x,OccupiedPOI.gameObject.transform.position.y, Camera.main.transform.position.z);
         MoveShipGameObject();
     }
@@ -201,6 +202,15 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void Back_to_Menu()
     {
         Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
+    }
+
+    public void OpenSecretDoor(GameObject doorGO)
+    {
+        iTween.MoveTo(doorGO, iTween.Hash(
+            "position", new Vector3(-2.5f,3,0),
+            "islocal", true,
+            "easetype", iTween.EaseType.easeOutSine,
+            "time", 1f));
     }
 
     public void MoveShipGameObject()
@@ -279,6 +289,14 @@ public class Levelselect_Controller_Script : MonoBehaviour
             }
         }
     }
+
+    public void LaunchDropShip()
+    {
+        _selectionHighlightAnimator.Play("Base Layer.MapSelectionClose", 0 ,0);
+        _dropShip_Go.SetActive(true);
+        _dropShip_Go.transform.position = new Vector3(Camera.main.transform.position.x,Camera.main.transform.position.y -10,Camera.main.transform.position.z -10);
+    }
+
     public void FinishToShipTrans()
     {
         UIScript.OpenShipMiniMenu();
@@ -365,9 +383,10 @@ public class LevelselectState_Setup: LevelselectStatesAbstractClass
         _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = false;
-        _cont.CinematicAnimator.SetBool("InShip", false);
-
+        // _cont.CinematicAnimator.SetBool("InShip", false);
+        
         _cont.SelectCenterPOI();
+        _cont.ChangeState(LevelselectStatesEnum.Select);
     }   
     public override void OnExitState(Levelselect_Controller_Script _cont)
     {
@@ -432,6 +451,20 @@ public class LevelselectState_Deploy: LevelselectStatesAbstractClass
     {
         Debug.Log("deploy");
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
+
+
+        Overallgame_Controller_Script.overallgame_controller_singleton.PlayerFuel -= _cont._selectionHighlightAnimator.GetComponent<MapSelectCursor_Script>().FuelCost;
+        Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones -= 1;
+        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
+        _cont.OccupiedPOI = _cont.selected_poi;
+        
+        Debug.Log("launched mission to: "+ _cont.selected_poi.name);
+
+        if(FuelBtn_Script.singleton._menuOpen){FuelBtn_Script.singleton.ToggleHud();}
+        FuelBtn_Script.singleton.MenuDisabled = true;
+        MapUI_Script.singleton.CloseSelectionMiniMenu();
+
+        _cont.LaunchDropShip();
     }   
     public override void OnExitState(Levelselect_Controller_Script _cont)
     {

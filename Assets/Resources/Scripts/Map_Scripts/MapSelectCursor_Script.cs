@@ -10,6 +10,7 @@ public class MapSelectCursor_Script : MonoBehaviour
     [SerializeField]TMP_Text _dangerText;
     [SerializeField]TMP_Text _fuelText;
     public bool FuelCostTooHigh;
+    public int FuelCost;
     [SerializeField]Color _defaultColor;
     [SerializeField]Color _warnColor;
     [SerializeField]Color _alertColor;
@@ -31,12 +32,14 @@ public class MapSelectCursor_Script : MonoBehaviour
            _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, _alertColor);
            _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_FaceColor, _alertColor);
            FuelCostTooHigh = true;
+           FuelCost =fuelCost;
         }
         else
         {
            _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, _defaultColor);
            _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_FaceColor, _defaultColor);
            FuelCostTooHigh = false;
+           FuelCost =fuelCost;
         }
 
 

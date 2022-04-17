@@ -471,12 +471,14 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public bool Exit_Level_To_Map(bool unUsed)
     {
         Overallgame_Controller_Script.overallgame_controller_singleton.player_score += Level_Exit_Score_Calc();
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
+        ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelselect);
+        // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
         return true; //unUsed
     }
     public void Exit_Level_To_MainMenu()
     {
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
+        ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);
+        // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }
 
     private int Level_Exit_Score_Calc()
@@ -655,9 +657,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
                     Vector2Int northVector = new Vector2Int(new_go.GetComponent<GridResident_Script>().grid_pos.x,new_go.GetComponent<GridResident_Script>().grid_pos.y + 1);
                     if
-                    (
-                         Find_Grid_Data(northVector).resident != null &&
-                         Find_Grid_Data(northVector).resident.matchable
+                    (   
+                        Find_Grid_Data(northVector) != null &&
+                        Find_Grid_Data(northVector).resident != null &&
+                        Find_Grid_Data(northVector).resident.matchable
                     )
                     {new_go.GetComponent<Wall_Script>().FadeRock();}
                     wall_coord_list.Add(neighbor.grid_pos);

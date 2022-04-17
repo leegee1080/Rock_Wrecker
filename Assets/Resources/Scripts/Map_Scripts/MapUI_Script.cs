@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class MapUI_Script : MonoBehaviour
 {
+    public static MapUI_Script singleton;
     [SerializeField]private Animator _animator;
     [SerializeField]private GameObject _ShipButtonsGroup;
     [SerializeField]private GameObject _MapButtonsGroup;
+
+    private void Awake()
+    {
+        singleton = this;
+    }
 
     public void OpenSelectionMiniMenu()
     {

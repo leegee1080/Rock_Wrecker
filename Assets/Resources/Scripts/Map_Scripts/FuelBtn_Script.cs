@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class FuelBtn_Script : MonoBehaviour
 {
+    public static FuelBtn_Script singleton;
     [SerializeField]private RectTransform _fuelContainer;
     [SerializeField]private GameObject _fuelTicksContainer;
-    [SerializeField]private bool _menuOpen;
+    [SerializeField]public bool _menuOpen;
+    [SerializeField]public bool MenuDisabled;
     [SerializeField]private float _tickAnimationSpeed;
     [SerializeField]private float _menuOpenSpeed;
 
+    private void Awake()
+    {
+        singleton = this;
+    }
 
 
     public void ToggleHud()
     {
+        if(MenuDisabled){return;}
         if(_menuOpen)
         {
             _menuOpen = false;

@@ -97,16 +97,17 @@ public class Rock_Script : GridResident_Script
         initialized = true;
     }
 
+    public void Change_Seconday_Rock_Type(Secondary_Rock_ScriptableObject new_secondary_rock_type)
+    {
+        secondary_rock_type = new_secondary_rock_type;
+        Update_Secondary_Rock_Type();
+    }
+
     public void Update_Primary_Rock_Type()
     {
         primary_renderer.material.color = primary_rock_type.main_color;
         primary_filter.mesh = primary_rock_type.main_mesh;
         default_rock.transform.Rotate(new Vector3(0,Global_Vars.rand_num_gen.Next(0,180),0));
-
-        ParticleSystem.MainModule ps_main = _secGlow_ps.main;
-        ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
-        ps_main = _glowParticle_ps.main;
-        ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
     }
 
     public void Update_Secondary_Rock_Type()
@@ -114,6 +115,11 @@ public class Rock_Script : GridResident_Script
         if(secondary_rock_type.secondary_type == Secondary_Rock_Types_Enum.none){secondary_renderer.gameObject.SetActive(false); return;}
         secondary_renderer.gameObject.SetActive(true);
         secondary_renderer.material.color = secondary_rock_type.main_color;
+
+        ParticleSystem.MainModule ps_main = _secGlow_ps.main;
+        ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
+        ps_main = _glowParticle_ps.main;
+        ps_main.startColor = new ParticleSystem.MinMaxGradient(secondary_rock_type.main_color_glow);
     }
 
     public override void LandAfterTween()

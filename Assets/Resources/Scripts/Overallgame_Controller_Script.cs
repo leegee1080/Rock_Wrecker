@@ -30,6 +30,9 @@ public static class Global_Vars{
     public const int min_planet_coord = -500;
     public const int max_planet_difficulty = 3;
     public const int max_planet_mesh_index = 7;
+    public const int max_planet_dia_lode_multi = 5;
+    public const int max_planet_top_lode_multi = 5;
+    public const int max_planet_rub_lode_multi = 5;
 
     [Header("POI Data")]
     public const int max_poi_deco = 2;
@@ -92,6 +95,13 @@ public class Overallgame_Controller_Script : MonoBehaviour
             new_mappoi_so.mesh_index = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_mesh_index);
             Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1), Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1));
             new_mappoi_so.map_pos = rand_gen_pos;
+
+            //lode gen
+            new_mappoi_so.lode_dia = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_dia_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_rub = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_rub_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_top = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_top_lode_multi * new_mappoi_so.poi_size);
+            //end lode gen
+
             foreach (Vector2 pos in dist_check_list)
             {
                 if(Vector2.Distance(pos, rand_gen_pos) < 20){

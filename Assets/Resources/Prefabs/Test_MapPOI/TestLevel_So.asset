@@ -18,6 +18,9 @@ MonoBehaviour:
   map_pos: {x: 0, y: 0}
   poi_size: 3
   poi_difficulty: 1
+  lode_dia: 10
+  lode_rub: 10
+  lode_top: 10
   level_seed: 123
   rotate_speed: 1
   deco_count: 1

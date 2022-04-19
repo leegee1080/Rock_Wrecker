@@ -266,6 +266,9 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Find_Max_Play_Area(Find_Map_Breadth_Search_Seed());
         Gen_Map_Residents();
         Deliver_Rock_Types();
+        Deliver_Secondary_Rock_Types(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.lode_dia, Secondary_Rock_Types_Enum.Diamond);
+        Deliver_Secondary_Rock_Types(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.lode_top, Secondary_Rock_Types_Enum.Topaz);
+        Deliver_Secondary_Rock_Types(Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.lode_rub, Secondary_Rock_Types_Enum.Ruby);
         Pregame_Board_Check();
         Clean_Rock_Queue(true);
 
@@ -679,7 +682,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
                     Rock_Script rock = (Rock_Script)item.resident;
                     rock.Change_Rock_Types(
                         Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list[UnityEngine.Random.Range(0,Rock_Types_Storage_Script.rock_types_controller_singleton.rock_so_list.Count)],
-                        Determine_Secondary_Rock_Type()
+                        null
                         );
                 }
             }
@@ -696,6 +699,25 @@ public class Levelplay_Controller_Script : MonoBehaviour
             Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_so_list[UnityEngine.Random.Range(0,Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_so_list.Count)];
         }
         return temp_sec_rock_type;
+    }
+    private void Deliver_Secondary_Rock_Types(int lodeToCheck, Secondary_Rock_Types_Enum rockTypeEnum)
+    {
+        int rockTypeInt = (int)rockTypeEnum;
+
+        IEnumerable<Grid_Data> residents = 
+        from row in x_lead_map_coord_array
+        from cell in row
+        where cell.resident != null && cell.resident.matchable
+        select cell;
+
+        for (int i = 0; i < lodeToCheck; i++)
+        {
+            int randIndex = (int)UnityEngine.Random.Range(0,residents.Count());
+
+            Rock_Script rockResident = (Rock_Script)Find_Grid_Data(residents.ElementAt(randIndex).grid_pos).resident;
+
+            rockResident.Change_Seconday_Rock_Type(Rock_Types_Storage_Script.rock_types_controller_singleton.secondary_so_list[rockTypeInt]);
+        }
     }
     public void Pregame_Board_Check()
     {

@@ -7,6 +7,9 @@ public class MapSelectCursor_Script : MonoBehaviour
 {
     [SerializeField]TMP_Text _sizeText;
     [SerializeField]TMP_Text _lodeText;
+    [SerializeField]TMP_Text _lodeDiaText;
+    [SerializeField]TMP_Text _lodeRubText;
+    [SerializeField]TMP_Text _lodeTopText;
     [SerializeField]TMP_Text _dangerText;
     [SerializeField]TMP_Text _fuelText;
     public bool FuelCostTooHigh;
@@ -21,7 +24,12 @@ public class MapSelectCursor_Script : MonoBehaviour
         if(_runningBlinkRountine != null){StopCoroutine(_runningBlinkRountine); _fuelText.gameObject.transform.localScale = Vector3.one;}
         
         _sizeText.text = "Size: "+_selectedPOI.poi_size;
-        _lodeText.text = "Lode: "+_selectedPOI.poi_difficulty;
+        // _lodeText.text = "Lode: <color=blue>" +_selectedPOI.lode_dia.ToString() + "</color> <color=red>" +_selectedPOI.lode_rub.ToString() + "</color> <color=yellow>" + _selectedPOI.lode_top.ToString() + "</color>";
+        _lodeDiaText.text = _selectedPOI.lode_dia.ToString();
+        _lodeRubText.text = _selectedPOI.lode_rub.ToString();
+        _lodeTopText.text = _selectedPOI.lode_top.ToString();
+
+
 
         _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, _defaultColor);
         _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_FaceColor, _defaultColor);

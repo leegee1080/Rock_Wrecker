@@ -12,7 +12,11 @@ public class MapPOI_Script : MonoBehaviour
     [SerializeField]private MeshFilter poi_mesh_filter;
     [SerializeField]private Mesh[] asteroid_meshs;
     [SerializeField]private GameObject[] _decoMeshes;
+    [SerializeField]private GameObject _diaGemMesh;
+    [SerializeField]private GameObject _TopGemMesh;
+    [SerializeField]private GameObject _RubGemMesh;
     [SerializeField]private float _decoDistFromCenter;
+    [SerializeField]private float _gemDistFromCenter;
 
 
 
@@ -25,7 +29,11 @@ public class MapPOI_Script : MonoBehaviour
         _sphereCollider.radius *= new_poi_info_so.poi_size * 0.8f;
         name = poi_info_so.name;
         gameObject.transform.Rotate(new Vector3(0,0,poi_info_so.rotate_speed));
+        Random.InitState(poi_info_so.level_seed);
         Spawn_Deco();
+        Spawn_Diamond();
+        Spawn_Topaz();
+        Spawn_Ruby();
     }
 
     private void Update()
@@ -35,18 +43,48 @@ public class MapPOI_Script : MonoBehaviour
 
     private void Spawn_Deco()
     {
-        Random.InitState(poi_info_so.level_seed);
         for (int i = 0; i < poi_info_so.deco_count; i++)
         {
             GameObject _newDeco = Instantiate(_decoMeshes[(int)Random.Range(0, _decoMeshes.Length-1)], parent: this.transform);
-            _newDeco.transform.localPosition = new Vector3
-            (
-                Random.Range(-_decoDistFromCenter* poi_info_so.poi_size,_decoDistFromCenter* poi_info_so.poi_size),
-                Random.Range(-_decoDistFromCenter* poi_info_so.poi_size,_decoDistFromCenter* poi_info_so.poi_size),
-                Random.Range(-_decoDistFromCenter* poi_info_so.poi_size,_decoDistFromCenter* poi_info_so.poi_size)
-            );
-            _newDeco.transform.LookAt(_middlePoint.transform.position, Vector3.down);
+            PlaceDeco(_newDeco, _decoDistFromCenter);
         }
+    }
+
+    private void Spawn_Ruby()
+    {
+        for (int i = 0; i < poi_info_so.lode_rub; i++)
+        {
+            GameObject _newDeco = Instantiate(_RubGemMesh, parent: this.transform);
+            PlaceDeco(_newDeco, _gemDistFromCenter + (poi_info_so.poi_size *0.2f));
+        }
+    }
+    private void Spawn_Topaz()
+    {
+        for (int i = 0; i < poi_info_so.lode_top; i++)
+        {
+            GameObject _newDeco = Instantiate(_TopGemMesh, parent: this.transform);
+            PlaceDeco(_newDeco, _gemDistFromCenter + (poi_info_so.poi_size *0.2f));
+        }
+    }
+    private void Spawn_Diamond()
+    {
+        for (int i = 0; i < poi_info_so.lode_dia; i++)
+        {
+            GameObject _newDeco = Instantiate(_diaGemMesh, parent: this.transform);
+            PlaceDeco(_newDeco, _gemDistFromCenter + (poi_info_so.poi_size *0.2f));
+        }
+    }
+
+    private void PlaceDeco(GameObject deco, float distfromCenter)
+    {
+
+        deco.transform.localPosition = new Vector3
+        (
+            Random.Range(-distfromCenter* poi_info_so.poi_size,distfromCenter* poi_info_so.poi_size),
+            Random.Range(-distfromCenter* poi_info_so.poi_size,distfromCenter* poi_info_so.poi_size),
+            Random.Range(-distfromCenter* poi_info_so.poi_size,distfromCenter* poi_info_so.poi_size)
+        );
+        deco.transform.LookAt(_middlePoint.transform.position, Vector3.down);
     }
 
     public void Select_POI()

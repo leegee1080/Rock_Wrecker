@@ -1349,6 +1349,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScnTrans_Obj
       objectReference: {fileID: 0}
+    - target: {fileID: 1980516329732486809, guid: ab3aaf4066fe6164ca85bf6d6bb44456, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3aaf4066fe6164ca85bf6d6bb44456, type: 3}
 --- !u!1001 &4521562520849063517

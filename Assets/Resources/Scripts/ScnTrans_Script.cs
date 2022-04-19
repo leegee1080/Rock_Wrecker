@@ -13,6 +13,7 @@ public class ScnTrans_Script : MonoBehaviour
     void Start()
     {
         singleton = this;
+        _imageTrasform.gameObject.SetActive(true);
         ScnTransIn();
     }
 

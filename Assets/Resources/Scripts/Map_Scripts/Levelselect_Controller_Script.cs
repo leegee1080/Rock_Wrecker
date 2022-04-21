@@ -201,7 +201,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void Back_to_Menu()
     {
-        Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
+        ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);
+        // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }
 
     public void OpenSecretDoor(GameObject doorGO)

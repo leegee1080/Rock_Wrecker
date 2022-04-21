@@ -1176,12 +1176,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera_controls_allowed: 0
+  camera_follow_allowed: 0
+  CameraUpdateDelay: 0.5
+  _cameraUpdateDelayCounter: 0
   camera_drag_speed: 20
   on_screen_controls_allowed: 0
   left_on_screen_controlls_container: {fileID: 1904799723266916555}
   right_on_screen_controlls_container: {fileID: 8376168924296273755}
   camera_zoom_speed: 4
-  camera_max_zoom_out: 500
+  camera_max_zoom_out: 200
   camera_max_zoom_in: 20
   desired_camera_pos: {x: 0, y: 0, z: 0}
   desired_camera_pos_offset: {x: 0, y: 0, z: 0}

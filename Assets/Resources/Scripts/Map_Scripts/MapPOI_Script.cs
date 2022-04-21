@@ -6,6 +6,7 @@ public class MapPOI_Script : MonoBehaviour
 {
     [field: SerializeField]public MapPOI_ScriptableObject poi_info_so {get; private set;}
     [SerializeField]private GameObject _middlePoint;
+    [SerializeField]private GameObject _visualsContainerGroup;
     [SerializeField]private SphereCollider _sphereCollider;
 
     [SerializeField]private MeshRenderer poi_mesh_renderer;
@@ -45,32 +46,32 @@ public class MapPOI_Script : MonoBehaviour
     {
         for (int i = 0; i < poi_info_so.deco_count; i++)
         {
-            GameObject _newDeco = Instantiate(_decoMeshes[(int)Random.Range(0, _decoMeshes.Length-1)], parent: this.transform);
+            GameObject _newDeco = Instantiate(_decoMeshes[(int)Random.Range(0, _decoMeshes.Length-1)], parent: _visualsContainerGroup.transform);
             PlaceDeco(_newDeco, _decoDistFromCenter);
         }
     }
 
     private void Spawn_Ruby()
     {
-        for (int i = 0; i < poi_info_so.lode_rub; i++)
+        if (poi_info_so.lode_rub > 0)
         {
-            GameObject _newDeco = Instantiate(_RubGemMesh, parent: this.transform);
+            GameObject _newDeco = Instantiate(_RubGemMesh, parent: _visualsContainerGroup.transform);
             PlaceDeco(_newDeco, _gemDistFromCenter + (poi_info_so.poi_size *0.2f));
         }
     }
     private void Spawn_Topaz()
     {
-        for (int i = 0; i < poi_info_so.lode_top; i++)
+        if (poi_info_so.lode_top > 0)
         {
-            GameObject _newDeco = Instantiate(_TopGemMesh, parent: this.transform);
+            GameObject _newDeco = Instantiate(_TopGemMesh, parent: _visualsContainerGroup.transform);
             PlaceDeco(_newDeco, _gemDistFromCenter + (poi_info_so.poi_size *0.2f));
         }
     }
     private void Spawn_Diamond()
     {
-        for (int i = 0; i < poi_info_so.lode_dia; i++)
+        if (poi_info_so.lode_dia > 0)
         {
-            GameObject _newDeco = Instantiate(_diaGemMesh, parent: this.transform);
+            GameObject _newDeco = Instantiate(_diaGemMesh, parent: _visualsContainerGroup.transform);
             PlaceDeco(_newDeco, _gemDistFromCenter + (poi_info_so.poi_size *0.2f));
         }
     }

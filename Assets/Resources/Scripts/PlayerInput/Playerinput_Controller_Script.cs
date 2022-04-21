@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 
-public class Input_Control_Events
+public static class Input_Control_Events
 {
     public static event System.Action move_up_event;
     public static void Invoke_Move_Up_Event(InputAction.CallbackContext context)
@@ -30,6 +30,12 @@ public class Input_Control_Events
     {
         move_left_event?.Invoke();
     }
+
+    public static event System.Action<Vector3> cameraViewEvent;
+    public static void Invoke_cameraViewEvent(Vector3 cameraLoc)
+    {
+        cameraViewEvent?.Invoke(cameraLoc);
+    }
 }
 
 public class Playerinput_Controller_Script : MonoBehaviour
@@ -40,6 +46,8 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     public bool camera_controls_allowed;
     public bool camera_follow_allowed;
+    public float CameraUpdateDelay;
+    public float _cameraUpdateDelayCounter;
 
 
     [Header("TapConfirm Vars")]
@@ -67,6 +75,19 @@ public class Playerinput_Controller_Script : MonoBehaviour
     public GameObject follow_target = null;
     public float auto_camera_move_speed;
 
+    [Header("Events")]
+    private Vector3 _cameraLocUpdate;
+    public Vector3 CameraLocUpdate
+    {
+        get{return _cameraLocUpdate;}
+        set
+        {
+            _cameraLocUpdate = value;
+            Input_Control_Events.Invoke_cameraViewEvent(value);
+        }
+    }
+    
+
     [Header("IEnumerators")]
     private IEnumerator _camShakeCoroutine;
 
@@ -92,6 +113,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
     private void Update() //player controlled camera
     { 
         if(!camera_controls_allowed){return;}
+        SlowCameraUpdate();
         if(drag_started){
             drag_dist = drag_start -  player_input_actions.PlayerControls.TapPOS.ReadValue<Vector2>();
             Vector3 cam_move = new Vector3(drag_dist.x, drag_dist.y, 0) * (camera_drag_speed /(10000 / -Camera.main.transform.position.z));
@@ -114,6 +136,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
     {
         if(camera_controls_allowed){return;}
         if(!camera_follow_allowed){return;}
+        SlowCameraUpdate();
         Camera.main.transform.position = Vector3.MoveTowards
             (
                 Camera.main.transform.position,
@@ -125,6 +148,17 @@ public class Playerinput_Controller_Script : MonoBehaviour
                     ) 
                     *auto_camera_move_speed)
             );
+    }
+
+    private void SlowCameraUpdate()
+    {
+        if(_cameraUpdateDelayCounter >= CameraUpdateDelay)
+        {   
+            _cameraUpdateDelayCounter = 0;
+            CameraLocUpdate = Camera.main.transform.position;
+            return;
+        }
+        _cameraUpdateDelayCounter += Time.deltaTime;
     }
 
     private void Tap_Down(InputAction.CallbackContext context){

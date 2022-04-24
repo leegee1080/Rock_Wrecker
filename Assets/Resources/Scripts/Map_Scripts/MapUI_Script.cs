@@ -34,4 +34,21 @@ public class MapUI_Script : MonoBehaviour
     {
         _animator.Play("Base Layer.CloseShipMenu",layer: 0,normalizedTime: 0);
     }
+
+    public void OpenShopBackButton()
+    {
+        _animator.Play("Base Layer.ShopMiniMenuOpen",layer: 0,normalizedTime: 0);
+    }
+    public void CloseShopBackButton()
+    {
+        _animator.Play("Base Layer.ShopMiniMenuClose",layer: 0,normalizedTime: 0);
+    }
+    public void CloseInvButton()
+    {
+        _animator.Play("Base Layer.HideInvButton",layer: 0,normalizedTime: 0);
+    }
+    public void OpenInvButton()
+    {
+        _animator.Play("Base Layer.ShowInvButton",layer: 0,normalizedTime: 0);
+    }
 }

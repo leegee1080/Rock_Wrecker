@@ -23,6 +23,12 @@ TextureImporter:
   - first:
       213: 4430553763382283036
     second: holodicons_6
+  - first:
+      213: -3988960536400358729
+    second: holodicons_7
+  - first:
+      213: 5188366475802605818
+    second: holodicons_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -248,7 +254,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1198
+        y: 1199
         width: 400
         height: 400
       alignment: 0
@@ -269,11 +275,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 400
-        y: 1198
+        y: 1199
         width: 400
         height: 400
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -289,8 +295,29 @@ TextureImporter:
       name: holodicons_6
       rect:
         serializedVersion: 2
-        x: 801
-        y: 1199
+        x: 800
+        y: 1200
+        width: 400
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1bcba87c2d7c7d30800000000000000
+      internalID: 4430553763382283036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: holodicons_7
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1200
         width: 400
         height: 400
       alignment: 0
@@ -300,8 +327,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1bcba87c2d7c7d30800000000000000
-      internalID: 4430553763382283036
+      spriteID: 7b21eccc68d54a8c0800000000000000
+      internalID: -3988960536400358729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: holodicons_8
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 1200
+        width: 374
+        height: 400
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af872c212d7c00840800000000000000
+      internalID: 5188366475802605818
       vertices: []
       indices: 
       edges: []

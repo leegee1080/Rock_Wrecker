@@ -227,9 +227,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9009826}
-        m_TargetAssemblyTypeName: FuelBtn_Script, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1726844889}
+        m_TargetAssemblyTypeName: MapUI_Script, Assembly-CSharp
+        m_MethodName: PurchaseDrone
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9196,9 +9196,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1417830252}
-        m_TargetAssemblyTypeName: FuelBtn_Script, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1726844889}
+        m_TargetAssemblyTypeName: MapUI_Script, Assembly-CSharp
+        m_MethodName: PurchaseFuel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10575,6 +10575,19 @@ MonoBehaviour:
   _animator: {fileID: 1726844888}
   _ShipButtonsGroup: {fileID: 1742185973}
   _MapButtonsGroup: {fileID: 1025170928}
+  _inventroyIcons:
+  - {fileID: 5715419833331205964}
+  - {fileID: 7406971091230563093}
+  - {fileID: 7406971092340980953}
+  - {fileID: 7406971092366905993}
+  _inventroyTexts:
+  - {fileID: 9003933786155764776}
+  - {fileID: 6156419500397596785}
+  - {fileID: 6156419499425544125}
+  - {fileID: 6156419499383052781}
+  _fuelUIContainer: {fileID: 1788317359}
+  _droneUIContainer: {fileID: 7642317010588286443}
+  _fuelBtnScript: {fileID: 383405239}
 --- !u!1001 &1736125821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12206,11 +12219,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
       propertyPath: PlayerFuel
-      value: 8
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: player_dia
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: player_rub
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: player_top
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
       propertyPath: PlayerDrones
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: player_score
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
       propertyPath: main_map.Array.size
@@ -14174,7 +14203,7 @@ GameObject:
   - component: {fileID: 5730396230066025459}
   - component: {fileID: 6156419500397596785}
   m_Layer: 5
-  m_Name: Score_Txt
+  m_Name: Dia_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14192,7 +14221,7 @@ GameObject:
   - component: {fileID: 5730396231178523711}
   - component: {fileID: 6156419499425544125}
   m_Layer: 5
-  m_Name: Score_Txt
+  m_Name: Top_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14210,7 +14239,7 @@ GameObject:
   - component: {fileID: 5730396231204469359}
   - component: {fileID: 6156419499383052781}
   m_Layer: 5
-  m_Name: Score_Txt
+  m_Name: Ruby_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

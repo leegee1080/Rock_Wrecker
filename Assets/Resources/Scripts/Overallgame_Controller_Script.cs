@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CrystalTypes
+{
+    None,
+    Diamond,
+    Topaz,
+    Ruby
+}
+
 public static class Global_Vars{
     public static System.Random rand_num_gen = new System.Random();
 
@@ -34,6 +42,12 @@ public static class Global_Vars{
     public const int max_planet_top_lode_multi = 5;
     public const int max_planet_rub_lode_multi = 5;
 
+    [Header("Shop Data")]
+    public const int drone_cost = 10;
+    public const int fuel_cost = 10;
+    public const int max_fuel = 8;
+    public const int max_drones = 9;
+
     [Header("POI Data")]
     public const int max_poi_deco = 2;
     public const int max_poi_rot_speed = 10;
@@ -49,6 +63,9 @@ public class Overallgame_Controller_Script : MonoBehaviour
 
     [Header("Global Player Stats")]
     public int player_score;
+    public int player_dia;
+    public int player_top;
+    public int player_rub;
     public int PlayerFuel;
     public int PlayerDrones;
     public GameObject player_model;

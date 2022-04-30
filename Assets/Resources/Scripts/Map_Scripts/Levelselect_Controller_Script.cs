@@ -91,7 +91,6 @@ public class Levelselect_Controller_Script : MonoBehaviour
             new_poi.Init(map_poi_so);
         }
 
-
         ChangeState(LevelselectStatesEnum.Setup);
     }
 
@@ -197,6 +196,31 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void SwitchToSelect()
     {
         ChangeState(LevelselectStatesEnum.Select);
+    }
+
+    public void SwitchToShop()
+    {
+        UIScript.CloseShipMiniMenu();
+        CinematicAnimator.SetTrigger("ToShop");
+    }
+    public void SwitchToShipFromShop()
+    {
+        UIScript.CloseShopBackButton();
+        CrystalConsole_Sctipt.singleton.HideCrystalTable();
+        CinematicAnimator.SetTrigger("BackToShipFromShop");
+    }
+    public void FinishSwitchToShop()
+    {
+        UIScript.OpenShopBackButton();
+        CrystalConsole_Sctipt.singleton.ShowCrystalTable();
+    }
+    public void FinishSwitchToShipFromShop()
+    {
+        UIScript.OpenShipMiniMenu();
+    }
+    public void SwitchToMenu()
+    {
+        CinematicAnimator.SetTrigger("ToMenu");
     }
 
     public void Back_to_Menu()

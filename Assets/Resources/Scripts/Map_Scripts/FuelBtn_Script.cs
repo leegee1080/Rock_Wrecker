@@ -12,6 +12,7 @@ public class FuelBtn_Script : MonoBehaviour
     [SerializeField]private float _tickAnimationSpeed;
     [SerializeField]private float _menuOpenSpeed;
 
+
     private void Awake()
     {
         singleton = this;
@@ -81,4 +82,6 @@ public class FuelBtn_Script : MonoBehaviour
     {
         StartCoroutine(AnimateTicks());
     }
+
+
 }

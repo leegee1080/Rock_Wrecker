@@ -20,9 +20,21 @@ public class FadeShipWindows_Script : MonoBehaviour
         Levelselect_Controller_Script.levelselect_controller_singletion.FinishToMapTrans();
         Levelselect_Controller_Script.levelselect_controller_singletion.HideShipGameObject();
     }
+    public void FinishShopTrans()
+    {
+         Levelselect_Controller_Script.levelselect_controller_singletion.FinishSwitchToShop();
+    }
+    public void FinishShoptoShipTrans()
+    {
+         Levelselect_Controller_Script.levelselect_controller_singletion.FinishSwitchToShipFromShop();
+    }
 
-        public void FinishShipTrans()
+    public void FinishShipTrans()
     {
         Levelselect_Controller_Script.levelselect_controller_singletion.FinishToShipTrans();
+    }
+    public void FinishMenuTrans()
+    {
+        Levelselect_Controller_Script.levelselect_controller_singletion.Back_to_Menu();
     }
 }

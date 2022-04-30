@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CrystalTypes
+{
+    None,
+    Diamond,
+    Topaz,
+    Ruby
+}
+
 public static class Global_Vars{
     public static System.Random rand_num_gen = new System.Random();
 

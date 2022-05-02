@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class CrystalPrizes_Script : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class CrystalPrizes_Script : MonoBehaviour
     [SerializeField]private bool _prizeSelected;
     public static CrystalPrizes_Script singleton;
 
+    [SerializeField]private CrystalPrize_ScriptableObject[] _prizes;
+    [SerializeField]private CrystalCard_Script[] _cards;
 
 
     private void Start()
@@ -17,6 +21,11 @@ public class CrystalPrizes_Script : MonoBehaviour
 
     public void OpenPrizes()
     {
+        for (int i = 0; i < _cards.Length; i++)
+        {
+            _cards[i].ApplyCard(_prizes[i]);
+        }
+
         _ani.Play("Base Layer.OpenPrizes",layer: 0,normalizedTime: 0);
         MapUI_Script.singleton.CloseShopBackButton();
         _prizeSelected = false;
@@ -30,6 +39,13 @@ public class CrystalPrizes_Script : MonoBehaviour
     public void SelectReward(int buttonInt)
     {
         if(_prizeSelected){return;}
+
+        if(buttonInt >=0 && buttonInt <3 && _prizes[buttonInt] != null)
+        {
+            _prizes[buttonInt].RunStatChange();
+        }
+        
+
         _prizeSelected = true;
         ClosePrizes();
     }

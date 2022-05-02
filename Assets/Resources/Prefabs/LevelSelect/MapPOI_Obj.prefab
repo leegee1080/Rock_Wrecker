@@ -131,6 +131,7 @@ MonoBehaviour:
   _objectsToCull:
   - {fileID: 3621330792490799994}
   _culled: 0
+  _cameraDist: 0
 --- !u!1 &1595004007284565736
 GameObject:
   m_ObjectHideFlags: 0

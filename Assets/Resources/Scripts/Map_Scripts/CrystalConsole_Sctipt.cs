@@ -161,14 +161,13 @@ public class CrystalConsole_Sctipt : MonoBehaviour
     }
     public void BreakCrystal(GameObject _crystal)
     {
+        PlayExplo();
         iTween.ShakePosition(_crystal, iTween.Hash(
             "oncompletetarget", this.gameObject,
             "oncomplete", "CompleteBreak",
             "amount", new Vector3(0.1f,0.1f,0.1f),
-            "time", 1.5f));
+            "time", 1.8f));
         iTween.ScaleTo(_crystal, iTween.Hash(
-            "oncompletetarget", this.gameObject,
-            "oncomplete", "PlayExplo",
             "scale", new Vector3(0.7f,0.7f,0.7f),
             "islocal", true,
             "easetype", iTween.EaseType.easeOutSine,
@@ -205,6 +204,7 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         GrabOverallCrystalCount(_selectedCrystal) -= 1;
         MapUI_Script.singleton.UpdateShopUINumbers();
         SelectCrystal(CrystalTypes.None, true);
+        CrystalPrizes_Script.singleton.OpenPrizes();
     }
 
 

@@ -12,18 +12,29 @@ public class CrystalConsole_Sctipt : MonoBehaviour
     [SerializeField]private GameObject _diamondGO;
     [SerializeField]private GameObject _topazGO;
     [SerializeField]private GameObject _rubyGO;
-    private Dictionary<CrystalTypes, GameObject> _crystalDict = new Dictionary<CrystalTypes, GameObject>();
+    private Dictionary<CrystalTypes, GameObject> _crystalGODict = new Dictionary<CrystalTypes, GameObject>();
 
     [SerializeField]private CrystalTypes _prevSelectedCrystal;
     [SerializeField]private CrystalTypes _selectedCrystal;
     [SerializeField]private bool _tappable = false;
 
+    [Header("reward vars")]
+    [SerializeField]private ParticleSystem _crackExplo;
+    [SerializeField]private GameObject _rewardPopup;
+    [SerializeField]private GameObject _rewardCardLeft;
+    [SerializeField]private GameObject _rewardCardMiddle;
+    [SerializeField]private GameObject _rewardCardRight;
+    
+
+    private int noneCrystalCount = -1;
+
     void Start()
     {
         singleton = this;
-        _crystalDict[CrystalTypes.Diamond] = _diamondGO;
-        _crystalDict[CrystalTypes.Topaz] = _topazGO;
-        _crystalDict[CrystalTypes.Ruby] = _rubyGO;
+        _crystalGODict[CrystalTypes.None] = null;
+        _crystalGODict[CrystalTypes.Diamond] = _diamondGO;
+        _crystalGODict[CrystalTypes.Topaz] = _topazGO;
+        _crystalGODict[CrystalTypes.Ruby] = _rubyGO;
     }
 
 
@@ -50,13 +61,13 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         switch (_newCrystalStr)
         {
             case "Diamond":
-                SelectCrystal(CrystalTypes.Diamond);
+                SelectCrystal(CrystalTypes.Diamond, false);
                 return;   
             case "Topaz":
-                SelectCrystal(CrystalTypes.Topaz);
+                SelectCrystal(CrystalTypes.Topaz, false);
                 return;   
             case "Ruby":
-                SelectCrystal(CrystalTypes.Ruby);
+                SelectCrystal(CrystalTypes.Ruby, false);
                 return;   
             default:
             Debug.Log("Cryatal Translator: crystal type spelled wrong.");
@@ -64,22 +75,27 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         }
     }
 
-    public void SelectCrystal(CrystalTypes _typeSelected)
+    public void SelectCrystal(CrystalTypes _typeSelected, bool fastAcsend)
     {
         if(_typeSelected == _selectedCrystal){return;}
         _tappable = false;
+
+        if(GrabOverallCrystalCount(_typeSelected) <= 0)
+        {
+            _typeSelected = CrystalTypes.None;
+        }
         //new crystal null
         if(_typeSelected == CrystalTypes.None)
         {
+            _prevSelectedCrystal = _selectedCrystal;
             if(_prevSelectedCrystal != CrystalTypes.None)
             {
-                _prevSelectedCrystal = _selectedCrystal;
-                AscendCrystal(_crystalDict[_prevSelectedCrystal]);
+                if(fastAcsend){FastAscendCrystal(_crystalGODict[_prevSelectedCrystal]);}else{AscendCrystal(_crystalGODict[_prevSelectedCrystal]);}
             }
             _selectedCrystal = CrystalTypes.None;
             return;
         }
-        //lasst crystal null, new crystal 
+        //last crystal null, new crystal 
         if(_selectedCrystal == CrystalTypes.None)
         {
             _prevSelectedCrystal = CrystalTypes.None;
@@ -89,18 +105,27 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         }
         //normal trans
         _prevSelectedCrystal = _selectedCrystal;
-        AscendCrystal(_crystalDict[_selectedCrystal]);
+        AscendCrystal(_crystalGODict[_selectedCrystal]);
         _selectedCrystal = _typeSelected;
 
+    }
+
+    public void CrystalTapped()
+    {
+        if(_tappable == false){return;}
+        Debug.Log("Crystal Tapped! "+ _selectedCrystal);
+        _tappable = false;
+
+        BreakCrystal(_crystalGODict[_selectedCrystal]);
+        // CompleteBreak();
     }
 
     public void DescendCrystal()
     {
         if(_selectedCrystal == CrystalTypes.None){return;}
-        _crystalDict[_selectedCrystal].SetActive(true);
-        GameObject newCrystalGO = _crystalDict[_selectedCrystal];
+        _crystalGODict[_selectedCrystal].SetActive(true);
+        GameObject newCrystalGO = _crystalGODict[_selectedCrystal];
         iTween.MoveTo(newCrystalGO, iTween.Hash(
-            "name", "Desc",
             "oncompletetarget", this.gameObject,
             "oncomplete", "CompleteTrans",
             "y", _crystalLowerPos,
@@ -111,14 +136,13 @@ public class CrystalConsole_Sctipt : MonoBehaviour
             "scale", new Vector3(2,2,2),
             "islocal", true,
             "easetype", iTween.EaseType.easeOutSine,
-            "time", 1));
+            "time", 0.7f));
     }
     public void AscendCrystal(GameObject _crystal)
     {
         iTween.MoveTo(_crystal, iTween.Hash(
-            "name", "Asc",
             "oncompletetarget", this.gameObject,
-            "oncomplete", "DescendCrystal",
+            "oncomplete", "CompleteAscend",
             "y", _crystalUpperPos,
             "easetype", iTween.EaseType.easeOutSine,
             "time", .4f,
@@ -129,20 +153,79 @@ public class CrystalConsole_Sctipt : MonoBehaviour
             "easetype", iTween.EaseType.easeOutSine,
             "time", .2f));
     }
+    public void FastAscendCrystal(GameObject _crystal)
+    {
+        _crystal.transform.localPosition = new Vector3(-11.84f,_crystalUpperPos,5f);
+        _crystal.transform.localScale = new Vector3(1,1,1);
+        _crystal.SetActive(false);
+    }
+    public void BreakCrystal(GameObject _crystal)
+    {
+        PlayExplo();
+        iTween.ShakePosition(_crystal, iTween.Hash(
+            "oncompletetarget", this.gameObject,
+            "oncomplete", "CompleteBreak",
+            "amount", new Vector3(0.1f,0.1f,0.1f),
+            "time", 1.8f));
+        iTween.ScaleTo(_crystal, iTween.Hash(
+            "scale", new Vector3(0.7f,0.7f,0.7f),
+            "islocal", true,
+            "easetype", iTween.EaseType.easeOutSine,
+            "time", 1.4f));
+
+    }
 
     public void CompleteTrans()
     {
         if(_prevSelectedCrystal != CrystalTypes.None)
         {
-            _crystalDict[_prevSelectedCrystal].SetActive(false);
+            _crystalGODict[_prevSelectedCrystal].SetActive(false);
         }
         _tappable = true;
     }
 
-    public void CrystalTapped()
+    public void CompleteAscend()
     {
-        if(_tappable == false){return;}
-        Debug.Log("Crystal Tapped! "+ _selectedCrystal);
+        if(_prevSelectedCrystal != CrystalTypes.None)
+        {
+            _crystalGODict[_prevSelectedCrystal].SetActive(false);
+        }
+        DescendCrystal();
     }
 
-}
+    public void PlayExplo()
+    {
+        _crackExplo.Play();
+    }
+
+    public void CompleteBreak()
+    {
+        // _crackExplo.Play();
+        GrabOverallCrystalCount(_selectedCrystal) -= 1;
+        MapUI_Script.singleton.UpdateShopUINumbers();
+        SelectCrystal(CrystalTypes.None, true);
+        CrystalPrizes_Script.singleton.OpenPrizes();
+    }
+
+
+
+
+    public ref int GrabOverallCrystalCount(CrystalTypes _typeSelected)
+    {
+        switch (_typeSelected)
+        {
+            case CrystalTypes.None:
+                return ref noneCrystalCount;
+            case CrystalTypes.Diamond:
+                return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_dia;
+            case CrystalTypes.Topaz:
+                return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_top;  
+            case CrystalTypes.Ruby:
+                return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_rub;
+            default:
+            Debug.Log("returning none due do incorrect crystal type (GrabOverallCrystalCount)");
+               return ref noneCrystalCount;
+        }
+        
+    }
+}   

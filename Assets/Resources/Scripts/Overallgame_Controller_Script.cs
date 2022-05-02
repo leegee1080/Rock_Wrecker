@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,40 @@ public enum CrystalTypes
     Ruby
 }
 
-public static class Global_Vars{
+public enum PlayerUpgradeTypes
+{
+    DroneShield,
+    Money,
+    FuelEff,
+    MoneyMultiplyer,
+    CheaperDrone,
+    CheaperFuel,
+    FreeDrone,
+    FreeFuel,
+    LightRadius
+}
+
+[Serializable]public class PlayerData
+{
+    public string name;
+    public int player_score;
+    public float score_multi = 1;
+    public int player_dia = 0;
+    public int player_top = 0;
+    public int player_rub = 0;
+    public int DroneShields = 0;
+    public float LightRadius;
+    public int PlayerFuelReach = 10;
+    public int PlayerFuel = 0;
+    public int PlayerDrones = 0;
+    public int PlayerDroneCost = 10;
+    public int PlayerFuelCost = 10;
+    public GameObject player_model;
+    public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
+}
+
+public static class Global_Vars
+{
     public static System.Random rand_num_gen = new System.Random();
 
     public static void Print_Map_Dict<T1,T2>(Dictionary<T1, T2> new_dict){
@@ -42,6 +76,10 @@ public static class Global_Vars{
     public const int max_planet_top_lode_multi = 5;
     public const int max_planet_rub_lode_multi = 5;
 
+    [Header("Ship Data")]
+    public const int fuel_reach = 10;
+    
+
     [Header("Shop Data")]
     public const int drone_cost = 10;
     public const int fuel_cost = 10;
@@ -55,6 +93,57 @@ public static class Global_Vars{
     [Header("Level Data")]
     public const int level_starting_x_size = 20;
     public const int level_starting_y_size = 20;
+
+    [Header("CrystalPrizeFuncs")]
+    public static readonly Dictionary<PlayerUpgradeTypes, Action<int,PlayerData>> PlayerUpgradeFuncDict = new Dictionary<PlayerUpgradeTypes, Action<int,PlayerData>>
+    {
+        {PlayerUpgradeTypes.DroneShield, DroneShieldPlus},
+        {PlayerUpgradeTypes.Money, MoneyPlus},
+        {PlayerUpgradeTypes.FuelEff, FuelEffPlus},
+        {PlayerUpgradeTypes.MoneyMultiplyer, MoneyMultiPlus},
+        {PlayerUpgradeTypes.CheaperDrone, CheaperDronePlus},
+        {PlayerUpgradeTypes.CheaperFuel, CheaperFuelPlus},
+        {PlayerUpgradeTypes.FreeDrone, DronePlus}, 
+        {PlayerUpgradeTypes.FreeFuel, FuelPlus},
+        {PlayerUpgradeTypes.LightRadius, LightRadiusPlus}
+    };
+    public static void DroneShieldPlus(int amount,PlayerData pd)
+    {
+        pd.DroneShields += amount;
+    }
+    public static void MoneyPlus(int amount,PlayerData pd)
+    {
+        pd.player_score += amount;
+    }
+    public static void FuelEffPlus(int amount,PlayerData pd)
+    {
+        pd.PlayerFuelReach += amount;
+    }
+    public static void MoneyMultiPlus(int amount,PlayerData pd)
+    {
+        float amountF = amount/10;
+        pd.PlayerFuel += (int)amountF;
+    }
+    public static void CheaperDronePlus(int amount,PlayerData pd)
+    {
+        pd.PlayerDroneCost -= amount;
+    }
+    public static void CheaperFuelPlus(int amount,PlayerData pd)
+    {
+        pd.PlayerFuelCost -= amount;
+    }
+    public static void DronePlus(int amount,PlayerData pd)
+    {
+        pd.PlayerDrones -= amount;
+    }
+    public static void FuelPlus(int amount,PlayerData pd)
+    {
+        pd.PlayerFuel -= amount;
+    }
+    public static void LightRadiusPlus(int amount,PlayerData pd)
+    {
+        pd.LightRadius -= amount;
+    }
 }
 
 public class Overallgame_Controller_Script : MonoBehaviour
@@ -62,6 +151,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
     public static Overallgame_Controller_Script overallgame_controller_singleton;
 
     [Header("Global Player Stats")]
+    public PlayerData CurrentPlayer;
     public int player_score;
     public int player_dia;
     public int player_top;
@@ -91,6 +181,9 @@ public class Overallgame_Controller_Script : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(this);
+
+        //DEBUG
+        CurrentPlayer = new PlayerData();
     }
 
     public void Create_Map(int map_size = default){

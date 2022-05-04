@@ -8376,11 +8376,11 @@ MonoBehaviour:
   _prevSelectedCrystal: 0
   _selectedCrystal: 0
   _tappable: 0
-  _crackExplo: {fileID: 198848702626232102}
-  _rewardPopup: {fileID: 0}
-  _rewardCardLeft: {fileID: 0}
-  _rewardCardMiddle: {fileID: 0}
-  _rewardCardRight: {fileID: 0}
+  _crackExplo:
+  - {fileID: 198848702626232102}
+  - {fileID: 198848702626232102}
+  - {fileID: 198848702626232102}
+  - {fileID: 198848702626232102}
 --- !u!1 &417389571
 GameObject:
   m_ObjectHideFlags: 0
@@ -16209,7 +16209,7 @@ Canvas:
   m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -17732,7 +17732,7 @@ Canvas:
   m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -20251,7 +20251,7 @@ Canvas:
   m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

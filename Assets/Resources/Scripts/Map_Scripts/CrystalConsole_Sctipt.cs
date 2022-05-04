@@ -19,12 +19,7 @@ public class CrystalConsole_Sctipt : MonoBehaviour
     [SerializeField]private bool _tappable = false;
 
     [Header("reward vars")]
-    [SerializeField]private ParticleSystem _crackExplo;
-    [SerializeField]private GameObject _rewardPopup;
-    [SerializeField]private GameObject _rewardCardLeft;
-    [SerializeField]private GameObject _rewardCardMiddle;
-    [SerializeField]private GameObject _rewardCardRight;
-    
+    [SerializeField]private ParticleSystem[] _crackExplo;
 
     private int noneCrystalCount = -1;
 
@@ -113,6 +108,7 @@ public class CrystalConsole_Sctipt : MonoBehaviour
     public void CrystalTapped()
     {
         if(_tappable == false){return;}
+        MapUI_Script.singleton.CloseShopBackButton();
         Debug.Log("Crystal Tapped! "+ _selectedCrystal);
         _tappable = false;
 
@@ -195,7 +191,7 @@ public class CrystalConsole_Sctipt : MonoBehaviour
 
     public void PlayExplo()
     {
-        _crackExplo.Play();
+        _crackExplo[(int)_selectedCrystal].Play();
     }
 
     public void CompleteBreak()

@@ -52,7 +52,6 @@ public class CrystalPrizes_Script : MonoBehaviour
 
     public void FinishOpenPrize(int i)
     {
-        GameObject part = Instantiate(_prizes[i].particle, parent: _cards[i].gameObject.transform);
-        part.transform.localPosition = new Vector3(0,0,1.25f);
+        Instantiate(_prizes[i].particle, parent: _cards[i].gameObject.transform);
     }
 }

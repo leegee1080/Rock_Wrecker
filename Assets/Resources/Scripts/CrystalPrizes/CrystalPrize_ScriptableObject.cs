@@ -10,6 +10,8 @@ public class CrystalPrize_ScriptableObject : ScriptableObject
     public new string name;
     public string desc;
     public Sprite art;
+    public string sound;
+    public GameObject particle;
 
     
     [Header("Amount")]
@@ -21,6 +23,8 @@ public class CrystalPrize_ScriptableObject : ScriptableObject
 
     public void RunStatChange()
     {
+        //playsound
+
         StatChangeFunc = Global_Vars.PlayerUpgradeFuncDict[UpgradeType];
         StatChangeFunc(amount, Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer);
     }

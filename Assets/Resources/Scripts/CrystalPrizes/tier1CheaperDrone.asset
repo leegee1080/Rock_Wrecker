@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51e468ade74df7841832b85e065c47a7, type: 3}
-  m_Name: tier1Money
+  m_Name: tier1CheaperDrone
   m_EditorClassIdentifier: 
-  name: tier1Money
-  desc: A little cash...
-  art: {fileID: 21300000, guid: 2c555ce015a8d5345b2a1ad3b6ec715c, type: 3}
+  name: tier1CheaperDrone
+  desc: Drones Cost Less!
+  art: {fileID: 21300000, guid: 543d8ef207910e241b5714b9e29ce704, type: 3}
   sound: 
   particle: {fileID: 109660, guid: 2c6d89a990c89034c9c0820e62c27bcd, type: 3}
-  amount: 5
-  UpgradeType: 1
+  amount: 1
+  UpgradeType: 4

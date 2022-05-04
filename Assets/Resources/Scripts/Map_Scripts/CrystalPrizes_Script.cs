@@ -27,7 +27,7 @@ public class CrystalPrizes_Script : MonoBehaviour
         }
 
         _ani.Play("Base Layer.OpenPrizes",layer: 0,normalizedTime: 0);
-        MapUI_Script.singleton.CloseShopBackButton();
+        
         _prizeSelected = false;
     }
     public void ClosePrizes()
@@ -48,5 +48,10 @@ public class CrystalPrizes_Script : MonoBehaviour
 
         _prizeSelected = true;
         ClosePrizes();
+    }
+
+    public void FinishOpenPrize(int i)
+    {
+        Instantiate(_prizes[i].particle, parent: _cards[i].gameObject.transform);
     }
 }

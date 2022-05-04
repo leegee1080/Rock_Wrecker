@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51e468ade74df7841832b85e065c47a7, type: 3}
-  m_Name: tier2Money
+  m_Name: tier1FuelEff
   m_EditorClassIdentifier: 
-  name: tier2Money
-  desc: More cash...
-  art: {fileID: 21300000, guid: 2d39431cda7332944bcf9e2047f131d5, type: 3}
+  name: tier1FuelEff
+  desc: Fuel Eff++
+  art: {fileID: 21300000, guid: 92493e85fa0a9d3419858bbe4a740e0e, type: 3}
   sound: 
-  particle: {fileID: 109660, guid: 60177ef0f3692314dac049f1c8563656, type: 3}
-  amount: 10
-  UpgradeType: 1
+  particle: {fileID: 109660, guid: 2c6d89a990c89034c9c0820e62c27bcd, type: 3}
+  amount: 1
+  UpgradeType: 2

@@ -15,6 +15,7 @@ public class CrystalPrize_ScriptableObject : ScriptableObject
 
     
     [Header("Amount")]
+    public int tier;
     public int amount;
 
     [Header("Function")]

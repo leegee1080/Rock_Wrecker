@@ -17,5 +17,6 @@ MonoBehaviour:
   art: {fileID: 21300000, guid: 543d8ef207910e241b5714b9e29ce704, type: 3}
   sound: 
   particle: {fileID: 109660, guid: 2c6d89a990c89034c9c0820e62c27bcd, type: 3}
+  tier: 1
   amount: 1
   UpgradeType: 4

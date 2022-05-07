@@ -10,7 +10,7 @@ public class CrystalPrizes_Script : MonoBehaviour
     [SerializeField]private bool _prizeSelected;
     public static CrystalPrizes_Script singleton;
 
-    [SerializeField]private CrystalPrize_ScriptableObject[] _prizes;
+    public CrystalPrize_ScriptableObject[] _prizes;
     [SerializeField]private CrystalCard_Script[] _cards;
 
 

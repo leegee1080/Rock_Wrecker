@@ -19,6 +19,9 @@ public class CrystalConsole_Sctipt : MonoBehaviour
     [SerializeField]private bool _tappable = false;
 
     [Header("reward vars")]
+    [SerializeField]private CrystalPrize_ScriptableObject[] _tier1RewardList;
+    [SerializeField]private CrystalPrize_ScriptableObject[] _tier2RewardList;
+    [SerializeField]private CrystalPrize_ScriptableObject[] _tier3RewardList;
     [SerializeField]private ParticleSystem[] _crackExplo;
 
     private int noneCrystalCount = -1;
@@ -199,11 +202,52 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         // _crackExplo.Play();
         GrabOverallCrystalCount(_selectedCrystal) -= 1;
         MapUI_Script.singleton.UpdateShopUINumbers();
+        GivePrizeSO();
         SelectCrystal(CrystalTypes.None, true);
         CrystalPrizes_Script.singleton.OpenPrizes();
     }
 
+    private void GivePrizeSO()
+    {
+        List<CrystalPrize_ScriptableObject> combinedArray;
+        int randomNumber;
 
+        switch (_selectedCrystal)
+        {
+            case CrystalTypes.None:
+                Debug.Log("No crystal selected"); return; 
+            case CrystalTypes.Diamond:
+                combinedArray = new List<CrystalPrize_ScriptableObject>();
+                combinedArray.AddRange(_tier2RewardList);
+                combinedArray.AddRange(_tier3RewardList);
+                for (int i = 0; i < 3; i++)
+                {
+                    randomNumber = Random.Range(0, combinedArray.Count);
+                    CrystalPrizes_Script.singleton._prizes[i] = combinedArray[randomNumber];
+                }
+                return;
+            case CrystalTypes.Topaz:
+                for (int i = 0; i < 3; i++)
+                {
+                    randomNumber = Random.Range(0, _tier1RewardList.Length);
+                    CrystalPrizes_Script.singleton._prizes[i] = _tier1RewardList[randomNumber];
+                }
+                return;  
+            case CrystalTypes.Ruby:
+                combinedArray = new List<CrystalPrize_ScriptableObject>();
+                combinedArray.AddRange(_tier1RewardList);
+                combinedArray.AddRange(_tier2RewardList);
+                for (int i = 0; i < 3; i++)
+                {
+                    randomNumber = Random.Range(0, combinedArray.Count);
+                    CrystalPrizes_Script.singleton._prizes[i] = combinedArray[randomNumber];
+                }
+                return;
+            default:
+                Debug.Log("returning none due do incorrect crystal type (GivePrizeSO)");
+                Debug.Log("No crystal selected"); return; 
+        }
+    }
 
 
     public ref int GrabOverallCrystalCount(CrystalTypes _typeSelected)
@@ -219,7 +263,7 @@ public class CrystalConsole_Sctipt : MonoBehaviour
             case CrystalTypes.Ruby:
                 return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_rub;
             default:
-            Debug.Log("returning none due do incorrect crystal type (GrabOverallCrystalCount)");
+                Debug.Log("returning none due do incorrect crystal type (GrabOverallCrystalCount)");
                return ref noneCrystalCount;
         }
         

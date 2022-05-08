@@ -72,9 +72,9 @@ public static class Global_Vars
     public const int min_planet_coord = -500;
     public const int max_planet_difficulty = 3;
     public const int max_planet_mesh_index = 7;
-    public const int max_planet_dia_lode_multi = 5;
-    public const int max_planet_top_lode_multi = 5;
-    public const int max_planet_rub_lode_multi = 5;
+    public const int max_planet_dia_lode_multi = 1;
+    public const int max_planet_top_lode_multi = 4;
+    public const int max_planet_rub_lode_multi = 3;
 
     [Header("Ship Data")]
     public const int fuel_reach = 10;
@@ -152,14 +152,15 @@ public class Overallgame_Controller_Script : MonoBehaviour
 
     [Header("Global Player Stats")]
     public PlayerData CurrentPlayer;
-    public int player_score;
-    public int player_dia;
-    public int player_top;
-    public int player_rub;
-    public int PlayerFuel;
-    public int PlayerDrones;
-    public GameObject player_model;
-    public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
+
+    // public int player_score;
+    // public int player_dia;
+    // public int player_top;
+    // public int player_rub;
+    // public int PlayerFuel;
+    // public int PlayerDrones;
+    // public GameObject player_model;
+    // public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
 
 
     [Header("Scene Loading")]
@@ -186,9 +187,12 @@ public class Overallgame_Controller_Script : MonoBehaviour
         CurrentPlayer = new PlayerData();
     }
 
-    public void Create_Map(int map_size = default){
+    public void Create_Map(int map_size = default, int max_coord = default, int min_coord = default)
+    {
         if(map_size == default){map_size = Global_Vars.galaxy_size;}
-        main_map = new List<MapPOI_ScriptableObject>();
+        if(max_coord == default){max_coord = Global_Vars.max_planet_coord;}
+        if(min_coord == default){min_coord = Global_Vars.min_planet_coord;}
+        CurrentPlayer.main_map = new List<MapPOI_ScriptableObject>();
 
         List<Vector2> dist_check_list = new List<Vector2>();
 
@@ -203,13 +207,13 @@ public class Overallgame_Controller_Script : MonoBehaviour
             new_mappoi_so.deco_count = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_poi_deco * (new_mappoi_so.poi_difficulty+ 1) * new_mappoi_so.poi_size);
             new_mappoi_so.level_seed = (int)Global_Vars.rand_num_gen.Next(1,9999999);
             new_mappoi_so.mesh_index = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_mesh_index);
-            Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1), Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_coord,Global_Vars.max_planet_coord+1));
+            Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(min_coord, max_coord+1), Global_Vars.rand_num_gen.Next(min_coord, max_coord+1));
             new_mappoi_so.map_pos = rand_gen_pos;
 
             //lode gen
-            new_mappoi_so.lode_dia = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_dia_lode_multi * new_mappoi_so.poi_size);
-            new_mappoi_so.lode_rub = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_rub_lode_multi * new_mappoi_so.poi_size);
-            new_mappoi_so.lode_top = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_top_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_dia = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_planet_dia_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_rub = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_planet_rub_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_top = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_planet_top_lode_multi * new_mappoi_so.poi_size);
             //end lode gen
 
             foreach (Vector2 pos in dist_check_list)
@@ -219,14 +223,15 @@ public class Overallgame_Controller_Script : MonoBehaviour
                     break;
                 }
             }
-            if(new_mappoi_so.map_pos ==default){continue;}
+            if(new_mappoi_so.map_pos == default){continue;}
             new_mappoi_so.name = "A " + new_mappoi_so.poi_difficulty + " difficulty, " + new_mappoi_so.poi_size + " size, planet. At " + new_mappoi_so.map_pos;
-            main_map.Add(new_mappoi_so);
+            CurrentPlayer.main_map.Add(new_mappoi_so);
             dist_check_list.Add(rand_gen_pos);
         }
     }
 
-    public void Load_Map(){
+    public void Load_Map()
+    {
 
     }
 }

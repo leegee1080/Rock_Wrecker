@@ -244,7 +244,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         _currentStateClass.OnEnterState(this);
 
         drop_ship.Launch();
-        print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.player_score);
+        print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_score);
         current_player = null;
         current_player = Instantiate(current_player_serialized, parent: actor_container.transform);
 
@@ -473,7 +473,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public bool Exit_Level_To_Map(bool unUsed)
     {
-        Overallgame_Controller_Script.overallgame_controller_singleton.player_score += Level_Exit_Score_Calc();
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_score += resources_collected_array[0];
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_dia += resources_collected_array[1];
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_top += resources_collected_array[3];
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_rub += resources_collected_array[2];
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelselect);
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
         return true; //unUsed

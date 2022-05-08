@@ -14,6 +14,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     [SerializeField] private GameObject _shipGameObject;
 
     [Header("Selection Vars")]
+    [SerializeField] private bool _genNewMap;
     [SerializeField] public int DistPerFuelCost;
     public TMP_Text DroneCountText;
     [SerializeField] private float selection_visual_offset;
@@ -79,11 +80,16 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        if(_genNewMap)
+        {
+            Overallgame_Controller_Script.overallgame_controller_singleton.Create_Map(10,100,-100);
+        }
+
         SpaceCloudsDecoPooler = new GameObjectPooler<PoolableGameObject>(10,_spaceCloudPrefab,DecoContainer);
         SpaceDustDecoPooler = new GameObjectPooler<PoolableGameObject>(10,_spaceDustPrefab,DecoContainer);
         StartMapParticlePlacers();
 
-        map_poi_list = Overallgame_Controller_Script.overallgame_controller_singleton.main_map;
+        map_poi_list = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.main_map;
 
         if(map_poi_list == null){return;}
         foreach(MapPOI_ScriptableObject map_poi_so in map_poi_list){
@@ -143,7 +149,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
             return;
         }
 
-        if(Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones <= 0)
+        if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones <= 0)
         {
             BlinkGameObject(DroneCountText.gameObject);
             return;
@@ -269,7 +275,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
             
 
             int _dist = (int)((Vector2.Distance(OccupiedPOI.poi_info_so.map_pos, childPOI.map_pos)/DistPerFuelCost));
-            if(_dist < Overallgame_Controller_Script.overallgame_controller_singleton.PlayerFuel)
+            if(_dist < Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel)
             {  
                 _fuelLineRend[lineIndex].gameObject.SetActive(true);
                 _fuelLineRend[lineIndex].SetPosition(0, OccupiedPOI.poi_info_so.map_pos);
@@ -285,7 +291,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
                 continue;
             }
 
-            if(_dist == Overallgame_Controller_Script.overallgame_controller_singleton.PlayerFuel)
+            if(_dist == Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel)
             {  
                 _fuelLineRend[lineIndex].gameObject.SetActive(true);
                 _fuelLineRend[lineIndex].SetPosition(0, OccupiedPOI.poi_info_so.map_pos);
@@ -405,7 +411,7 @@ public class LevelselectState_Setup: LevelselectStatesAbstractClass
     {
         Debug.Log("setup");
 
-        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
+        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones + "";
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = false;
         // _cont.CinematicAnimator.SetBool("InShip", false);
@@ -436,7 +442,7 @@ public class LevelselectState_Select: LevelselectStatesAbstractClass
         GO.transform.position = new Vector3(Camera.main.gameObject.transform.position.x, Camera.main.gameObject.transform.position.y, _cont.MapDecoDistFromCam);
         _cont.StartMapParticlePlacers();
 
-        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
+        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones + "";
         _cont.UIScript.CloseShipMiniMenu();
         _cont.CinematicAnimator.SetBool("InShip", false);
         _cont.UpdateFuelLines();
@@ -478,9 +484,9 @@ public class LevelselectState_Deploy: LevelselectStatesAbstractClass
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
 
 
-        Overallgame_Controller_Script.overallgame_controller_singleton.PlayerFuel -= _cont._selectionHighlightAnimator.GetComponent<MapSelectCursor_Script>().FuelCost;
-        Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones -= 1;
-        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.PlayerDrones + "";
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel -= _cont._selectionHighlightAnimator.GetComponent<MapSelectCursor_Script>().FuelCost;
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones -= 1;
+        _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones + "";
         _cont.OccupiedPOI = _cont.selected_poi;
         
         Debug.Log("launched mission to: "+ _cont.selected_poi.name);

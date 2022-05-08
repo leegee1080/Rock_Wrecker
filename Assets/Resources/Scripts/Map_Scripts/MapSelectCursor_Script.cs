@@ -35,7 +35,7 @@ public class MapSelectCursor_Script : MonoBehaviour
         _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_FaceColor, _defaultColor);
         int fuelCost = ((int)(Vector2.Distance(Levelselect_Controller_Script.levelselect_controller_singletion.OccupiedPOI.poi_info_so.map_pos, _selectedPOI.map_pos) / Levelselect_Controller_Script.levelselect_controller_singletion.DistPerFuelCost));
         _fuelText.text = "Fuel: "+ fuelCost;
-        if(fuelCost > Overallgame_Controller_Script.overallgame_controller_singleton.PlayerFuel)
+        if(fuelCost > Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel)
         {
            _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, _alertColor);
            _fuelText.fontSharedMaterial.SetColor(ShaderUtilities.ID_FaceColor, _alertColor);

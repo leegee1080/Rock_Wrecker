@@ -54,7 +54,7 @@ public class FuelBtn_Script : MonoBehaviour
             tick.gameObject.SetActive(false);
         }
         yield return new WaitForSeconds(_tickAnimationSpeed);
-        for (int i = 0; i < Overallgame_Controller_Script.overallgame_controller_singleton.PlayerFuel; i++)
+        for (int i = 0; i < Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel; i++)
         {
             if(_menuOpen ==false){break;}
             _fuelTicksContainer.transform.GetChild(i).gameObject.SetActive(true);

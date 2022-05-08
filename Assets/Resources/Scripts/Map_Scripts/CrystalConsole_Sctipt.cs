@@ -257,11 +257,11 @@ public class CrystalConsole_Sctipt : MonoBehaviour
             case CrystalTypes.None:
                 return ref noneCrystalCount;
             case CrystalTypes.Diamond:
-                return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_dia;
+                return ref Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_dia;
             case CrystalTypes.Topaz:
-                return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_top;  
+                return ref Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_top;  
             case CrystalTypes.Ruby:
-                return ref Overallgame_Controller_Script.overallgame_controller_singleton.player_rub;
+                return ref Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_rub;
             default:
                 Debug.Log("returning none due do incorrect crystal type (GrabOverallCrystalCount)");
                return ref noneCrystalCount;

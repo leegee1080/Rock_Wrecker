@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,13 +34,12 @@ public enum PlayerUpgradeTypes
     public int player_top = 0;
     public int player_rub = 0;
     public int DroneShields = 0;
-    public float LightRadius;
+    public float LightRadius = 33;
     public int PlayerFuelReach = 10;
     public int PlayerFuel = 0;
     public int PlayerDrones = 0;
     public int PlayerDroneCost = 10;
     public int PlayerFuelCost = 10;
-    public GameObject player_model;
     public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
 }
 
@@ -183,8 +183,14 @@ public class Overallgame_Controller_Script : MonoBehaviour
         }
         DontDestroyOnLoad(this);
 
-        //DEBUG
-        CurrentPlayer = new PlayerData();
+
+        PlayerData loadedData = Load_Game();
+        if(loadedData == null)
+        {
+            NewGame();
+            return;
+        }
+        CurrentPlayer = loadedData;
     }
 
     public void Create_Map(int map_size = default, int max_coord = default, int min_coord = default)
@@ -230,8 +236,87 @@ public class Overallgame_Controller_Script : MonoBehaviour
         }
     }
 
-    public void Load_Map()
+    public void NewGame()
     {
+        CurrentPlayer = new PlayerData();
+        Create_Map();
+        Save_Game(CurrentPlayer);
+    }
 
+    public void Debug_SaveGame()
+    {
+        Save_Game(CurrentPlayer);
+    }
+
+    public void Debug_ClearSaveData()
+    {
+        NewGame();
+    }
+
+    public void Save_Game(PlayerData dataToSave)
+    {
+        string fullPathP = Path.Combine(Application.persistentDataPath, "playerdata.ye");
+
+        List<MapPOI_ScriptableObject> main_map = dataToSave.main_map;
+        dataToSave.main_map = null;
+
+        string fullPathM = Path.Combine(Application.persistentDataPath, "mapdata.ye");
+
+        try
+        {
+            string PdataToStore = JsonUtility.ToJson(dataToSave, false);
+            string MdataToStore = JsonUtility.ToJson(dataToSave, false);
+
+            using(FileStream stream = new FileStream(fullPathP, FileMode.Create))
+            {
+                using(StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(PdataToStore);
+                }
+            }
+            using(FileStream stream = new FileStream(fullPathM, FileMode.Create))
+            {
+                using(StreamWriter writer = new StreamWriter(stream))
+                {
+                    writer.Write(MdataToStore);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Error when saving data " + e);
+        }
+    }
+
+    public PlayerData Load_Game()
+    {
+        PlayerData loadedPlayer = null;
+
+        string fullPathP = Path.Combine(Application.persistentDataPath, "playerdata.ye");
+        string fullPathM = Path.Combine(Application.persistentDataPath, "mapdata.ye");
+        if(File.Exists(fullPathP))
+        {
+            try
+            {
+                string PdataToLoad = "";
+
+                using(FileStream stream = new FileStream(fullPathP, FileMode.Open))
+                {
+                    using(StreamReader reader = new StreamReader(stream))
+                    {
+                        PdataToLoad = reader.ReadToEnd();
+                    }
+                }
+
+                loadedPlayer = JsonUtility.FromJson<PlayerData>(PdataToLoad);
+                return loadedPlayer;
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Error when loading data " + e);
+            }
+            
+        }
+        return null;
     }
 }

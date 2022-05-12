@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -270,9 +271,11 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void UpdateFuelLines()
     {
+        print("updating fuel lines");
         foreach (LineRenderer line in _fuelLineRend)
         {
             line.transform.position = OccupiedPOI.transform.position;
+            line.gameObject.SetActive(false);
         }
 
         int lineIndex = 0;
@@ -282,14 +285,18 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
             if(childPOI.name == OccupiedPOI.poi_info_so.name){continue;}
 
+            if(childPOI.played){continue;}
+
             
 
-            int _dist = (int)((Vector2.Distance(OccupiedPOI.poi_info_so.map_pos, childPOI.map_pos)/DistPerFuelCost));
+            int _dist = (int)((Vector2.Distance(OccupiedPOI.poi_info_so.map_pos, childPOI.map_pos)/Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach));
+
             if(_dist < Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel)
             {  
+                try
+                {
                 _fuelLineRend[lineIndex].gameObject.SetActive(true);
                 _fuelLineRend[lineIndex].SetPosition(0, OccupiedPOI.poi_info_so.map_pos);
-                // _fuelLineRend[lineIndex].SetPosition(1, new Vector3(childPOI.transform.position.x -5, childPOI.transform.position.y, childPOI.transform.position.z));
                 _fuelLineRend[lineIndex].SetPosition(1, childPOI.map_pos);
                 _fuelLineRend[lineIndex].startColor = _defaultColor;
                 _fuelLineRend[lineIndex].endColor = _defaultColor;
@@ -298,11 +305,18 @@ public class Levelselect_Controller_Script : MonoBehaviour
                 _fuelLineRend[lineIndex].gameObject.name = "Pointing to: "+ childPOI.name;
 
                 lineIndex += 1;
+                }
+                catch(Exception e)
+                {
+                    Debug.Log(lineIndex + " index Error when placing fuelline green " + e);
+                }
                 continue;
             }
 
             if(_dist == Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel)
             {  
+                try
+                {
                 _fuelLineRend[lineIndex].gameObject.SetActive(true);
                 _fuelLineRend[lineIndex].SetPosition(0, OccupiedPOI.poi_info_so.map_pos);
                 _fuelLineRend[lineIndex].SetPosition(1, childPOI.map_pos);
@@ -312,20 +326,33 @@ public class Levelselect_Controller_Script : MonoBehaviour
                 _fuelLineRend[lineIndex].gameObject.name = "Pointing to: "+ childPOI.name;
 
                 lineIndex += 1;
+                }
+                catch(Exception e)
+                {
+                    Debug.Log(lineIndex + " index Error when placing fuelline yellow " + e);
+                }
                 continue;
             }
 
             if(_dist < 10)
             {  
-                _fuelLineRend[lineIndex].gameObject.SetActive(true);
-                _fuelLineRend[lineIndex].SetPosition(0, OccupiedPOI.poi_info_so.map_pos);
-                _fuelLineRend[lineIndex].SetPosition(1, childPOI.map_pos);
-                _fuelLineRend[lineIndex].startColor = _alertColor;
-                _fuelLineRend[lineIndex].endColor = _alertColor;
+                try
+                {
+                    LineRenderer line = _fuelLineRend[lineIndex];
+                    line.gameObject.SetActive(true);
+                    line.SetPosition(0, OccupiedPOI.poi_info_so.map_pos);
+                    line.SetPosition(1, childPOI.map_pos);
+                    line.startColor = _alertColor;
+                    line.endColor = _alertColor;
 
-                _fuelLineRend[lineIndex].gameObject.name = "Pointing to: "+ childPOI.name;
+                    line.gameObject.name = "Pointing to: "+ childPOI.name;
 
-                lineIndex += 1;
+                    lineIndex += 1;
+                }
+                catch(Exception e)
+                {
+                    Debug.Log(lineIndex + " index Error when placing fuelline red" + e);
+                }
                 continue;
             }
         }

@@ -106,6 +106,7 @@ public static class Global_Vars
     public const int drone_cost = 10;
     public const int fuel_cost = 10;
     public const int max_fuel = 8;
+    public const int max_fuel_reach = 20;
     public const int max_drones = 9;
 
     [Header("POI Data")]

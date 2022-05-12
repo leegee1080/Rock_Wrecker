@@ -61,7 +61,7 @@ public class MapUI_Script : MonoBehaviour
 
     public void PurchaseDrone()
     {
-        if(_ocScript.CurrentPlayer.player_score >= Global_Vars.drone_cost)
+        if(_ocScript.CurrentPlayer.player_score >= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost)
         {
             if(_ocScript.CurrentPlayer.PlayerDrones >= Global_Vars.max_drones)
             {
@@ -69,7 +69,7 @@ public class MapUI_Script : MonoBehaviour
                 return;
             }
             //purchase
-            _ocScript.CurrentPlayer.player_score -= Global_Vars.drone_cost;
+            _ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost;
             _ocScript.CurrentPlayer.PlayerDrones += 1;
             Levelselect_Controller_Script.levelselect_controller_singletion.DroneCountText.text = _ocScript.CurrentPlayer.PlayerDrones + "";
             UpdateShopUINumbers();
@@ -81,7 +81,7 @@ public class MapUI_Script : MonoBehaviour
 
     public void PurchaseFuel()
     {
-        if(_ocScript.CurrentPlayer.player_score >= Global_Vars.fuel_cost)
+        if(_ocScript.CurrentPlayer.player_score >= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelCost)
         {
             if(_ocScript.CurrentPlayer.PlayerFuel >= Global_Vars.max_fuel)
             {
@@ -89,7 +89,7 @@ public class MapUI_Script : MonoBehaviour
                 return;
             }
             //purchase
-            _ocScript.CurrentPlayer.player_score -= Global_Vars.fuel_cost;
+            _ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelCost;
             _ocScript.CurrentPlayer.PlayerFuel += 1;
             if(_fuelBtnScript._menuOpen){_fuelBtnScript.FinishOpenMenu();}
             UpdateShopUINumbers();

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tier1FreeDrone
   m_EditorClassIdentifier: 
   name: tier1FreeDrone
-  desc: Some Gas!
+  desc: A free drone!
   art: {fileID: 21300000, guid: 603ce02fdac866747979d3ca6b782ee2, type: 3}
   sound: 
   particle: {fileID: 109660, guid: 2c6d89a990c89034c9c0820e62c27bcd, type: 3}

@@ -28,7 +28,7 @@ public enum PlayerUpgradeTypes
 [Serializable]public class PlayerData
 {
     public string name;
-    public int[] player_mapPos;
+    public float[] player_mapPos;
     public int player_score;
     public float score_multi = 1;
     public int player_dia = 0;
@@ -143,8 +143,8 @@ public static class Global_Vars
     }
     public static void MoneyMultiPlus(int amount,PlayerData pd)
     {
-        float amountF = amount/10;
-        pd.PlayerFuel += (int)amountF;
+        float amountF = amount/100;
+        pd.score_multi += amountF;
     }
     public static void CheaperDronePlus(int amount,PlayerData pd)
     {
@@ -156,15 +156,26 @@ public static class Global_Vars
     }
     public static void DronePlus(int amount,PlayerData pd)
     {
-        pd.PlayerDrones -= amount;
+        if(pd.PlayerDrones >= max_drones){return;}
+        pd.PlayerDrones += amount;
     }
     public static void FuelPlus(int amount,PlayerData pd)
     {
-        pd.PlayerFuel -= amount;
+        if(pd.PlayerFuel >= max_fuel){return;}
+        pd.PlayerFuel += amount;
+        try
+            {
+                MapUI_Script mapUI = MapUI_Script.singleton;
+                if(mapUI._fuelBtnScript._menuOpen){mapUI._fuelBtnScript.FinishOpenMenu();}
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Error when adding free fuel " + e);
+            }
     }
     public static void LightRadiusPlus(int amount,PlayerData pd)
     {
-        pd.LightRadius -= amount;
+        pd.LightRadius += amount;
     }
 }
 
@@ -285,6 +296,14 @@ public class Overallgame_Controller_Script : MonoBehaviour
         Create_Map();
     }
 
+    public void SaveCurrentPlayer()
+    {
+        Save_Game(CurrentPlayer);
+    }
+    public void SaveCurrentMap()
+    {
+        Save_Map(CurrentPlayer.main_map);
+    }
 
 
     public void Save_Game(PlayerData dataToSave)
@@ -306,6 +325,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
                     writer.Write(PdataToStore);
                 }
             }
+            Debug.Log("Player Saved");
         }
         catch(Exception e)
         {
@@ -335,6 +355,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
                     writer.Write(MdataToStore);
                 }
             }
+            Debug.Log("Map Saved");
         }
         catch(Exception e)
         {
@@ -361,6 +382,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
                     }
                 }
                 loadedPlayer = JsonUtility.FromJson<PlayerData>(PdataToLoad);
+                Debug.Log("Player Loaded");
                 return loadedPlayer;
             }
             catch(Exception e)
@@ -396,6 +418,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
                 {
                     mapToReturn.Add(MapDataToObject(loadedMap.saveableMap[i]));
                 }
+                Debug.Log("Map Loaded");
                 return mapToReturn;
             }
             catch(Exception e)

@@ -137,6 +137,11 @@ public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
         _cont.level_escape_timer.timer_finished_bool = true;
         _cont.level_end_timer.timer_finished_bool = true;
 
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_score += _cont.resources_collected_array[0];
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_dia += _cont.resources_collected_array[1];
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_top += _cont.resources_collected_array[3];
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_rub += _cont.resources_collected_array[2];
+
         AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("win confirm", AnnounceTypeEnum.OneBtn, "Resources Saved!", "Drone has been extracted, resources sent to ship!", _cont.Exit_Level_To_Map);
         AnnouncerScript.singleton.ChangeOpenState(true);
         Debug.Log("Level Win");

@@ -16,7 +16,7 @@ public class MapUI_Script : MonoBehaviour
     [SerializeField]private GameObject _droneUIContainer;
 
     private Overallgame_Controller_Script _ocScript;
-    [SerializeField]private FuelBtn_Script _fuelBtnScript;
+    [SerializeField]public FuelBtn_Script _fuelBtnScript;
 
     
     private IEnumerator _runningBlinkRountine;

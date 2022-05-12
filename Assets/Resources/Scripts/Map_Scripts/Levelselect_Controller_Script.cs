@@ -6,6 +6,7 @@ using TMPro;
 public class Levelselect_Controller_Script : MonoBehaviour
 {
     public static Levelselect_Controller_Script levelselect_controller_singletion;
+    private Overallgame_Controller_Script _oCScript;
 
     private List<MapPOI_ScriptableObject> map_poi_list;
     [SerializeField] private MapPOI_Script map_poi_go;
@@ -80,6 +81,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        _oCScript = Overallgame_Controller_Script.overallgame_controller_singleton;
+
         if(_genNewMap)
         {
             Overallgame_Controller_Script.overallgame_controller_singleton.Create_Map(10,100,-100);
@@ -154,6 +157,9 @@ public class Levelselect_Controller_Script : MonoBehaviour
             BlinkGameObject(DroneCountText.gameObject);
             return;
         }
+        _oCScript.CurrentPlayer.player_mapPos[0] = selected_poi.poi_info_so.map_pos[0];
+        _oCScript.CurrentPlayer.player_mapPos[1] = selected_poi.poi_info_so.map_pos[1];
+        selected_poi.poi_info_so.played = true;
         ChangeState(LevelselectStatesEnum.Deploy);
     }
 
@@ -174,10 +180,11 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void SelectCenterPOI()
     {
         MapPOI_Script nearestCenterPOI = transform.GetChild(0).GetComponent<MapPOI_Script>();
+        Vector3 playerPos = new Vector3(_oCScript.CurrentPlayer.player_mapPos[0],_oCScript.CurrentPlayer.player_mapPos[1], 0);
 
         foreach (Transform childPOI in gameObject.transform)
         {
-             if((Vector3.Distance(childPOI.transform.position, Vector3.zero) < (Vector3.Distance(nearestCenterPOI.transform.position, Vector3.zero))))
+             if((Vector3.Distance(childPOI.transform.position, playerPos) < (Vector3.Distance(nearestCenterPOI.transform.position, playerPos))))
              {  
                  nearestCenterPOI = childPOI.GetComponent<MapPOI_Script>();
                  continue;
@@ -222,6 +229,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void FinishSwitchToShipFromShop()
     {
+        Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentPlayer();
         UIScript.OpenShipMiniMenu();
     }
     public void SwitchToMenu()
@@ -231,6 +239,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void Back_to_Menu()
     {
+        _oCScript.SaveCurrentPlayer();
+        _oCScript.SaveCurrentMap();
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }
@@ -494,6 +504,9 @@ public class LevelselectState_Deploy: LevelselectStatesAbstractClass
         if(FuelBtn_Script.singleton._menuOpen){FuelBtn_Script.singleton.ToggleHud();}
         FuelBtn_Script.singleton.MenuDisabled = true;
         MapUI_Script.singleton.CloseSelectionMiniMenu();
+
+        Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentPlayer();
+        Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentMap();
 
         _cont.LaunchDropShip();
     }   

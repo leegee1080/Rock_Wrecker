@@ -41,6 +41,10 @@ public class CrystalPrizes_Script : MonoBehaviour
             {
                 _prizes[i] = _repPrize;
             }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FuelEff && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach <= Global_Vars.max_fuel_reach)
+            {
+                _prizes[i] = _repPrize;
+            }
             _cards[i].ApplyCard(_prizes[i]);
         }
 

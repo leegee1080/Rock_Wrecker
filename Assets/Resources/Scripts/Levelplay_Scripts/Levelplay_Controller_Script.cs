@@ -440,7 +440,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public void AddScore()
     {
-        resources_collected_array[0] += 5;
+        resources_collected_array[0] += 1;
         CollectSparkle.Play();
 
         if(score_menu_container.activeSelf)
@@ -473,10 +473,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public bool Exit_Level_To_Map(bool unUsed)
     {
-        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_score += resources_collected_array[0];
-        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_dia += resources_collected_array[1];
-        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_top += resources_collected_array[3];
-        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_rub += resources_collected_array[2];
+        Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentPlayer();
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelselect);
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
         return true; //unUsed

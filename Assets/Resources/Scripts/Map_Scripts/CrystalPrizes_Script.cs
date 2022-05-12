@@ -11,6 +11,8 @@ public class CrystalPrizes_Script : MonoBehaviour
     public static CrystalPrizes_Script singleton;
 
     public CrystalPrize_ScriptableObject[] _prizes;
+    [SerializeField]private CrystalPrize_ScriptableObject _repPrize;
+
     [SerializeField]private CrystalCard_Script[] _cards;
 
 
@@ -23,6 +25,22 @@ public class CrystalPrizes_Script : MonoBehaviour
     {
         for (int i = 0; i < _cards.Length; i++)
         {
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FreeFuel && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel >= Global_Vars.max_fuel)
+            {
+                _prizes[i] = _repPrize;
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FreeDrone && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones >= Global_Vars.max_drones)
+            {
+                _prizes[i] = _repPrize;
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.CheaperDrone && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost <= 0)
+            {
+                _prizes[i] = _repPrize;
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.CheaperFuel && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelCost <= 0)
+            {
+                _prizes[i] = _repPrize;
+            }
             _cards[i].ApplyCard(_prizes[i]);
         }
 
@@ -47,6 +65,7 @@ public class CrystalPrizes_Script : MonoBehaviour
         
 
         _prizeSelected = true;
+        Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentPlayer();
         ClosePrizes();
     }
 

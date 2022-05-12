@@ -12,6 +12,8 @@ public class MapSelectCursor_Script : MonoBehaviour
     [SerializeField]TMP_Text _lodeTopText;
     [SerializeField]TMP_Text _dangerText;
     [SerializeField]TMP_Text _fuelText;
+    [SerializeField]GameObject _infoContainer;
+    [SerializeField]GameObject _warningOverrunContainer;
     public bool FuelCostTooHigh;
     public int FuelCost;
     [SerializeField]Color _defaultColor;
@@ -22,6 +24,9 @@ public class MapSelectCursor_Script : MonoBehaviour
     public void UpdateInfo(MapPOI_ScriptableObject _selectedPOI)
     {
         if(_runningBlinkRountine != null){StopCoroutine(_runningBlinkRountine); _fuelText.gameObject.transform.localScale = Vector3.one;}
+
+        if(_selectedPOI.played){_infoContainer.SetActive(false); return;}
+        _infoContainer.SetActive(true);
         
         _sizeText.text = "Size: "+_selectedPOI.poi_size;
         // _lodeText.text = "Lode: <color=blue>" +_selectedPOI.lode_dia.ToString() + "</color> <color=red>" +_selectedPOI.lode_rub.ToString() + "</color> <color=yellow>" + _selectedPOI.lode_top.ToString() + "</color>";

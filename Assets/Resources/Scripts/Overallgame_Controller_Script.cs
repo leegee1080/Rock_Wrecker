@@ -28,6 +28,7 @@ public enum PlayerUpgradeTypes
 [Serializable]public class PlayerData
 {
     public string name;
+    public float[] player_mapPos;
     public int player_score;
     public float score_multi = 1;
     public int player_dia = 0;
@@ -41,6 +42,27 @@ public enum PlayerUpgradeTypes
     public int PlayerDroneCost = 10;
     public int PlayerFuelCost = 10;
     public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
+}
+[Serializable]public class MapDataStorageClass
+{
+    public string name;
+    public List<MapData> saveableMap = new List<MapData>();
+}
+[Serializable]public class MapData
+{
+    public string name = "";
+    public bool played = false;
+    public bool finished = false;
+    public float[] map_pos = new float[2];//conversion from a vector
+    public int poi_size = 1;
+    public int poi_difficulty = 1;
+    public int lode_dia = 0;
+    public int lode_rub = 0;
+    public int lode_top = 0;
+    public int level_seed = 123;
+    public int rotate_speed = 1;
+    public int deco_count = 0;
+    public int mesh_index = 0;
 }
 
 public static class Global_Vars
@@ -121,8 +143,8 @@ public static class Global_Vars
     }
     public static void MoneyMultiPlus(int amount,PlayerData pd)
     {
-        float amountF = amount/10;
-        pd.PlayerFuel += (int)amountF;
+        float amountF = amount/100;
+        pd.score_multi += amountF;
     }
     public static void CheaperDronePlus(int amount,PlayerData pd)
     {
@@ -134,15 +156,26 @@ public static class Global_Vars
     }
     public static void DronePlus(int amount,PlayerData pd)
     {
-        pd.PlayerDrones -= amount;
+        if(pd.PlayerDrones >= max_drones){return;}
+        pd.PlayerDrones += amount;
     }
     public static void FuelPlus(int amount,PlayerData pd)
     {
-        pd.PlayerFuel -= amount;
+        if(pd.PlayerFuel >= max_fuel){return;}
+        pd.PlayerFuel += amount;
+        try
+            {
+                MapUI_Script mapUI = MapUI_Script.singleton;
+                if(mapUI._fuelBtnScript._menuOpen){mapUI._fuelBtnScript.FinishOpenMenu();}
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Error when adding free fuel " + e);
+            }
     }
     public static void LightRadiusPlus(int amount,PlayerData pd)
     {
-        pd.LightRadius -= amount;
+        pd.LightRadius += amount;
     }
 }
 
@@ -185,6 +218,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
 
 
         PlayerData loadedData = Load_Game();
+        loadedData.main_map = Load_Map();
         if(loadedData == null)
         {
             NewGame();
@@ -240,32 +274,49 @@ public class Overallgame_Controller_Script : MonoBehaviour
     {
         CurrentPlayer = new PlayerData();
         Create_Map();
-        Save_Game(CurrentPlayer);
+        // Save_Game(CurrentPlayer);
+        // Save_Map(CurrentPlayer.main_map);
     }
 
     public void Debug_SaveGame()
     {
         Save_Game(CurrentPlayer);
+        Save_Map(CurrentPlayer.main_map);
+    }
+
+    public void Debug_LoadGame()
+    {
+        PlayerData loadedData = Load_Game();
+        loadedData.main_map = Load_Map();
     }
 
     public void Debug_ClearSaveData()
     {
-        NewGame();
+        CurrentPlayer = new PlayerData();
+        Create_Map();
     }
+
+    public void SaveCurrentPlayer()
+    {
+        Save_Game(CurrentPlayer);
+    }
+    public void SaveCurrentMap()
+    {
+        Save_Map(CurrentPlayer.main_map);
+    }
+
 
     public void Save_Game(PlayerData dataToSave)
     {
+        PlayerData playerData = dataToSave;
+
         string fullPathP = Path.Combine(Application.persistentDataPath, "playerdata.ye");
 
-        List<MapPOI_ScriptableObject> main_map = dataToSave.main_map;
-        dataToSave.main_map = null;
-
-        string fullPathM = Path.Combine(Application.persistentDataPath, "mapdata.ye");
+        // playerData.main_map = null;
 
         try
         {
-            string PdataToStore = JsonUtility.ToJson(dataToSave, false);
-            string MdataToStore = JsonUtility.ToJson(dataToSave, false);
+            string PdataToStore = JsonUtility.ToJson(playerData, false);
 
             using(FileStream stream = new FileStream(fullPathP, FileMode.Create))
             {
@@ -274,6 +325,29 @@ public class Overallgame_Controller_Script : MonoBehaviour
                     writer.Write(PdataToStore);
                 }
             }
+            Debug.Log("Player Saved");
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Error when saving data " + e);
+        }
+    }
+    public void Save_Map(List<MapPOI_ScriptableObject> mapToSave)
+    {
+        MapDataStorageClass mainMapData = new MapDataStorageClass();
+
+        mainMapData.name = CurrentPlayer.name;
+        for (int i = 0; i < mapToSave.Count; i++)
+        {
+            mainMapData.saveableMap.Add(ObjectToMapData(mapToSave[i]));
+        }
+
+        string fullPathM = Path.Combine(Application.persistentDataPath, "mapdata.ye");
+
+        try
+        {
+            string MdataToStore = JsonUtility.ToJson(mainMapData, false);
+
             using(FileStream stream = new FileStream(fullPathM, FileMode.Create))
             {
                 using(StreamWriter writer = new StreamWriter(stream))
@@ -281,19 +355,19 @@ public class Overallgame_Controller_Script : MonoBehaviour
                     writer.Write(MdataToStore);
                 }
             }
+            Debug.Log("Map Saved");
         }
         catch(Exception e)
         {
             Debug.Log("Error when saving data " + e);
         }
-    }
+    }    
 
     public PlayerData Load_Game()
     {
         PlayerData loadedPlayer = null;
 
         string fullPathP = Path.Combine(Application.persistentDataPath, "playerdata.ye");
-        string fullPathM = Path.Combine(Application.persistentDataPath, "mapdata.ye");
         if(File.Exists(fullPathP))
         {
             try
@@ -307,8 +381,8 @@ public class Overallgame_Controller_Script : MonoBehaviour
                         PdataToLoad = reader.ReadToEnd();
                     }
                 }
-
                 loadedPlayer = JsonUtility.FromJson<PlayerData>(PdataToLoad);
+                Debug.Log("Player Loaded");
                 return loadedPlayer;
             }
             catch(Exception e)
@@ -318,5 +392,84 @@ public class Overallgame_Controller_Script : MonoBehaviour
             
         }
         return null;
+    }
+    public List<MapPOI_ScriptableObject> Load_Map()
+    {
+        MapDataStorageClass loadedMap = null;
+        List<MapPOI_ScriptableObject> mapToReturn = new List<MapPOI_ScriptableObject>();
+
+        string fullPathM = Path.Combine(Application.persistentDataPath, "mapdata.ye");
+        if(File.Exists(fullPathM))
+        {
+            try
+            {
+                string MdataToLoad = "";
+
+                using(FileStream stream = new FileStream(fullPathM, FileMode.Open))
+                {
+                    using(StreamReader reader = new StreamReader(stream))
+                    {
+                        MdataToLoad = reader.ReadToEnd();
+                    }
+                }
+                loadedMap = JsonUtility.FromJson<MapDataStorageClass>(MdataToLoad);
+
+                for (int i = 0; i < loadedMap.saveableMap.Count; i++)
+                {
+                    mapToReturn.Add(MapDataToObject(loadedMap.saveableMap[i]));
+                }
+                Debug.Log("Map Loaded");
+                return mapToReturn;
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Error when loading data " + e);
+            }
+            
+        }
+        return null;
+    }
+    private MapPOI_ScriptableObject MapDataToObject(MapData md)
+    {
+        MapPOI_ScriptableObject tempPOI = (MapPOI_ScriptableObject)ScriptableObject.CreateInstance("MapPOI_ScriptableObject");
+        MapData tempMD = md;
+
+        tempPOI.name = tempMD.name;
+        tempPOI.played = tempMD.played;
+        tempPOI.finished = tempMD.finished;
+        tempPOI.map_pos = new Vector2(tempMD.map_pos[0],tempMD.map_pos[1]);
+        tempPOI.poi_size = tempMD.poi_size;
+        tempPOI.poi_difficulty = tempMD.poi_difficulty;
+        tempPOI.lode_dia = tempMD.lode_dia;
+        tempPOI.lode_rub = tempMD.lode_rub;
+        tempPOI.lode_top = tempMD.lode_top;
+        tempPOI.level_seed = tempMD.level_seed;
+        tempPOI.rotate_speed = tempMD.rotate_speed;
+        tempPOI.deco_count = tempMD.deco_count;
+        tempPOI.mesh_index = tempMD.mesh_index;
+
+        return tempPOI;
+    }
+    private MapData ObjectToMapData(MapPOI_ScriptableObject so)
+    {
+        MapPOI_ScriptableObject tempPOI = so;
+        MapData tempMD = new MapData();
+
+        tempMD.name = tempPOI.name;
+        tempMD.played = tempPOI.played;
+        tempMD.finished = tempPOI.finished;
+        tempMD.map_pos[0] = tempPOI.map_pos[0];
+        tempMD.map_pos[1] = tempPOI.map_pos[1];
+        tempMD.poi_size = tempPOI.poi_size;
+        tempMD.poi_difficulty = tempPOI.poi_difficulty;
+        tempMD.lode_dia = tempPOI.lode_dia;
+        tempMD.lode_rub = tempPOI.lode_rub;
+        tempMD.lode_top = tempPOI.lode_top;
+        tempMD.level_seed = tempPOI.level_seed;
+        tempMD.rotate_speed = tempPOI.rotate_speed;
+        tempMD.deco_count = tempPOI.deco_count;
+        tempMD.mesh_index = tempPOI.mesh_index;
+
+        return tempMD;
     }
 }

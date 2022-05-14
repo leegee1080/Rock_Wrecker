@@ -25,7 +25,8 @@ public class MapSelectCursor_Script : MonoBehaviour
     {
         if(_runningBlinkRountine != null){StopCoroutine(_runningBlinkRountine); _fuelText.gameObject.transform.localScale = Vector3.one;}
 
-        if(_selectedPOI.played){_infoContainer.SetActive(false); return;}
+        if(_selectedPOI.played){_warningOverrunContainer.SetActive(true); _infoContainer.SetActive(false); return;}
+        _warningOverrunContainer.SetActive(false);
         _infoContainer.SetActive(true);
         
         _sizeText.text = "Size: "+_selectedPOI.poi_size;

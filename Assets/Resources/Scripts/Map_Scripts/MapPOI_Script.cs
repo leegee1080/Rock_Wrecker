@@ -9,6 +9,7 @@ public class MapPOI_Script : MonoBehaviour
     [SerializeField]private GameObject _visualsContainerGroup;
     [SerializeField]private SphereCollider _sphereCollider;
 
+    [SerializeField]private GameObject _overRunWarningPart;
     [SerializeField]private MeshRenderer poi_mesh_renderer;
     [SerializeField]private MeshFilter poi_mesh_filter;
     [SerializeField]private Mesh[] asteroid_meshs;
@@ -31,10 +32,13 @@ public class MapPOI_Script : MonoBehaviour
         name = poi_info_so.name;
         gameObject.transform.Rotate(new Vector3(0,0,poi_info_so.rotate_speed));
         Random.InitState(poi_info_so.level_seed);
+        if(poi_info_so.played){_overRunWarningPart.SetActive(true);}
+        
         Spawn_Deco();
         Spawn_Diamond();
         Spawn_Topaz();
         Spawn_Ruby();
+
     }
 
     private void Update()

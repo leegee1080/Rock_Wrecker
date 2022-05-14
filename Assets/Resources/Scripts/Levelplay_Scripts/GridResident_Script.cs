@@ -118,9 +118,9 @@ public class GridResident_Script : MonoBehaviour
 
     }
 
-    public virtual void Attacked(GridResident_Script attacker)
+    public virtual bool Attacked(GridResident_Script attacker)
     {
-
+        return true;
     }
 
     public virtual void LandAfterTween()

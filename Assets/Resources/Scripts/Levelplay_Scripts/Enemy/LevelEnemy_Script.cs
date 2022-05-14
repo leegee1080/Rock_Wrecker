@@ -15,7 +15,7 @@ interface IcollectParent
 
 interface Iattack
 {
-    void Attack(Vector2Int gridPos);
+    bool Attack(Vector2Int gridPos);
 }
 
 interface IBeh
@@ -150,7 +150,10 @@ public class LevelEnemy_Script : LevelActor_Script
         {
             move_timer = 0.25f + moveTimerAddition;
             enemyAnimator.SetTrigger("Attack");
-            _enemyAttackClass.Attack(desired_coord);
+            if(_enemyAttackClass.Attack(desired_coord)== false)
+            {
+                return;
+            }
             Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
             return;
         }

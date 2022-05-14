@@ -74,6 +74,8 @@ MonoBehaviour:
   _pickUpRock_ps: {fileID: 1113455142565035525}
   playerAnimator: {fileID: 3581533290357127607}
   deathParticle: {fileID: 457117847470369818}
+  _shieldParticle: {fileID: 1135644536747142, guid: c105577ec49dfb3408a7a89c3b7730be, type: 3}
+  _shieldBreakParticle: {fileID: 121806, guid: b67c545f39f34874d865e08ea2e8ab21, type: 3}
 --- !u!1001 &458391495098249604
 PrefabInstance:
   m_ObjectHideFlags: 0

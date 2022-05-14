@@ -17,6 +17,7 @@ public class MapUI_Script : MonoBehaviour
 
     private Overallgame_Controller_Script _ocScript;
     [SerializeField]public FuelBtn_Script _fuelBtnScript;
+    [SerializeField]public GameObject _droneShield;
 
     
     private IEnumerator _runningBlinkRountine;
@@ -25,6 +26,7 @@ public class MapUI_Script : MonoBehaviour
     {
         singleton = this;
         _ocScript = Overallgame_Controller_Script.overallgame_controller_singleton;
+        if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields > 0){_droneShield.SetActive(true);}else{_droneShield.SetActive(false);}
     }
 
     public void OpenSelectionMiniMenu()
@@ -105,6 +107,7 @@ public class MapUI_Script : MonoBehaviour
         _inventroyTexts[1].text = _ocScript.CurrentPlayer.player_dia + "";
         _inventroyTexts[2].text = _ocScript.CurrentPlayer.player_top + "";
         _inventroyTexts[3].text = _ocScript.CurrentPlayer.player_rub + "";
+        if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields > 0){_droneShield.SetActive(true);}else{_droneShield.SetActive(false);}
     }
 
     public void BlinkGameObject(GameObject _obj)

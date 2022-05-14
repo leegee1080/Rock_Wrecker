@@ -45,11 +45,11 @@ public class CrystalPrizes_Script : MonoBehaviour
             {
                 _prizes[i] = _repPrize;
             }
-            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.DroneShield && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach >= 1)
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.DroneShield && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields >= 1)
             {
                 _prizes[i] = _repPrize;
             }
-            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.LightRadius && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach >= Global_Vars.max_light_radius)
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.LightRadius && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.LightRadius >= Global_Vars.max_light_radius)
             {
                 _prizes[i] = _repPrize;
             }
@@ -78,6 +78,7 @@ public class CrystalPrizes_Script : MonoBehaviour
 
         _prizeSelected = true;
         Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentPlayer();
+        MapUI_Script.singleton.UpdateShopUINumbers();
         ClosePrizes();
     }
 

@@ -19,6 +19,8 @@ public class LevelPlayer_Script : LevelActor_Script
     public Animator playerAnimator;
 
     [SerializeField] GameObject deathParticle;
+    [SerializeField] GameObject _shieldParticle;
+    [SerializeField] GameObject _shieldBreakParticle;
 
 
 
@@ -28,6 +30,11 @@ public class LevelPlayer_Script : LevelActor_Script
         name = data.name;
         player_actions = Playerinput_Controller_Script.playerinput_controller_singleton.player_input_actions.PlayerControls;
         _deathMeshGO = data.deathMesh;
+        if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields > 0)
+        {
+            _shieldParticle = Instantiate(_shieldParticle, parent: gameObject.transform);
+            _shieldParticle.SetActive(true);
+        }
         // Input_Control_Events.move_up_event += Moveup_Player;
         // Input_Control_Events.move_down_event += Movedown_Player;
         // Input_Control_Events.move_right_event += Moveright_Player;
@@ -120,15 +127,32 @@ public class LevelPlayer_Script : LevelActor_Script
         
     }
 
-    public override void Attacked(GridResident_Script attacker)
+    public override bool Attacked(GridResident_Script attacker)
     {
-        if(current_state == Level_Actor_States_Enum.Dead || current_state == Level_Actor_States_Enum.Pause){return;}
+        print("player attacked by: " + attacker.name);
+        if(current_state == Level_Actor_States_Enum.Dead || current_state == Level_Actor_States_Enum.Pause){return true;}
+        if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields > 0)
+        {
+            LevelEnemy_Script enemy = (LevelEnemy_Script)attacker;
+            enemy.Change_Level_Actor_State(Level_Actor_States_Enum.Dead);
+            BreakShield();
+            return false;
+        }
         deathParticle.SetActive(true);
         Change_Level_Actor_State(Level_Actor_States_Enum.Dead);
         Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
         _mainMeshGO.SetActive(false);
         _deathMeshGO = Instantiate(_deathMeshGO, parent: transform);
         Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.CleanupLose);
+        return true;
+    }
+
+    public void BreakShield()
+    {
+        Debug.Log("Shield Broken");
+        _shieldParticle.SetActive(false);
+        Instantiate(_shieldBreakParticle, parent: gameObject.transform);
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields -= 1;
     }
 
     public override void Local_Board_Changed()

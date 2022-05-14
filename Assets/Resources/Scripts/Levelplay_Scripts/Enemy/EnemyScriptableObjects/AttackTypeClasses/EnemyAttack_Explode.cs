@@ -5,11 +5,13 @@ using UnityEngine;
 public class EnemyAttack_Explode : EnemyAttack_Base
 {
     [SerializeField] private GameObject _explodeGameObject;
-    public override void Attack(Vector2Int gridPos)
+    public override bool Attack(Vector2Int gridPos)
     {
-        base.Attack(gridPos);
+        bool outcome = true;
+        outcome = Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(gridPos).resident.Attacked(_parentScript);
         _explodeGameObject.SetActive(true);
         _parentScript._bodyGO.SetActive(false);
         _parentScript.Change_Level_Actor_State(Level_Actor_States_Enum.Dead);
+        return outcome;
     }
 }

@@ -35,7 +35,7 @@ public enum PlayerUpgradeTypes
     public int player_top = 0;
     public int player_rub = 0;
     public int DroneShields = 0;
-    public float LightRadius = 33;
+    public float LightRadius = 20;
     public int PlayerFuelReach = 10;
     public int PlayerFuel = 0;
     public int PlayerDrones = 0;
@@ -107,6 +107,8 @@ public static class Global_Vars
     public const int fuel_cost = 10;
     public const int max_fuel = 8;
     public const int max_fuel_reach = 20;
+    public const int min_light_radius = 20;
+    public const int max_light_radius = 40;
     public const int max_drones = 9;
 
     [Header("POI Data")]

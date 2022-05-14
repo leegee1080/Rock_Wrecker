@@ -57,7 +57,8 @@ public class EnemyState_Dead: EnemyStatesAbstractClass
 {
     public override void OnEnterState(LevelEnemy_Script _cont)
     {
-        
+        _cont._bodyGO.SetActive(false);
+        Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(_cont.grid_pos).resident = null;
     }   
     public override void OnExitState(LevelEnemy_Script _cont)
     {

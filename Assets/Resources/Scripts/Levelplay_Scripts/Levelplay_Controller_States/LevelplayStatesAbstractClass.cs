@@ -16,6 +16,9 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
     {
         _cont.timer_text.color = new Color32(129,255,200,255);
         _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(2,255,200,1));
+        
+        _cont.CameraSpotLight.range = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.LightRadius;
+        _cont.CameraSpotLight.spotAngle = 80 + ((Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.LightRadius*2) - Global_Vars.min_light_radius);
 
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = true;
     }   

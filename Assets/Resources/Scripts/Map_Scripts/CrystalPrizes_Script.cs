@@ -41,7 +41,15 @@ public class CrystalPrizes_Script : MonoBehaviour
             {
                 _prizes[i] = _repPrize;
             }
-            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FuelEff && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach <= Global_Vars.max_fuel_reach)
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FuelEff && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach >= Global_Vars.max_fuel_reach)
+            {
+                _prizes[i] = _repPrize;
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.DroneShield && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach >= 1)
+            {
+                _prizes[i] = _repPrize;
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.LightRadius && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach >= Global_Vars.max_light_radius)
             {
                 _prizes[i] = _repPrize;
             }

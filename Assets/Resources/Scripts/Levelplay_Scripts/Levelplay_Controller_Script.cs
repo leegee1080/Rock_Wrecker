@@ -179,6 +179,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public GameObject auraPiller_GO;
     public GameObject scoreParticles_GO;
     public BoxCollider2D scoreCollector_GO;
+    public Light CameraSpotLight;
 
 
     [Header("Level Gen Vars")]

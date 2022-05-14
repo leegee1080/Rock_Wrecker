@@ -130,6 +130,7 @@ public class LevelPlayer_Script : LevelActor_Script
     public override bool Attacked(GridResident_Script attacker)
     {
         print("player attacked by: " + attacker.name);
+        if(Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.CleanupWin || Levelplay_Controller_Script.levelplay_controller_singleton.CurrentLevelState == LevelStatesEnum.CleanupLose){return true;}
         if(current_state == Level_Actor_States_Enum.Dead || current_state == Level_Actor_States_Enum.Pause){return true;}
         if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields > 0)
         {

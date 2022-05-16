@@ -62,6 +62,7 @@ public class CrystalPrizes_Script : MonoBehaviour
     }
     public void ClosePrizes()
     {
+        Sound_Events.Play_Sound("Game_PrizePick");
         _ani.Play("Base Layer.ClosePrizes",layer: 0,normalizedTime: 0);
         MapUI_Script.singleton.OpenShopBackButton();
     }
@@ -85,5 +86,18 @@ public class CrystalPrizes_Script : MonoBehaviour
     public void FinishOpenPrize(int i)
     {
         Instantiate(_prizes[i].particle, parent: _cards[i].gameObject.transform);
+    }
+
+    public void PlaySound1()
+    {
+        Sound_Events.Play_Sound("Game_Prize1");
+    }
+    public void PlaySound2()
+    {
+        Sound_Events.Play_Sound("Game_Prize2");
+    }
+    public void PlaySound3()
+    {
+        Sound_Events.Play_Sound("Game_Prize3");
     }
 }

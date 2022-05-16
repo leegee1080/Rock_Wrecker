@@ -55,7 +55,7 @@ public class CrystalConsole_Sctipt : MonoBehaviour
     }
     public void SelectButtonTranslator(string _newCrystalStr)
     {   
-        
+        Sound_Events.Play_Sound("Game_Click");
         switch (_newCrystalStr)
         {
             case "Diamond":
@@ -121,6 +121,8 @@ public class CrystalConsole_Sctipt : MonoBehaviour
 
     public void DescendCrystal()
     {
+        Sound_Events.Delay_Play_Sound("Game_Correct", 0.1f);
+        Sound_Events.Delay_Play_Sound("Game_CrystalGlow", 0.2f);
         if(_selectedCrystal == CrystalTypes.None){return;}
         _crystalGODict[_selectedCrystal].SetActive(true);
         GameObject newCrystalGO = _crystalGODict[_selectedCrystal];
@@ -194,6 +196,8 @@ public class CrystalConsole_Sctipt : MonoBehaviour
 
     public void PlayExplo()
     {
+        Sound_Events.Stop_Sound("Game_CrystalGlow");
+        Sound_Events.Play_Sound("Game_PrizeOpen");
         _crackExplo[(int)_selectedCrystal].Play();
     }
 

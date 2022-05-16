@@ -82,6 +82,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        Sound_Events.Play_Sound("Music_Select2");
         _oCScript = Overallgame_Controller_Script.overallgame_controller_singleton;
 
         if(_genNewMap)
@@ -197,6 +198,11 @@ public class Levelselect_Controller_Script : MonoBehaviour
         MoveShipGameObject();
     }
 
+    public void PlayerWhoosh()
+    {
+        Sound_Events.Play_Sound("Game_Whoosh");
+    }
+
     public void Center_Screen()
     {
         Sound_Events.Play_Sound("Game_Click");
@@ -206,14 +212,12 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void SwitchToShip()
     {
         Sound_Events.Play_Sound("Game_Click");
-        Sound_Events.Delay_Play_Sound("Game_ShipIn",0.8f);
         ChangeState(LevelselectStatesEnum.Ship);
     }
 
     public void SwitchToSelect()
     {
         Sound_Events.Play_Sound("Game_Click");
-        Sound_Events.Delay_Play_Sound("Game_ShipOut",0.8f);
         ChangeState(LevelselectStatesEnum.Select);
     }
 
@@ -226,6 +230,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void SwitchToShipFromShop()
     {
         Sound_Events.Play_Sound("Game_Click");
+        Sound_Events.Stop_Sound("Game_CrystalGlow");
         UIScript.CloseShopBackButton();
         CrystalConsole_Sctipt.singleton.HideCrystalTable();
         CinematicAnimator.SetTrigger("BackToShipFromShop");
@@ -242,13 +247,12 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void SwitchToMenu()
     {
-        Sound_Events.Play_Sound("Game_Click");
         CinematicAnimator.SetTrigger("ToMenu");
     }
 
     public void Back_to_Menu()
     {
-        Sound_Events.Play_Sound("Game_Click");
+        Sound_Events.Play_Sound("Game_ShipOut");
         _oCScript.SaveCurrentPlayer();
         _oCScript.SaveCurrentMap();
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);
@@ -370,6 +374,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void LaunchDropShip()
     {
         _selectionHighlightAnimator.Play("Base Layer.MapSelectionClose", 0 ,0);
+        Sound_Events.Stop_Sound("Music_Select2");
+        Sound_Events.Play_Sound("Game_DropshipLaunch");
         _dropShip_Go.SetActive(true);
         _dropShip_Go.transform.position = new Vector3(Camera.main.transform.position.x,Camera.main.transform.position.y -10,Camera.main.transform.position.z -10);
     }
@@ -456,7 +462,6 @@ public class LevelselectState_Setup: LevelselectStatesAbstractClass
     public override void OnEnterState(Levelselect_Controller_Script _cont)
     {
         Debug.Log("setup");
-
         _cont.DroneCountText.text = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones + "";
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = false;
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_follow_allowed = false;

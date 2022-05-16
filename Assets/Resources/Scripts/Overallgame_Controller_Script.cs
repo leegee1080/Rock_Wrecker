@@ -28,8 +28,8 @@ public enum PlayerUpgradeTypes
 [Serializable]public class PlayerData
 {
     public string name;
-    public float[] player_mapPos;
-    public int player_score;
+    public float[] player_mapPos = new float[]{0,0};
+    public int player_score = 100;
     public float score_multi = 1;
     public int player_dia = 0;
     public int player_top = 0;
@@ -37,8 +37,8 @@ public enum PlayerUpgradeTypes
     public int DroneShields = 0;
     public float LightRadius = 20;
     public int PlayerFuelReach = 10;
-    public int PlayerFuel = 0;
-    public int PlayerDrones = 0;
+    public int PlayerFuel = 1;
+    public int PlayerDrones = 1;
     public int PlayerDroneCost = 10;
     public int PlayerFuelCost = 10;
     public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
@@ -134,6 +134,7 @@ public static class Global_Vars
     };
     public static void DroneShieldPlus(int amount,PlayerData pd)
     {
+        Sound_Events.Play_Sound("Game_ShieldOn");
         pd.DroneShields += amount;
     }
     public static void MoneyPlus(int amount,PlayerData pd)

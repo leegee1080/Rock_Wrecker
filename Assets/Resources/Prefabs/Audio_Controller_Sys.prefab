@@ -137,6 +137,15 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: Game_PrizePick
+    clip: {fileID: 8300000, guid: b8a9476facc85984684dd8907eaa3264, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
   - name: Game_PrizeOpen
     clip: {fileID: 8300000, guid: 50f815e9e22746f44ae43003913f4626, type: 3}
     Tag: 1
@@ -241,7 +250,7 @@ MonoBehaviour:
     Tag: 1
     loop: 0
     randomPitch: 0
-    Maxvolume: 1
+    Maxvolume: 0.5
     volume: 1
     pitch: 1
     source: {fileID: 0}
@@ -283,6 +292,15 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Game_ShipOut
     clip: {fileID: 8300000, guid: 043b2cddf5cae884c85406d747236aa6, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Whoosh
+    clip: {fileID: 8300000, guid: c31bb57521e758b4ab52d764b9a86437, type: 3}
     Tag: 1
     loop: 0
     randomPitch: 0

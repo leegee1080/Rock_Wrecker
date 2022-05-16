@@ -68,11 +68,13 @@ public class MapUI_Script : MonoBehaviour
             if(_ocScript.CurrentPlayer.PlayerDrones >= Global_Vars.max_drones)
             {
                 BlinkGameObject(_droneUIContainer);
+                Sound_Events.Play_Sound("Game_Incorrect");
                 return;
             }
             //purchase
             _ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost;
             _ocScript.CurrentPlayer.PlayerDrones += 1;
+            Sound_Events.Play_Sound("Game_Correct");
             Levelselect_Controller_Script.levelselect_controller_singletion.DroneCountText.text = _ocScript.CurrentPlayer.PlayerDrones + "";
             UpdateShopUINumbers();
             return;
@@ -88,11 +90,13 @@ public class MapUI_Script : MonoBehaviour
             if(_ocScript.CurrentPlayer.PlayerFuel >= Global_Vars.max_fuel)
             {
                 BlinkGameObject(_fuelUIContainer);
+                Sound_Events.Play_Sound("Game_Incorrect");
                 return;
             }
             //purchase
             _ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelCost;
             _ocScript.CurrentPlayer.PlayerFuel += 1;
+            Sound_Events.Play_Sound("Game_Correct");
             if(_fuelBtnScript._menuOpen){_fuelBtnScript.FinishOpenMenu();}
             UpdateShopUINumbers();
             return;

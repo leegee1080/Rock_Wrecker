@@ -106,6 +106,7 @@ public class MapSelectCursor_Script : MonoBehaviour
 
     public void StartBlinkCoroutine()
     {
+        Sound_Events.Play_Sound("Game_Incorrect");
         if(_runningBlinkRountine != null){StopCoroutine(_runningBlinkRountine);}
         _runningBlinkRountine = BlinkFuelCost();
         StartCoroutine(_runningBlinkRountine);
@@ -116,7 +117,6 @@ public class MapSelectCursor_Script : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             _fuelText.gameObject.transform.localScale = Vector3.zero;
-            Sound_Events.Play_Sound("Game_Incorrect");
             yield return new WaitForSeconds(0.25f);
             _fuelText.gameObject.transform.localScale = Vector3.one;
             yield return new WaitForSeconds(0.25f);

@@ -37,4 +37,9 @@ public class FadeShipWindows_Script : MonoBehaviour
     {
         Levelselect_Controller_Script.levelselect_controller_singletion.Back_to_Menu();
     }
+
+    public void PlayerWhoosh()
+    {
+        Sound_Events.Play_Sound("Game_Whoosh");
+    }
 }

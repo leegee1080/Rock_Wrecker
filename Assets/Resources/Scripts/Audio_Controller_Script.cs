@@ -13,6 +13,13 @@ public static class Sound_Events
         play_sound_event?.Invoke(sound_name);
     }
     #endregion
+    #region delay play sound event
+    public static event System.Action<string, float> delay_play_sound_event;
+    public static void Delay_Play_Sound(string sound_name, float delay)
+    {
+        delay_play_sound_event?.Invoke(sound_name, delay);
+    }
+    #endregion
     #region stop sound event
     public static event System.Action<string> stop_sound_event;
     public static void Stop_Sound(string sound_name)
@@ -109,6 +116,7 @@ public class Audio_Controller_Script : MonoBehaviour
         }
 
         Sound_Events.play_sound_event += PlaySound;
+        Sound_Events.delay_play_sound_event += DelayPlaySound;
         Sound_Events.stop_sound_event += StopSound;
         Sound_Events.change_volume_event += ChangeVolume;
 
@@ -157,6 +165,28 @@ public class Audio_Controller_Script : MonoBehaviour
             s.source.pitch = Random.Range(s.pitch - 0.4f, s.pitch + 0.4f);
         }
         s.source.Play();
+    }
+
+    public void DelayPlaySound(string soundName, float delayTime)
+    {
+        Sound s = System.Array.Find(Sounds, sound => sound.name == soundName);
+        if (s == null)
+        {
+            Debug.Log(soundName + " sound not found!");
+            return;
+        }
+        if (s.randomPitch)
+        {
+            s.source.pitch = Random.Range(s.pitch - 0.4f, s.pitch + 0.4f);
+        }
+
+        IEnumerator DelayPlay()
+        {
+            yield return new WaitForSeconds(delayTime);
+            s.source.Play();
+        }
+        StartCoroutine(DelayPlay());
+        
     }
 
     public void StopSound(string soundName)

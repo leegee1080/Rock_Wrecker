@@ -43,17 +43,350 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02d85df15602e942a9f59b7e2eb85ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGameVolumeLevel: 0
-  currentMusicVolumeLevel: 0
-  currentMenuVolumeLevel: 0
+  currentGameVolumeLevel: 1
+  currentMusicVolumeLevel: 1
+  currentMenuVolumeLevel: 1
   Sounds:
-  - name: 
-    clip: {fileID: 0}
+  - name: Game_Bomb
+    clip: {fileID: 8300000, guid: 2bca2d6de4634fe4196a6af960ad8f4f, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_DropshipLand
+    clip: {fileID: 8300000, guid: 2741655b16d9fa249ac86bb855f6f767, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_DropshipLaunch
+    clip: {fileID: 8300000, guid: 874ea036b69b3d44795fa4c8deec58ee, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_EnemySpawn
+    clip: {fileID: 8300000, guid: 4e7e465621494e448b980e400749fd17, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_LevelLose
+    clip: {fileID: 8300000, guid: 958dc0746db50bb4c846b3eb71632b70, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_LevelWin
+    clip: {fileID: 8300000, guid: f1927333d1ff26e40b8f7e362bfe4e07, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_PlayerDeath
+    clip: {fileID: 8300000, guid: d40a1f2c7ed8eb544aa5dde981fa396c, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Prize1
+    clip: {fileID: 8300000, guid: 2664e5da4b1b5f44f9f4b59f9b3ca9fa, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Prize2
+    clip: {fileID: 8300000, guid: 0a8784a65f95ac149a64cd5422fb483d, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Prize3
+    clip: {fileID: 8300000, guid: a17f7bbdb216b8c4bb8021c2d6550189, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_PrizeOpen
+    clip: {fileID: 8300000, guid: 50f815e9e22746f44ae43003913f4626, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_RockPop
+    clip: {fileID: 8300000, guid: d874fdd6feec46a4d8849d7c575a4608, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_RockSwap
+    clip: {fileID: 8300000, guid: 14761283a4dbb9645ba230f3adabfd64, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ScoreUp
+    clip: {fileID: 8300000, guid: ce72433b8521b2344b454470a68cb550, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_TimesUp
+    clip: {fileID: 8300000, guid: d1ddad8571d0f6749ae04854a42c4088, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ShieldOff
+    clip: {fileID: 8300000, guid: 830d67b6755796f4c8f9a688c103c338, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ShieldOn
+    clip: {fileID: 8300000, guid: 8c52e029b91a5e64388a27d79362b5a2, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Announce
+    clip: {fileID: 8300000, guid: 5a83810835ae7104f85ff6c94a03b59a, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Click
+    clip: {fileID: 8300000, guid: 5c7902653aab39c4d90d9bab35523dfc, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ClickOff
+    clip: {fileID: 8300000, guid: 5c7902653aab39c4d90d9bab35523dfc, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 0.5
+    source: {fileID: 0}
+  - name: Game_Collect
+    clip: {fileID: 8300000, guid: b1c0a7d1fd18fde469ef970112fb562f, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_CrystalGlow
+    clip: {fileID: 8300000, guid: e86bca2d2ad63c241bdaff9d25c2ceb9, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Loading
+    clip: {fileID: 8300000, guid: 9a47d81001e33cb4ebf7e3ed6965729f, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Correct
+    clip: {fileID: 8300000, guid: 537bfc355bd3987428ff6f6702d297da, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Incorrect
+    clip: {fileID: 8300000, guid: 0b1dc12278eb0c44d96c867782e7b94b, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ShipIn
+    clip: {fileID: 8300000, guid: 4d6a354801df84c4d82aaa6c5c954550, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ShipOut
+    clip: {fileID: 8300000, guid: 043b2cddf5cae884c85406d747236aa6, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_GameEnd
+    clip: {fileID: 8300000, guid: 4d08b77ffd2b9ec4dacb3852c63f6f49, type: 3}
     Tag: 0
     loop: 0
     randomPitch: 0
-    Maxvolume: 0
-    volume: 0
-    pitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Level1
+    clip: {fileID: 8300000, guid: d53c03a7c78f5fd4e9f6434d9f087c2e, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Level2
+    clip: {fileID: 8300000, guid: 886052d003a5ba342bb4222f6b17e4fa, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Level3
+    clip: {fileID: 8300000, guid: 665c394e3390d0644b3d91dd4a50e4d4, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Level4
+    clip: {fileID: 8300000, guid: 2eb32004094f50849b035f021ed0f3fd, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Level5
+    clip: {fileID: 8300000, guid: 19bafb0c72d7a8f4ca9612c6501b46a2, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Menu
+    clip: {fileID: 8300000, guid: 52cf92afab549674db73eae03a53bfbd, type: 3}
+    Tag: 0
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_MenuLoop
+    clip: {fileID: 8300000, guid: c29073700f03ba04d9e63441a6470ca5, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Select1
+    clip: {fileID: 8300000, guid: a9322617b7a0b7046aa74ebdc20d4797, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Select2
+    clip: {fileID: 8300000, guid: 79201dcaf1999f24d9af7a5bd7755321, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Music_Select3
+    clip: {fileID: 8300000, guid: 2b3252949a1db45458aca7da27a61b01, type: 3}
+    Tag: 0
+    loop: 1
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
     source: {fileID: 0}
   selectedSound: {fileID: 0}

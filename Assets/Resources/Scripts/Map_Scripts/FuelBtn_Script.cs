@@ -24,10 +24,12 @@ public class FuelBtn_Script : MonoBehaviour
         if(MenuDisabled){return;}
         if(_menuOpen)
         {
+            Sound_Events.Play_Sound("Game_ClickOff");
             _menuOpen = false;
             HideTicks();
             return;
         }
+        Sound_Events.Play_Sound("Game_Click");
         _menuOpen = true;
         SlideIn(0, 1);
     }
@@ -45,6 +47,7 @@ public class FuelBtn_Script : MonoBehaviour
         foreach (Transform tick in _fuelTicksContainer.transform)
         {
             if(_menuOpen ==false){break;}
+            Sound_Events.Play_Sound("Game_Correct");
             tick.gameObject.SetActive(true);
             yield return new WaitForSeconds(_tickAnimationSpeed);
         }   

@@ -199,26 +199,33 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void Center_Screen()
     {
+        Sound_Events.Play_Sound("Game_Click");
         Camera.main.transform.position = new Vector3(OccupiedPOI.gameObject.transform.position.x,OccupiedPOI.gameObject.transform.position.y, -50);
     }
 
     public void SwitchToShip()
     {
+        Sound_Events.Play_Sound("Game_Click");
+        Sound_Events.Delay_Play_Sound("Game_ShipIn",0.8f);
         ChangeState(LevelselectStatesEnum.Ship);
     }
 
     public void SwitchToSelect()
     {
+        Sound_Events.Play_Sound("Game_Click");
+        Sound_Events.Delay_Play_Sound("Game_ShipOut",0.8f);
         ChangeState(LevelselectStatesEnum.Select);
     }
 
     public void SwitchToShop()
     {
+        Sound_Events.Play_Sound("Game_Click");
         UIScript.CloseShipMiniMenu();
         CinematicAnimator.SetTrigger("ToShop");
     }
     public void SwitchToShipFromShop()
     {
+        Sound_Events.Play_Sound("Game_Click");
         UIScript.CloseShopBackButton();
         CrystalConsole_Sctipt.singleton.HideCrystalTable();
         CinematicAnimator.SetTrigger("BackToShipFromShop");
@@ -235,11 +242,13 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void SwitchToMenu()
     {
+        Sound_Events.Play_Sound("Game_Click");
         CinematicAnimator.SetTrigger("ToMenu");
     }
 
     public void Back_to_Menu()
     {
+        Sound_Events.Play_Sound("Game_Click");
         _oCScript.SaveCurrentPlayer();
         _oCScript.SaveCurrentMap();
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);

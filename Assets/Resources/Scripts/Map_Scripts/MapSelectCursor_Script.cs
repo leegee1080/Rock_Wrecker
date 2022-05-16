@@ -23,9 +23,20 @@ public class MapSelectCursor_Script : MonoBehaviour
     private IEnumerator _runningBlinkRountine;
     public void UpdateInfo(MapPOI_ScriptableObject _selectedPOI)
     {
+        Sound_Events.Play_Sound("Game_Click");
+        
+
         if(_runningBlinkRountine != null){StopCoroutine(_runningBlinkRountine); _fuelText.gameObject.transform.localScale = Vector3.one;}
 
-        if(_selectedPOI.played){_warningOverrunContainer.SetActive(true); _infoContainer.SetActive(false); return;}
+        if(_selectedPOI.played)
+        {
+            Sound_Events.Delay_Play_Sound("Game_TimesUp",0.35f);
+            _warningOverrunContainer.SetActive(true);
+            _infoContainer.SetActive(false);
+            return;
+        }
+
+        Sound_Events.Delay_Play_Sound("Game_ShipIn",0.35f);
         _warningOverrunContainer.SetActive(false);
         _infoContainer.SetActive(true);
         
@@ -105,6 +116,7 @@ public class MapSelectCursor_Script : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             _fuelText.gameObject.transform.localScale = Vector3.zero;
+            Sound_Events.Play_Sound("Game_Incorrect");
             yield return new WaitForSeconds(0.25f);
             _fuelText.gameObject.transform.localScale = Vector3.one;
             yield return new WaitForSeconds(0.25f);

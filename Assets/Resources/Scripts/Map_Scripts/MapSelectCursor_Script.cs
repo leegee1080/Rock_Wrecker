@@ -30,7 +30,7 @@ public class MapSelectCursor_Script : MonoBehaviour
 
         if(_selectedPOI.played)
         {
-            Sound_Events.Delay_Play_Sound("Game_TimesUp",0.35f);
+            Sound_Events.Delay_Play_Sound("Game_Warn",0.35f);
             _warningOverrunContainer.SetActive(true);
             _infoContainer.SetActive(false);
             return;

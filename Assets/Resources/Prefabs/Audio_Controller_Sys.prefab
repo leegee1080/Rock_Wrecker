@@ -173,15 +173,6 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-  - name: Game_ScoreUp
-    clip: {fileID: 8300000, guid: ce72433b8521b2344b454470a68cb550, type: 3}
-    Tag: 1
-    loop: 0
-    randomPitch: 1
-    Maxvolume: 1
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
   - name: Game_TimesUp
     clip: {fileID: 8300000, guid: d1ddad8571d0f6749ae04854a42c4088, type: 3}
     Tag: 1
@@ -265,6 +256,15 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Game_Correct
     clip: {fileID: 8300000, guid: 537bfc355bd3987428ff6f6702d297da, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_Warn
+    clip: {fileID: 8300000, guid: edc51e61805ab664d82b01c4c57275be, type: 3}
     Tag: 1
     loop: 0
     randomPitch: 0
@@ -398,11 +398,38 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-  - name: Music_Select3
-    clip: {fileID: 8300000, guid: 2b3252949a1db45458aca7da27a61b01, type: 3}
-    Tag: 0
-    loop: 1
-    randomPitch: 0
+  - name: Game_ScoreUpShort
+    clip: {fileID: 8300000, guid: 6b07af90eb06c674282cfee67d93a194, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ScoreUpShort1
+    clip: {fileID: 8300000, guid: 86d35d94a97e1f04ea290abc0432c02a, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_ScoreUpLong
+    clip: {fileID: 8300000, guid: 95ba095ca87413a4a8c699ab07fd23dd, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Game_FootStep
+    clip: {fileID: 8300000, guid: 56c9c616d891cf8498b994381f09c441, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
     Maxvolume: 1
     volume: 1
     pitch: 1

@@ -41,6 +41,7 @@ public class DropShip_Script : MonoBehaviour
     public void Open_Door()
     {
         door_ps.Play();
+        Sound_Events.Play_Sound("Game_Bomb");
     } 
     public void Crash()
     {
@@ -48,10 +49,12 @@ public class DropShip_Script : MonoBehaviour
         explosion_ps.Play();
 
         Wall_Script wall = (Wall_Script)Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(_gridPos).resident;
+        
         wall.CrushRock();
     } 
     public void Launch()
     {
+        Sound_Events.Delay_Play_Sound("Game_DropshipLand", 0.2f);
         animator_ani.SetTrigger("Launch");
     }
 }

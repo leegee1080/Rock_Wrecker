@@ -73,15 +73,21 @@ public class Audio_Controller_Script : MonoBehaviour
     [Range(0, 1)]
     public float currentMenuVolumeLevel;
     public Sound[] Sounds;
-    public static Audio_Controller_Script soundmanager_instance;
+    public Dictionary<string, AudioSource> MusicAS = new Dictionary<string, AudioSource>();
+    public Dictionary<string, AudioSource> FXAS = new Dictionary<string, AudioSource>();
+    public Dictionary<string, AudioSource> MenuAS = new Dictionary<string, AudioSource>();
+    public static Audio_Controller_Script singleton;
     public AudioSource selectedSound;
+
+    private IEnumerator _IfadeIn;
+    private IEnumerator _IfadeOut;
 
     private void Awake()
     {
         //Checks to make sure there is only one SM
-        if (soundmanager_instance == null)
+        if (singleton == null)
         {
-            soundmanager_instance = this;
+            singleton = this;
         }
         else
         {
@@ -93,7 +99,7 @@ public class Audio_Controller_Script : MonoBehaviour
         foreach (Sound s in Sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
-
+            s.source.volume = s.Maxvolume;
             s.source.clip = s.clip;
             s.source.loop = s.loop;
 
@@ -101,12 +107,15 @@ public class Audio_Controller_Script : MonoBehaviour
             {
                 case Sound_Type_Tags.music:
                     s.source.volume = currentMusicVolumeLevel;
+                    MusicAS[s.name] = s.source;
                     break;
                 case Sound_Type_Tags.fx:
                     s.source.volume = currentGameVolumeLevel;
+                    FXAS[s.name] = s.source;
                     break;
                 case Sound_Type_Tags.menu:
                     s.source.volume = currentMenuVolumeLevel;
+                    MenuAS[s.name] = s.source;
                     break;
                 default:
                     break;
@@ -162,7 +171,7 @@ public class Audio_Controller_Script : MonoBehaviour
         }
         if (s.randomPitch)
         {
-            s.source.pitch = Random.Range(s.pitch - 0.4f, s.pitch + 0.4f);
+            s.source.pitch = Random.Range(s.pitch - 0.2f, s.pitch + 0.2f);
         }
         s.source.Play();
     }
@@ -177,7 +186,7 @@ public class Audio_Controller_Script : MonoBehaviour
         }
         if (s.randomPitch)
         {
-            s.source.pitch = Random.Range(s.pitch - 0.4f, s.pitch + 0.4f);
+            s.source.pitch = Random.Range(s.pitch - 0.2f, s.pitch + 0.2f);
         }
 
         IEnumerator DelayPlay()
@@ -211,9 +220,51 @@ public class Audio_Controller_Script : MonoBehaviour
         selectedSound.volume = newVolume;
     }
 
+    public void FadeSoundIn(float fadeMax, float speed)
+    {
+        if(_IfadeIn != null){StopCoroutine(_IfadeIn);}
+        if(_IfadeOut != null){StopCoroutine(_IfadeOut);}
+        
+        Sound s = System.Array.Find(Sounds, sound => sound.source == selectedSound);
+        s.source.volume = 0f;
+
+        IEnumerator IFadeIn()
+        {
+            while(s.source.volume < fadeMax)
+            {
+                s.source.volume += speed;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+        _IfadeIn = IFadeIn();
+        StartCoroutine(IFadeIn());
+    }
+    public void FadeSoundOut(float speed)
+    {
+        if(_IfadeIn != null){StopCoroutine(_IfadeIn);}
+        if(_IfadeOut != null){StopCoroutine(_IfadeOut);}
+
+        Sound s = System.Array.Find(Sounds, sound => sound.source == selectedSound);
+
+        IEnumerator IFadeOut()
+        {
+            while(s.source.volume > 0)
+            {
+                s.source.volume -= speed;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+        _IfadeOut = IFadeOut();
+        StartCoroutine(IFadeOut());
+    }
+
     private void OnDestroy()
     {
+        if(_IfadeIn != null){StopCoroutine(_IfadeIn);}
+        if(_IfadeOut != null){StopCoroutine(_IfadeOut);}
+
         Sound_Events.play_sound_event -= PlaySound;
+        Sound_Events.delay_play_sound_event -= DelayPlaySound;
         Sound_Events.stop_sound_event -= StopSound;
         Sound_Events.change_volume_event -= ChangeVolume;
     }

@@ -109,6 +109,8 @@ public class LevelPlayer_Script : LevelActor_Script
             Check_For_Exit_Tile(desired_coord);
             playerAnimator.SetTrigger("Melee Attack");
             _pickUpRock_ps.Play();
+            Sound_Events.Play_Sound("Game_RockSwap");
+            Sound_Events.Delay_Play_Sound("Game_FootStep",0.1f);
             SwapResidentsTweened(this, Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident, 1f);
             Change_Level_Actor_State(Level_Actor_States_Enum.Moving);
             return;
@@ -116,6 +118,7 @@ public class LevelPlayer_Script : LevelActor_Script
 
         if(desired_coord.x > 0 && desired_coord.y > 0 && desired_coord.x < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array.Length && desired_coord.y < Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x].Length && Levelplay_Controller_Script.levelplay_controller_singleton.x_lead_map_coord_array[desired_coord.x][desired_coord.y].resident == null)
         {
+            Sound_Events.Play_Sound("Game_FootStep");
             move_timer = 0.10f;
             playerAnimator.SetBool("Run", true);
             Check_For_Exit_Tile(desired_coord);
@@ -151,6 +154,7 @@ public class LevelPlayer_Script : LevelActor_Script
     public void BreakShield()
     {
         Debug.Log("Shield Broken");
+        Sound_Events.Play_Sound("Game_ShieldOff");
         _shieldParticle.SetActive(false);
         Instantiate(_shieldBreakParticle, parent: gameObject.transform);
         Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields -= 1;

@@ -19,11 +19,13 @@ public class MenuButton : MonoBehaviour
         
         if(!_buttonGroup.activeSelf)
         {
+            Sound_Events.Play_Sound("Game_Click");
             _buttonGroup.SetActive(true);
             _animator.SetBool("MenuOpen",true);
             Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.Paused);
             return;
         };
+        Sound_Events.Play_Sound("Game_ClickOff");
         _animator.SetBool("MenuOpen",false);
         Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(Levelplay_Controller_Script.levelplay_controller_singleton.LastLevelState);
 
@@ -41,6 +43,7 @@ public class MenuButton : MonoBehaviour
 
     public void QuitBtn()
     {   
+        Sound_Events.Play_Sound("Game_Click");
         AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("quit confirm", AnnounceTypeEnum.TwoBtn, "Confirm Quit?", "", ConfirmExitToMap);
         AnnouncerScript.singleton.ChangeOpenState(true);
     }
@@ -48,6 +51,7 @@ public class MenuButton : MonoBehaviour
     static bool ConfirmExitToMap(bool choice)
     {
         if(choice == false){return false;}
+        Sound_Events.Play_Sound("Game_Click");
         Levelplay_Controller_Script.levelplay_controller_singleton.Exit_Level_To_Map(choice);
         return true;
     }

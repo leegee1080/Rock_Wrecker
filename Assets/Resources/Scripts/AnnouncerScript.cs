@@ -76,6 +76,7 @@ public class AnnouncerScript : MonoBehaviour
         _announceAni.enabled = true;
         _openState = state;
         _announceAni.SetBool("Open", state);
+        Sound_Events.Play_Sound("Game_Announce");
         if(state == false)
         {
             StopAllCoroutines();
@@ -164,16 +165,19 @@ public class AnnouncerScript : MonoBehaviour
 
     public void YesButton()
     {
+        Sound_Events.Play_Sound("Game_Click");
         ChangeOpenState(false);
         AnnouncementClass.btnFunc(true);
     }
     public void NoButton()
     {
+        Sound_Events.Play_Sound("Game_ClickOff");
         ChangeOpenState(false);
         AnnouncementClass.btnFunc(false);
     }
     public void ContinueButton()
     {
+        Sound_Events.Play_Sound("Game_Click");
         ChangeOpenState(false);
         AnnouncementClass.btnFunc(true);
     }

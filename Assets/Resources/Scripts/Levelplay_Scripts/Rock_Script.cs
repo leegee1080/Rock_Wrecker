@@ -138,6 +138,7 @@ public class Rock_Script : GridResident_Script
 
     public void Pop_Rock()
     {
+        Sound_Events.Play_Sound("Game_RockPop");
         Levelplay_Controller_Script.levelplay_controller_singleton.Find_Grid_Data(grid_pos).resident = null;
         _artContainer_go.SetActive(false);
     }

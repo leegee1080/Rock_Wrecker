@@ -2087,6 +2087,13 @@ MonoBehaviour:
   - {fileID: 2029889664}
   - {fileID: 2054309424}
   timer_text: {fileID: 757408207}
+  _musicArray:
+  - Music_Level4
+  - Music_Level3
+  - Music_Level5
+  - Music_Level1
+  - Music_Level2
+  _selectedMusic: 
   TestRock: {fileID: 6951765290111155160, guid: fa180252da50ab74fa7e022d67968f67, type: 3}
   TestWall: {fileID: 6951765290111155160, guid: 9c8a1a6929c50864496f5c87ca83aa1b, type: 3}
   TestExit: {fileID: 15293852}

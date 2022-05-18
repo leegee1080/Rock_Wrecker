@@ -14,6 +14,8 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
+        Sound_Events.Play_Sound(_cont._selectedMusic);
+
         _cont.timer_text.color = new Color32(129,255,200,255);
         _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(2,255,200,1));
         
@@ -87,6 +89,7 @@ public class LevelplayState_GetToEscape: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
+        Sound_Events.Play_Sound("Game_TimesUp");
         _cont.Show_Exit();
         _cont.timer_text.color = new Color(255,0,0,1);
         _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(255,0,0,1));
@@ -113,6 +116,9 @@ public class LevelplayState_CleanupLose: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
+        Sound_Events.Stop_Sound(_cont._selectedMusic);
+        Sound_Events.Play_Sound("Game_PlayerDeath");
+
         Level_Events.Invoke_Pause_Toggle_Event(true);
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;
@@ -135,6 +141,9 @@ public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
 {
     public override void OnEnterState(Levelplay_Controller_Script _cont)
     {
+        Sound_Events.Stop_Sound(_cont._selectedMusic);
+        Sound_Events.Play_Sound("Game_LevelWin");
+
         Level_Events.Invoke_Pause_Toggle_Event(true);
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;

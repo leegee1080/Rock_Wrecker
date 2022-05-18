@@ -158,7 +158,11 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField]private Animator UI_animator;
     [SerializeField]private ScoreItem_Script[] ui_scoreitems = new ScoreItem_Script[4];
     [SerializeField]public TMP_Text timer_text;
-    public Timer<bool, LevelStatesEnum> timer_text_ref;
+    public Timer<bool, LevelStatesEnum> timer_text_ref; 
+
+    [Header("Music")]
+    [SerializeField]private string[] _musicArray;
+    [SerializeField]public string _selectedMusic;
 
 
     [Header("Game Objects")]
@@ -241,6 +245,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        _selectedMusic = _musicArray[Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty];
+
         _currentStateClass = new LevelplayState_Setup();
         _currentStateClass.OnEnterState(this);
 
@@ -461,6 +467,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     {
         if(!UI_animator.GetBool("Open"))
         {
+            Sound_Events.Play_Sound("Game_Click");
             UI_animator.SetBool("Open", true);
             foreach (ScoreItem_Script item in ui_scoreitems)
             {
@@ -468,12 +475,14 @@ public class Levelplay_Controller_Script : MonoBehaviour
             }
             return;
         }
+        Sound_Events.Play_Sound("Game_ClickOff");
         UI_animator.SetBool("Open", false);
         
     }
 
     public bool Exit_Level_To_Map(bool unUsed)
     {
+        Sound_Events.Stop_Sound(_selectedMusic);
         Overallgame_Controller_Script.overallgame_controller_singleton.SaveCurrentPlayer();
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelselect);
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.levelselect);
@@ -481,6 +490,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     }
     public void Exit_Level_To_MainMenu()
     {
+        Sound_Events.Stop_Sound(_selectedMusic);
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }

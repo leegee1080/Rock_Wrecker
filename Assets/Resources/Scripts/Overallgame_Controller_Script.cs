@@ -88,15 +88,15 @@ public static class Global_Vars
 
     [Header("Map Data")]
     public const int galaxy_size = 250;
-    public const int max_planet_size = 4;
-    public const int min_planet_size = 1;
-    public const int max_planet_coord = 500;
-    public const int min_planet_coord = -500;
-    public const int max_planet_difficulty = 3;
+    // public const int max_planet_size = 4;
+    // public const int min_planet_size = 1;
+    public const int max_planet_coord = 300;
+    public const int min_planet_coord = -300;
+    // public const int max_planet_difficulty = 3;
     public const int max_planet_mesh_index = 7;
-    public const int max_planet_dia_lode_multi = 1;
-    public const int max_planet_top_lode_multi = 4;
-    public const int max_planet_rub_lode_multi = 3;
+    // public const int max_planet_dia_lode_multi = 1;
+    // public const int max_planet_top_lode_multi = 4;
+    // public const int max_planet_rub_lode_multi = 3;
 
     [Header("Ship Data")]
     public const int fuel_reach = 10;
@@ -187,17 +187,10 @@ public class Overallgame_Controller_Script : MonoBehaviour
 {
     public static Overallgame_Controller_Script overallgame_controller_singleton;
 
+    [SerializeField]private OverallMinMax_ScriptableObject[] _difficultyTiers;
+
     [Header("Global Player Stats")]
     public PlayerData CurrentPlayer;
-
-    // public int player_score;
-    // public int player_dia;
-    // public int player_top;
-    // public int player_rub;
-    // public int PlayerFuel;
-    // public int PlayerDrones;
-    // public GameObject player_model;
-    // public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
 
 
     [Header("Scene Loading")]
@@ -241,23 +234,36 @@ public class Overallgame_Controller_Script : MonoBehaviour
         List<Vector2> dist_check_list = new List<Vector2>();
 
         for (int i = 0; i < map_size; i++)
-        {        
+        {   
+            int distFactor = 0;  
             MapPOI_ScriptableObject new_mappoi_so = ScriptableObject.CreateInstance<MapPOI_ScriptableObject>();
+            Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(min_coord, max_coord+1), Global_Vars.rand_num_gen.Next(min_coord, max_coord+1));
+
+            distFactor = (int)Vector2.Distance(Vector2.zero, rand_gen_pos)/100;
+
             new_mappoi_so.played =false;
             new_mappoi_so.finished =false;
-            new_mappoi_so.poi_difficulty = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_difficulty+1);
-            new_mappoi_so.poi_size = (int)Global_Vars.rand_num_gen.Next(Global_Vars.min_planet_size,Global_Vars.max_planet_size+1);
+            new_mappoi_so.poi_difficulty = (int)Global_Vars.rand_num_gen.Next
+                (
+                    _difficultyTiers[distFactor].min_planet_difficulty,
+                    _difficultyTiers[distFactor].max_planet_difficulty+1
+                );
+            new_mappoi_so.poi_size = (int)Global_Vars.rand_num_gen.Next
+                (
+                    _difficultyTiers[distFactor].min_planet_size,
+                    _difficultyTiers[distFactor].max_planet_size+1
+                );
             new_mappoi_so.rotate_speed = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_poi_rot_speed+1);
             new_mappoi_so.deco_count = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_poi_deco * (new_mappoi_so.poi_difficulty+ 1) * new_mappoi_so.poi_size);
             new_mappoi_so.level_seed = (int)Global_Vars.rand_num_gen.Next(1,9999999);
             new_mappoi_so.mesh_index = (int)Global_Vars.rand_num_gen.Next(0,Global_Vars.max_planet_mesh_index);
-            Vector2 rand_gen_pos = new Vector2(Global_Vars.rand_num_gen.Next(min_coord, max_coord+1), Global_Vars.rand_num_gen.Next(min_coord, max_coord+1));
+            
             new_mappoi_so.map_pos = rand_gen_pos;
 
             //lode gen
-            new_mappoi_so.lode_dia = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_planet_dia_lode_multi * new_mappoi_so.poi_size);
-            new_mappoi_so.lode_rub = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_planet_rub_lode_multi * new_mappoi_so.poi_size);
-            new_mappoi_so.lode_top = (int)Global_Vars.rand_num_gen.Next(1,Global_Vars.max_planet_top_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_dia = (int)Global_Vars.rand_num_gen.Next(0,_difficultyTiers[distFactor].max_planet_dia_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_rub = (int)Global_Vars.rand_num_gen.Next(0,_difficultyTiers[distFactor].max_planet_rub_lode_multi * new_mappoi_so.poi_size);
+            new_mappoi_so.lode_top = (int)Global_Vars.rand_num_gen.Next(0,_difficultyTiers[distFactor].max_planet_top_lode_multi * new_mappoi_so.poi_size);
             //end lode gen
 
             foreach (Vector2 pos in dist_check_list)

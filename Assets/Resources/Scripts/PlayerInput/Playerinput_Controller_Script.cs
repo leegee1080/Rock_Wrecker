@@ -240,11 +240,14 @@ public class Playerinput_Controller_Script : MonoBehaviour
         }
     }
 
-    private void OnEnable(){
+    private void OnEnable()
+    {
         player_input_actions.Enable();
     }
 
-    private void OnDisable(){
+    private void OnDisable()
+    {
         player_input_actions.Disable();
     }
+
 }

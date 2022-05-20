@@ -43,4 +43,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56d596d52a18184d9091df0e560b441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _difficultyTiers:
+  - {fileID: 11400000, guid: dbeb18af31423904881c97d11769ca81, type: 2}
+  - {fileID: 11400000, guid: aafa544438e351e479c0432dce7199fa, type: 2}
+  - {fileID: 11400000, guid: a532c5c3122977c44b2dc09d42c08115, type: 2}
+  - {fileID: 11400000, guid: f5ad465d22d846742ba49ffa3309d85f, type: 2}
+  - {fileID: 11400000, guid: a07615e1ba6bb6e4e80edd10721139ea, type: 2}
+  - {fileID: 11400000, guid: 5dcdc7bb904c03348896339e1a7b9dd5, type: 2}
+  CurrentPlayer:
+    name: 
+    player_mapPos:
+    - 0
+    - 0
+    player_score: 100
+    score_multi: 1
+    player_dia: 0
+    player_top: 0
+    player_rub: 0
+    DroneShields: 0
+    LightRadius: 20
+    PlayerFuelReach: 10
+    PlayerFuel: 1
+    PlayerDrones: 1
+    PlayerDroneCost: 10
+    PlayerFuelCost: 10
+    main_map: []
   chosen_scene_enum: 1
+  selected_level: {fileID: 0}

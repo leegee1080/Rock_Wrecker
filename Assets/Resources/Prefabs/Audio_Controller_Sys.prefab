@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02d85df15602e942a9f59b7e2eb85ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGameVolumeLevel: 1
-  currentMusicVolumeLevel: 1
+  currentGameVolumeLevel: 0.704
+  currentMusicVolumeLevel: 0.5
   currentMenuVolumeLevel: 1
   Sounds:
   - name: Game_Bomb

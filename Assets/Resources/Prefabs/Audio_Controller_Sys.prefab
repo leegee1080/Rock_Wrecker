@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameVolumeLevel: 0.704
-  currentMusicVolumeLevel: 0.5
+  currentMusicVolumeLevel: 0.058
   currentMenuVolumeLevel: 1
   Sounds:
   - name: Game_Bomb

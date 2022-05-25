@@ -9,10 +9,10 @@ public class Mainmenu_Controller_Script : MonoBehaviour
     public static  Mainmenu_Controller_Script mainmenu_controller_singleton;
 
     [Header("Container Gameobjects")]
-    [SerializeField]private GameObject home_container_go;
-    [SerializeField]private GameObject options_container_go;
-    [SerializeField]private GameObject credits_container_go;
-    [SerializeField]private GameObject play_container_go;
+    [SerializeField]private MenuContainer_Script _homeContainer;
+    [SerializeField]private MenuContainer_Script _optionsContainer;
+    [SerializeField]private MenuContainer_Script _creditsContainer;
+    [SerializeField]private MenuContainer_Script _playContainer;
 
     [Header("Ref Gameobjects")]
     [SerializeField]private TMP_Text _playText;
@@ -27,10 +27,13 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
         Sound_Events.Play_Sound("Music_Menu");
         Sound_Events.Delay_Play_Sound("Music_MenuLoop",45f);
+
+        _homeContainer.OpenMenu();
     }
 
     public void New_Game()
     {
+        _homeContainer.CloseMenu();
         Sound_Events.Stop_Sound("Music_Menu");
         Sound_Events.Stop_Sound("Music_MenuLoop");
         Audio_Controller_Script.singleton.StopAllCoroutines();
@@ -39,7 +42,21 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     public void NewGame()
     {
+        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("startover", AnnounceTypeEnum.TwoBtn,"START OVER?","Are you sure?", ClearSavedGame);
+        AnnouncerScript.singleton.ChangeOpenState(true);
+    }
 
+    public bool ClearSavedGame(bool choice)
+    {
+        if(choice)
+        {
+            Overallgame_Controller_Script.overallgame_controller_singleton.Debug_ClearSaveData();
+            AnnouncerScript.singleton.ChangeOpenState(false);
+            return true;
+        }
+
+        AnnouncerScript.singleton.ChangeOpenState(false);
+        return false;
     }
 
     public void ContinueGame()
@@ -47,9 +64,15 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     }
 
+    public void ShowMainmenu()
+    {
+        _optionsContainer.CloseMenu();
+        _homeContainer.OpenMenu();
+    }
     public void ShowOptions()
     {
-
+        _homeContainer.CloseMenu();
+        _optionsContainer.OpenMenu();
     }
     public void QuitGame()
     {

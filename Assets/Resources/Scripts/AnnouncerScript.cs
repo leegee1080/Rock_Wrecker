@@ -76,7 +76,6 @@ public class AnnouncerScript : MonoBehaviour
         _announceAni.enabled = true;
         _openState = state;
         _announceAni.SetBool("Open", state);
-        Sound_Events.Play_Sound("Game_Announce");
         if(state == false)
         {
             StopAllCoroutines();
@@ -84,8 +83,9 @@ public class AnnouncerScript : MonoBehaviour
             _twoBtnCanv.SetActive(false);
             _oneBtnCanv.SetActive(false);
             _smallTxtCanv.SetActive(false);
+            return;
         }
-
+        Sound_Events.Play_Sound("Game_Announce");
     }
 
     private void HideContent()

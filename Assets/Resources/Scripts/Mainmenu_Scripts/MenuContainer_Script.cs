@@ -19,7 +19,7 @@ public class MenuContainer_Script : MonoBehaviour
     {
         for (int i = 0; i < _animatedItems.Length; i++)
         {
-            _animatedItems[i].Play("CloseMenuButton");
+            _animatedItems[i].Play("Close");
         }
     }
 
@@ -27,7 +27,7 @@ public class MenuContainer_Script : MonoBehaviour
     {
         for (int i = 0; i < _animatedItems.Length; i++)
         {
-            _animatedItems[i].Play("OpenMenuButton");
+            _animatedItems[i].Play("Open");
             yield return new WaitForSeconds(_transTime);
         }
     }

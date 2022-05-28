@@ -157,6 +157,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
         if(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones <= 0)
         {
             BlinkGameObject(DroneCountText.gameObject);
+            Sound_Events.Play_Sound("Game_Incorrect");
             return;
         }
         _oCScript.CurrentPlayer.player_mapPos[0] = selected_poi.poi_info_so.map_pos[0];

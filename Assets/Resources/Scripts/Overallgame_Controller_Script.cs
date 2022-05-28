@@ -284,6 +284,8 @@ public class Overallgame_Controller_Script : MonoBehaviour
     {
         CurrentPlayer = new PlayerData();
         Create_Map();
+        Save_Game(CurrentPlayer);
+        Save_Map(CurrentPlayer.main_map);
         // Save_Game(CurrentPlayer);
         // Save_Map(CurrentPlayer.main_map);
     }

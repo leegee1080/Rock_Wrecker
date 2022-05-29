@@ -118,6 +118,17 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         BreakCrystal(_crystalGODict[_selectedCrystal]);
         // CompleteBreak();
     }
+    public void CrystalTappedFast()
+    {
+        if(_tappable == false){Sound_Events.Play_Sound("Game_Incorrect"); return;}
+        Sound_Events.Play_Sound("Game_Collect");
+        MapUI_Script.singleton.CloseShopBackButton();
+        Debug.Log("Crystal Fast Tapped! "+ _selectedCrystal);
+        _tappable = false;
+
+        // BreakCrystal(_crystalGODict[_selectedCrystal]);
+        CompleteBreak();
+    }
 
     public void DescendCrystal()
     {

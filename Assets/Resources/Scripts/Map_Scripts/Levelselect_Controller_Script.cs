@@ -262,11 +262,17 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void OpenSecretDoor(GameObject doorGO)
     {
+        Sound_Events.Play_Sound("Game_SecretDoor");
+        
         iTween.MoveTo(doorGO, iTween.Hash(
             "position", new Vector3(-2.5f,3,0),
             "islocal", true,
             "easetype", iTween.EaseType.easeOutSine,
             "time", 1f));
+    }
+    public void ClickOnToilet()
+    {
+        Sound_Events.Play_Sound("Baa");
     }
 
     public void MoveShipGameObject()

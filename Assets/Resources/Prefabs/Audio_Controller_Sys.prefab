@@ -470,4 +470,22 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+  - name: Game_SecretDoor
+    clip: {fileID: 8300000, guid: 2908b585525c4b841ae9ba2e28b565e5, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 0
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Baa
+    clip: {fileID: 8300000, guid: 227871d9a9475a94a87de2b582fb07fb, type: 3}
+    Tag: 1
+    loop: 0
+    randomPitch: 1
+    Maxvolume: 1
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
   selectedSound: {fileID: 0}

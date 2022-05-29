@@ -225,6 +225,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
     [SerializeField] private LevelEnemy_Storage _enemyStorageScript;
     [SerializeField]private float _enemySpawnTime;
     public Timer<bool, float> enemySpawn_Timer;
+    [SerializeField]private int _scoreQueue;
+    [SerializeField]private float _scoreQueueDecSpeed;
+    private IEnumerator _scoreQueueEnumerator;
+    private IEnumerator _motePlacerEnumerator;
 
 
     [Header("Object Pools")]
@@ -304,7 +308,10 @@ public class Levelplay_Controller_Script : MonoBehaviour
         timer_text_ref = level_setup_timer;
 
         //extras
+        _scoreQueueEnumerator = ScoreEffects();
+        _motePlacerEnumerator = MotePlacer();
         StartCoroutine(MotePlacer());
+        StartCoroutine(_scoreQueueEnumerator);
     }
 
     private void Update()
@@ -447,16 +454,33 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public void AddScore()
     {
-        resources_collected_array[0] += 1;
-        CollectSparkle.Play();
+        _scoreQueue += 1;
+        // resources_collected_array[0] += 1;
+        
+    }
 
-        if(score_menu_container.activeSelf)
+    IEnumerator ScoreEffects()
+    {
+        string[] _scoreSounds = {"Game_ScoreUpShort1", "Game_ScoreUpShort2", "Game_ScoreUpShort3", "Game_ScoreUpShort4", "Game_ScoreUpShort5"};
+        int _soundIndex = _scoreSounds.Length-1;
+        while(true)
         {
-            foreach (ScoreItem_Script item in ui_scoreitems)
-            {
+            yield return new WaitForSeconds(_scoreQueueDecSpeed);
+            if(_scoreQueue <= 0){continue;}
 
-                item.Update_My_Score(resources_collected_array);
-                
+            CollectSparkle.Play();
+            _scoreQueue -= 1;
+            resources_collected_array[0] += 1;
+            Sound_Events.Play_Sound(_scoreSounds[_soundIndex]);
+            _soundIndex -= 1;
+            if(_soundIndex <= 0){_soundIndex= _scoreSounds.Length-1;}
+
+            if(score_menu_container.activeSelf)
+            {
+                foreach (ScoreItem_Script item in ui_scoreitems)
+                {
+                    item.Update_My_Score(resources_collected_array);
+                }
             }
         }
     }
@@ -830,6 +854,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
             }
             res.gameObject.SetActive(true);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        StopCoroutine(_scoreQueueEnumerator);
+        StopCoroutine(_motePlacerEnumerator);
     }
 #endregion
 

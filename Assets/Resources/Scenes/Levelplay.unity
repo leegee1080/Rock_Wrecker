@@ -1125,6 +1125,8 @@ MonoBehaviour:
   player_start_gridpos: {x: 0, y: 0}
   _enemyStorageScript: {fileID: 1166955262}
   _enemySpawnTime: 20
+  _scoreQueue: 0
+  _scoreQueueDecSpeed: 0.05
   _playerViewCullDist: 40
   _pooledParticlesParent: {fileID: 2054928273}
   rocks_queue_for_destruction: []
@@ -2760,10 +2762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15100f4feb9f99f47988bbba69c4eb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scoreSounds:
-  - Game_ScoreUpShort
-  - Game_ScoreUpShort1
-  - Game_ScoreUpLong
 --- !u!1001 &1847668621
 PrefabInstance:
   m_ObjectHideFlags: 0

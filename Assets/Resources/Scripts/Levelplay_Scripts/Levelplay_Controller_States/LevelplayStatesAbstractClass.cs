@@ -59,6 +59,7 @@ public class LevelplayState_Playing: LevelplayStatesAbstractClass
         _cont.level_escape_timer.Decrement_Timer(Time.deltaTime); 
         _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime);
         _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+
     }   
 }
 public class LevelplayState_Paused: LevelplayStatesAbstractClass
@@ -110,6 +111,7 @@ public class LevelplayState_GetToEscape: LevelplayStatesAbstractClass
         _cont.level_end_timer.Decrement_Timer(Time.deltaTime);
         _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime); 
         _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+
     }   
 }
 public class LevelplayState_CleanupLose: LevelplayStatesAbstractClass
@@ -154,7 +156,7 @@ public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
         Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_top += _cont.resources_collected_array[3];
         Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_rub += _cont.resources_collected_array[2];
 
-        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("win confirm", AnnounceTypeEnum.OneBtn, "Resources Saved!", "Drone has been extracted, resources sent to ship!", _cont.Exit_Level_To_Map);
+        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("win confirm", AnnounceTypeEnum.OneBtn, "Resources Saved!", "Resources sent to ship!", _cont.Exit_Level_To_Map);
         AnnouncerScript.singleton.ChangeOpenState(true);
         Debug.Log("Level Win");
     }   
@@ -165,6 +167,7 @@ public class LevelplayState_CleanupWin: LevelplayStatesAbstractClass
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
         _cont.timer_text.text = "0.00";
+
     }   
 }
 public class LevelplayState_OnExit: LevelplayStatesAbstractClass
@@ -188,5 +191,6 @@ public class LevelplayState_OnExit: LevelplayStatesAbstractClass
     {
         _cont.level_exit_timer.Decrement_Timer(Time.deltaTime);
         _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+
     }   
 }

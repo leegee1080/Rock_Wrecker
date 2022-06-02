@@ -24,8 +24,6 @@ public class CrystalPrize_ScriptableObject : ScriptableObject
 
     public void RunStatChange()
     {
-        //playsound
-
         StatChangeFunc = Global_Vars.PlayerUpgradeFuncDict[UpgradeType];
         StatChangeFunc(amount, Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer);
     }

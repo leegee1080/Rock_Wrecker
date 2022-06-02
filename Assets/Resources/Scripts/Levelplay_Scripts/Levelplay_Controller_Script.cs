@@ -470,7 +470,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
             CollectSparkle.Play();
             _scoreQueue -= 1;
-            resources_collected_array[0] += 1;
+            resources_collected_array[0] += (1 * ((int)(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.score_multi/100)));
             Sound_Events.Play_Sound(_scoreSounds[_soundIndex]);
             _soundIndex -= 1;
             if(_soundIndex <= 0){_soundIndex= _scoreSounds.Length-1;}

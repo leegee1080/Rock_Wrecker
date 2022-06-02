@@ -18,5 +18,5 @@ MonoBehaviour:
   sound: 
   particle: {fileID: 109660, guid: 60177ef0f3692314dac049f1c8563656, type: 3}
   tier: 2
-  amount: 10
+  amount: 25
   UpgradeType: 1

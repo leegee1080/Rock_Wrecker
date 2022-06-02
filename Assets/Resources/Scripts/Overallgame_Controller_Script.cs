@@ -147,8 +147,7 @@ public static class Global_Vars
     }
     public static void MoneyMultiPlus(int amount,PlayerData pd)
     {
-        float amountF = amount/100;
-        pd.score_multi += amountF;
+        pd.score_multi += amount;
     }
     public static void CheaperDronePlus(int amount,PlayerData pd)
     {

@@ -41,7 +41,6 @@ public class Mainmenu_Controller_Script : MonoBehaviour
             Sound_Events.Play_Sound("Game_PlayerDeath");
             Overallgame_Controller_Script.overallgame_controller_singleton.NewGame();
             AnnouncerScript.singleton.ChangeOpenState(false);
-            PlayerPrefs.DeleteAll();
             PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 50);
             Sound_Events.Change_Volume(0.5f, Sound_Type_Tags.fx);
             PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 50);
@@ -79,6 +78,13 @@ public class Mainmenu_Controller_Script : MonoBehaviour
         Sound_Events.Play_Sound("Game_Click");
         _homeContainer.CloseMenu();
     }
+
+    public void TurnOffTut()
+    {
+        Overallgame_Controller_Script.overallgame_controller_singleton.tutOn = false;
+        PlayerPrefs.SetInt("tut", 0);
+    }
+
     public void QuitGame()
     {
         AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("quitgame", AnnounceTypeEnum.TwoBtn,"Quit Game?","Are you sure?", CloseApp);

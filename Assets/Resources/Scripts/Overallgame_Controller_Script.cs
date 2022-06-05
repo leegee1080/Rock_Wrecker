@@ -201,6 +201,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
     
     [Header("AppData")]
     [SerializeField]public bool tutOn = false;
+    [SerializeField]public List<string> shownTuts = new List<string>();
 
     private void Awake()
     {
@@ -215,12 +216,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
         }
         DontDestroyOnLoad(this);
 
-        print(PlayerPrefs.GetInt("tut"));
         tutOn = PlayerPrefs.GetInt("tut") == 1 ? true : false;
-        if(tutOn)
-        {
-            TutorialObject_Script.singleton.FirstTut();
-        }
         PlayerData loadedData = Load_Game();
         loadedData.main_map = Load_Map();
         if(loadedData == null)
@@ -296,27 +292,28 @@ public class Overallgame_Controller_Script : MonoBehaviour
         PlayerPrefs.SetInt("tut", 1);
         print(PlayerPrefs.GetInt("tut"));
         TutorialObject_Script.singleton.FirstTut();
+        shownTuts.Clear();
         // Save_Game(CurrentPlayer);
         // Save_Map(CurrentPlayer.main_map);
     }
 
-    public void Debug_SaveGame()
-    {
-        Save_Game(CurrentPlayer);
-        Save_Map(CurrentPlayer.main_map);
-    }
+    // public void Debug_SaveGame()
+    // {
+    //     Save_Game(CurrentPlayer);
+    //     Save_Map(CurrentPlayer.main_map);
+    // }
 
-    public void Debug_LoadGame()
-    {
-        PlayerData loadedData = Load_Game();
-        loadedData.main_map = Load_Map();
-    }
+    // public void Debug_LoadGame()
+    // {
+    //     PlayerData loadedData = Load_Game();
+    //     loadedData.main_map = Load_Map();
+    // }
 
-    public void Debug_ClearSaveData()
-    {
-        CurrentPlayer = new PlayerData();
-        Create_Map();
-    }
+    // public void Debug_ClearSaveData()
+    // {
+    //     CurrentPlayer = new PlayerData();
+    //     Create_Map();
+    // }
 
     public void SaveCurrentPlayer()
     {

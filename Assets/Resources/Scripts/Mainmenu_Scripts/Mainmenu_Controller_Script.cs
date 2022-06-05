@@ -24,6 +24,7 @@ public class Mainmenu_Controller_Script : MonoBehaviour
         Sound_Events.Play_Sound("Music_MenuLoop");
 
         _homeContainer.OpenMenu();
+        TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
     }
 
     public void NewGame()

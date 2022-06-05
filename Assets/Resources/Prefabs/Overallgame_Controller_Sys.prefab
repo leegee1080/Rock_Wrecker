@@ -70,3 +70,14 @@ MonoBehaviour:
     main_map: []
   chosen_scene_enum: 1
   selected_level: {fileID: 0}
+  tutOn: 1
+  TutArray:
+  - name: first_mainmenu
+    tutText: '"Welcome to Rock Wrecker! \nI will be your guide. \n If this is your
+      first time playing, click the ''Play'' button. \n If not, click the ''Extras''
+      button and you can turn off tutorials.\n You can go back by clicking the ''Contiune''
+      button."'
+    shown: 1
+  - name: first_mapselect
+    tutText: 
+    shown: 0

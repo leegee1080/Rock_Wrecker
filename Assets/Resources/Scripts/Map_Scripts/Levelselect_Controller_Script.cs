@@ -238,6 +238,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void FinishSwitchToShop()
     {
+        TutorialObject_Script.singleton.FindandPlayTutorialObject("shop_mapselect");
         UIScript.OpenShopBackButton();
         CrystalConsole_Sctipt.singleton.ShowCrystalTable();
     }
@@ -286,6 +287,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void FinishToMapTrans()
     {
+        TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mapselect");
         UIScript.OpenSelectionMiniMenu();
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
     }

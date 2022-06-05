@@ -8,6 +8,8 @@ public class TutorialClass
 {
     public string name;
     public string tutText;
+    public bool shown;
+    public GameObject[] ToHide;
 
     public TutorialClass(string _name, string _newText)
     {
@@ -25,6 +27,7 @@ public class TutorialObject_Script : MonoBehaviour
     [SerializeField]float _typeSpeed;
     [SerializeField]TutorialClass _tutClass;
     public static TutorialObject_Script singleton;
+    public TutorialClass[] TutArray;
 
     
 
@@ -34,7 +37,7 @@ public class TutorialObject_Script : MonoBehaviour
     void Start()
     {
         singleton = this;
-        _bot.transform.position = HidePos;
+        _bot.transform.localPosition = HidePos;
     }
     public void FirstTut()
     {
@@ -44,6 +47,14 @@ public class TutorialObject_Script : MonoBehaviour
 
     public void StartTutorial(TutorialClass newTC)
     {
+        if(!Overallgame_Controller_Script.overallgame_controller_singleton.tutOn || newTC.shown || Overallgame_Controller_Script.overallgame_controller_singleton.shownTuts.Contains(newTC.name)){return;}
+        _bot.SetActive(true);
+        foreach (GameObject item in newTC.ToHide)
+        {
+            item.SetActive(false);
+        }
+        newTC.shown = true;
+        Overallgame_Controller_Script.overallgame_controller_singleton.shownTuts.Add(newTC.name);
         _tutClass = newTC;
         _text.text = "";
         iTween.MoveTo(_bot, 
@@ -54,7 +65,8 @@ public class TutorialObject_Script : MonoBehaviour
                 "speed", _botSpeed,
                 "easetype", iTween.EaseType.easeOutBack,
                 "oncomplete", "ShowTutorialScreen",
-                "oncompletetarget", this.gameObject
+                "oncompletetarget", this.gameObject,
+                "islocal", true
             )
         );
     }
@@ -68,9 +80,16 @@ public class TutorialObject_Script : MonoBehaviour
                 "name", "tutOut",
                 "position", HidePos,
                 "speed", _botSpeed,
-                "easetype", iTween.EaseType.easeInSine
+                "easetype", iTween.EaseType.easeInSine,
+                "oncomplete", "FinishCloseTut",
+                "oncompletetarget", this.gameObject,
+                "islocal", true
             )
         );
+        foreach (GameObject item in _tutClass.ToHide)
+        {
+            item.SetActive(true);
+        }
     }
 
     public void ShowTutorialScreen()
@@ -82,17 +101,37 @@ public class TutorialObject_Script : MonoBehaviour
         _ani.Play("Close");
     }
 
+    public void FinishCloseTut()
+    {
+        _bot.SetActive(false);
+    }
+
     public void FillOutText()
     {
         StartCoroutine(TypeText(_tutClass.tutText));
     }
     private IEnumerator TypeText(string _stringToType)
     {
-        for (int i = 0; i < _stringToType.Length; i++)
+        string s = _stringToType.Replace("*", "\n");
+        for (int i = 0; i < s.Length; i++)
         {
             yield return new WaitForSeconds(_typeSpeed);
-            _text.text += _stringToType[i];
+            _text.text += s[i];
         }
         yield return null;
+    }
+
+    public void FindandPlayTutorialObject(string name)
+    {
+
+        StartTutorial(System.Array.Find(TutArray, tut => tut.name == name));
+    }
+
+    public void ResetTutorialObjects()
+    {
+        foreach (TutorialClass item in TutArray)
+        {
+            item.shown = false;
+        }
     }
 }

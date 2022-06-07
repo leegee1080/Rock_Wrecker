@@ -25,6 +25,8 @@ public class TutorialObject_Script : MonoBehaviour
     [SerializeField]GameObject _bot;
     [SerializeField]float _botSpeed;
     [SerializeField]float _typeSpeed;
+    [SerializeField]TutorialClass _firstTutClass;
+
     [SerializeField]TutorialClass _tutClass;
     public static TutorialObject_Script singleton;
     public TutorialClass[] TutArray;
@@ -42,7 +44,7 @@ public class TutorialObject_Script : MonoBehaviour
     public void FirstTut()
     {
         Overallgame_Controller_Script.overallgame_controller_singleton.tutOn = true;
-        StartTutorial(new TutorialClass("firsttut", "Welcome to Rock Wrecker! \nI will be your guide. \n If this is your first time playing, click the 'Play' button. \n If not, click the 'Extras' button and you can turn off tutorials.\n You can go back by clicking the 'Contiune' button."));
+        StartTutorial(_firstTutClass);
     }
 
     public void StartTutorial(TutorialClass newTC)

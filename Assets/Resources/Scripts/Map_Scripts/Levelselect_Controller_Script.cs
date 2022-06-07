@@ -258,6 +258,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
         _oCScript.SaveCurrentPlayer();
         _oCScript.SaveCurrentMap();
         ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.mainmenu);
+        Sound_Events.Stop_Sound("Music_Select2");
         // Loading_Controller_Script.loading_controller_singleton.Load_Next_Scene(Scene_Enums.mainmenu);
     }
 

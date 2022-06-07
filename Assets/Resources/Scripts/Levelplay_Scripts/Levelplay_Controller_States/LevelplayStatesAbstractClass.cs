@@ -33,6 +33,10 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
     }   
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
+        if(!_cont.MainCanvas.activeSelf)
+        {
+            return;
+        }
         _cont.level_setup_timer.Decrement_Timer(Time.deltaTime);
         _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
     }   

@@ -290,9 +290,8 @@ public class Overallgame_Controller_Script : MonoBehaviour
         Save_Game(CurrentPlayer);
         Save_Map(CurrentPlayer.main_map);
         PlayerPrefs.SetInt("tut", 1);
-        print(PlayerPrefs.GetInt("tut"));
-        TutorialObject_Script.singleton.FirstTut();
         shownTuts.Clear();
+        TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
         // Save_Game(CurrentPlayer);
         // Save_Map(CurrentPlayer.main_map);
     }

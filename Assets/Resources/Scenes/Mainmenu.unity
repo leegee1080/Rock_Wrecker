@@ -5624,6 +5624,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 358528092667926973, guid: 319db97b1c13615409261e5f925b9bb8, type: 3}
+      propertyPath: _firstTutClass.name
+      value: first_mainmenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 358528092667926973, guid: 319db97b1c13615409261e5f925b9bb8, type: 3}
+      propertyPath: _firstTutClass.tutText
+      value: Welcome to Rock Wrecker! *I will be your guide. * If this is your first
+        time playing, tap the 'Play' button. * If not, tap the 'Extras' button and
+        you can turn off tutorials.* You can go back by tap the 'Contiune' button.
+      objectReference: {fileID: 0}
+    - target: {fileID: 358528092667926973, guid: 319db97b1c13615409261e5f925b9bb8, type: 3}
       propertyPath: TutArray.Array.data[0].tutText
       value: Welcome to Rock Wrecker! *I will be your guide. * If this is your first
         time playing, tap the 'Play' button. * If not, tap the 'Extras' button and

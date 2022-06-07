@@ -1,12 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuButton : MonoBehaviour
 {
     [SerializeField]Animator _animator;
     [SerializeField]GameObject _buttonGroup;
+    public static MenuButton singleton;
 
+    private void Start()
+    {
+        singleton = this;
+    }
 
     public void ToggleMenu()
     {
@@ -19,13 +22,13 @@ public class MenuButton : MonoBehaviour
         
         if(!_buttonGroup.activeSelf)
         {
-            Sound_Events.Play_Sound("Game_Click");
+            Audio_Controller_Script.singleton.PlaySound("Game_Click");
             _buttonGroup.SetActive(true);
             _animator.SetBool("MenuOpen",true);
             Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(LevelStatesEnum.Paused);
             return;
         };
-        Sound_Events.Play_Sound("Game_ClickOff");
+        Audio_Controller_Script.singleton.PlaySound("Game_ClickOff");
         _animator.SetBool("MenuOpen",false);
         Levelplay_Controller_Script.levelplay_controller_singleton.ChangeLevelState(Levelplay_Controller_Script.levelplay_controller_singleton.LastLevelState);
 

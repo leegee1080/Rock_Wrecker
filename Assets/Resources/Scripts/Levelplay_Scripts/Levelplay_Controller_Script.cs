@@ -166,6 +166,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
     [Header("Game Objects")]
+    public GameObject MainCanvas;
     public GameObject TestRock;
     public GameObject TestWall;
     public GameObject TestExit;
@@ -255,7 +256,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         _currentStateClass.OnEnterState(this);
 
         drop_ship.Launch();
-        print("current player score: "+ Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_score);
+
         current_player = null;
         current_player = Instantiate(current_player_serialized, parent: actor_container.transform);
 
@@ -312,6 +313,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
         _motePlacerEnumerator = MotePlacer();
         StartCoroutine(MotePlacer());
         StartCoroutine(_scoreQueueEnumerator);
+
+        TutorialObject_Script.singleton.FindandPlayTutorialObject("start_play");
     }
 
     private void Update()

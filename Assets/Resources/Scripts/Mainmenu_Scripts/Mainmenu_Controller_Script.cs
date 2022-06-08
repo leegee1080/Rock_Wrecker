@@ -11,7 +11,11 @@ public class Mainmenu_Controller_Script : MonoBehaviour
     [Header("Container Gameobjects")]
     [SerializeField]private MenuContainer_Script _homeContainer;
     [SerializeField]private MenuContainer_Script _optionsContainer;
-    [SerializeField]private MenuContainer_Script _creditsContainer;
+    [SerializeField]private GameObject _creditsContainer;
+    [SerializeField]private GameObject _logoContainer;
+    [SerializeField]private float _logoChangeSpeed;
+    [SerializeField]private Vector3 _logoHome;
+    [SerializeField]private Vector3 _logoOffScreen;
 
 
     void Awake() => mainmenu_controller_singleton = this;
@@ -67,18 +71,21 @@ public class Mainmenu_Controller_Script : MonoBehaviour
         Sound_Events.Play_Sound("Game_ClickOff");
         _optionsContainer.CloseMenu();
         _homeContainer.OpenMenu();
+        SwapLogos(_logoContainer, _creditsContainer);
     }
     public void ShowOptions()
     {
         Sound_Events.Play_Sound("Game_Click");
         _homeContainer.CloseMenu();
         _optionsContainer.OpenMenu();
+        SwapLogos(_creditsContainer, _logoContainer);
     }
-    public void ShowCredits()
-    {
-        Sound_Events.Play_Sound("Game_Click");
-        _homeContainer.CloseMenu();
-    }
+    // public void ShowCredits()
+    // {
+    //     Sound_Events.Play_Sound("Game_Click");
+    //     _homeContainer.CloseMenu();
+    //     SwapLogos(_creditsContainer, _logoContainer);
+    // }
 
     public void TurnOffTut()
     {
@@ -101,5 +108,22 @@ public class Mainmenu_Controller_Script : MonoBehaviour
         }
         Application.Quit();
         return true;
+    }
+
+    public void SwapLogos(GameObject logoIn, GameObject LogoOut)
+    {
+        iTween.Stop();
+        iTween.MoveTo(LogoOut.gameObject, iTween.Hash(
+            "position", _logoOffScreen,
+            "islocal", true,
+            "easetype", iTween.EaseType.easeOutBack,
+            "time", _logoChangeSpeed));
+
+        iTween.MoveTo(logoIn.gameObject, iTween.Hash(
+            "position", _logoHome,
+            "delay", _logoChangeSpeed/2,
+            "islocal", true,
+            "easetype", iTween.EaseType.easeOutBack,
+            "time", _logoChangeSpeed));
     }
 }

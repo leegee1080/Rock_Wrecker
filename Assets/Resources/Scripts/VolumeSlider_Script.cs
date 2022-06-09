@@ -15,7 +15,7 @@ public class VolumeSlider_Script : MonoBehaviour
     void Start()
     {
         _volumeFactor = 100/_tickContainer.childCount;
-        UpdateVolumeTicks();
+        //UpdateVolumeTicks();
     }
 
     public void UpdateVolumeTicks()
@@ -36,19 +36,18 @@ public class VolumeSlider_Script : MonoBehaviour
             int max = _volume/(int)_volumeFactor;
             if(max >= _tickContainer.childCount){yield return null;}
             if(max <= 0){yield return null;}
-            Sound_Events.Change_Volume((float)_volume/100, _volumeType);
+            Sound_Events.Change_Volume((float)_volume/160, _volumeType);
             for (int i = 0; i < max; i++)
             {
                 yield return new WaitForSeconds(_tickUpdateSpeed);
                 _tickContainer.GetChild(i).gameObject.SetActive(true);
             }
-
-            
         }
 
         _tickUpdaterRoutine = updateTick();
         StartCoroutine(_tickUpdaterRoutine);
     }
+
     public void VolumeUp()
     {   
         if(_volume > 100){return;}

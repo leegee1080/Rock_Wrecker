@@ -30,8 +30,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
         _homeContainer.OpenMenu();
         TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
 
-        Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.fx.ToString())/160f, Sound_Type_Tags.fx);
-        Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.music.ToString())/160f, Sound_Type_Tags.music);
+        Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.fx.ToString())/300f, Sound_Type_Tags.fx);
+        Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.music.ToString())/300f, Sound_Type_Tags.music);
     }
 
     public void NewGame()
@@ -50,9 +50,9 @@ public class Mainmenu_Controller_Script : MonoBehaviour
             Overallgame_Controller_Script.overallgame_controller_singleton.NewGame();
             AnnouncerScript.singleton.ChangeOpenState(false);
             PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 30);
-            Sound_Events.Change_Volume(30f/160f, Sound_Type_Tags.fx);
+            Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.fx);
             PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 30);
-            Sound_Events.Change_Volume(30f/160f, Sound_Type_Tags.music);
+            Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.music);
             ShowMainmenu();
             return true;
         }

@@ -30,7 +30,7 @@ public enum PlayerUpgradeTypes
     public string name;
     public float[] player_mapPos = new float[]{0,0};
     public int player_score = 100;
-    public float score_multi = 1;
+    public float score_multi = 100;
     public int player_dia = 0;
     public int player_top = 0;
     public int player_rub = 0;
@@ -147,7 +147,7 @@ public static class Global_Vars
     }
     public static void MoneyMultiPlus(int amount,PlayerData pd)
     {
-        pd.score_multi += amount;
+        pd.player_score += (pd.player_score * 2);
     }
     public static void CheaperDronePlus(int amount,PlayerData pd)
     {

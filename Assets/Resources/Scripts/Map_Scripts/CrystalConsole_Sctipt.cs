@@ -224,15 +224,15 @@ public class CrystalConsole_Sctipt : MonoBehaviour
 
     private void GivePrizeSO()
     {
-        List<CrystalPrize_ScriptableObject> combinedArray;
+        List<CrystalPrize_ScriptableObject> combinedArray = new List<CrystalPrize_ScriptableObject>();
         int randomNumber;
 
         switch (_selectedCrystal)
         {
             case CrystalTypes.None:
-                Debug.Log("No crystal selected"); return; 
+                Debug.Log("No crystal selected"); return;
             case CrystalTypes.Diamond:
-                combinedArray = new List<CrystalPrize_ScriptableObject>();
+                Debug.Log("Giving Diamond Prizes");
                 combinedArray.AddRange(_tier2RewardList);
                 combinedArray.AddRange(_tier3RewardList);
                 for (int i = 0; i < 3; i++)
@@ -241,15 +241,16 @@ public class CrystalConsole_Sctipt : MonoBehaviour
                     CrystalPrizes_Script.singleton._prizes[i] = combinedArray[randomNumber];
                 }
                 return;
-            case CrystalTypes.Topaz:
+            case CrystalTypes.Ruby:
+                Debug.Log("Giving Ruby Prizes");
                 for (int i = 0; i < 3; i++)
                 {
                     randomNumber = Random.Range(0, _tier1RewardList.Length);
                     CrystalPrizes_Script.singleton._prizes[i] = _tier1RewardList[randomNumber];
                 }
                 return;  
-            case CrystalTypes.Ruby:
-                combinedArray = new List<CrystalPrize_ScriptableObject>();
+            case CrystalTypes.Topaz:
+                Debug.Log("Giving Topaz Prizes");
                 combinedArray.AddRange(_tier1RewardList);
                 combinedArray.AddRange(_tier2RewardList);
                 for (int i = 0; i < 3; i++)

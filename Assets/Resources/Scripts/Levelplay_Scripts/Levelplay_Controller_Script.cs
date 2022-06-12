@@ -100,23 +100,24 @@ public class Grid_Data{
     }
 }
 
-public class Timer<T, P> // first is the function return and second is the parameter passed
+[Serializable]public class Timer<T, P> // first is the function return and second is the parameter passed
 {
     private Func<P, T> timer_finished_func;
 
     private P _timerFinishedParameter;
 
-    public float timer_max_amount{get; private set;}
-    public float timer_amount{get; private set;}
+    public float timer_max_amount;
+    public float timer_amount;
     public bool timer_finished_bool;
-    public bool timer_paused_bool{get; private set;}
-
+    public bool timer_paused_bool;
+    public bool repeatable;
 
 
     public Timer(float new_timer_amount, Func<P, T> new_timer_finished_func, P _newFuncParameter)
     {
         timer_finished_bool= false;
         timer_paused_bool = false;
+        repeatable = false;
         timer_max_amount = new_timer_amount;
         timer_finished_func = new_timer_finished_func;
         _timerFinishedParameter = _newFuncParameter;
@@ -140,7 +141,12 @@ public class Timer<T, P> // first is the function return and second is the param
         if(timer_finished_bool){return timer_finished_bool;}
 
         timer_amount -= decrement_amount;
-        if(timer_amount <= 0){timer_finished_func(_timerFinishedParameter); timer_finished_bool = true; }
+        if(timer_amount <= 0)
+        {
+            timer_finished_func(_timerFinishedParameter);
+            if(!repeatable){timer_finished_bool = true;}else{timer_amount = timer_max_amount;}
+        }
+        
         return timer_finished_bool;
     }
 
@@ -224,7 +230,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     public LevelPlayer_Script current_player {get; private set;}
     [SerializeField] public Vector2Int player_start_gridpos;
     [SerializeField] private LevelEnemy_Storage _enemyStorageScript;
-    [SerializeField]private float _enemySpawnTime;
+    [SerializeField]public float _enemySpawnTime;
     public Timer<bool, float> enemySpawn_Timer;
     [SerializeField]private int _scoreQueue;
     [SerializeField]private float _scoreQueueDecSpeed;
@@ -297,13 +303,18 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
 
         // if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
-        _enemySpawnTime = _enemySpawnTime / Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty;
+        _enemySpawnTime = _enemySpawnTime - (Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty * 5);
+        
 
         level_setup_timer = new Timer<bool, LevelStatesEnum>(level_setup_time, ChangeLevelState, LevelStatesEnum.Playing);
+
+        level_escape_time = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_time;
+
         level_escape_timer = new Timer<bool, LevelStatesEnum>(level_escape_time, ChangeLevelState, LevelStatesEnum.GetToEscape);
         level_end_timer = new Timer<bool, LevelStatesEnum>(level_end_time, ChangeLevelState, LevelStatesEnum.CleanupLose);
         level_exit_timer = new Timer<bool, LevelStatesEnum>(level_exit_time, ChangeLevelState, LevelStatesEnum.CleanupWin);
         enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
+        enemySpawn_Timer.repeatable = true;
         level_exit_timer.Pause_Timer(true);
 
         timer_text_ref = level_setup_timer;
@@ -371,11 +382,11 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     public bool SpawnEnemy(float timeReset)
     {
-
+        
         IEnumerable<Grid_Data> emptyGridPos = 
             from row in x_lead_map_coord_array
             from cell in row
-            where cell.resident == null && cell.playable && Vector3.Distance(cell.actual_pos, current_player.transform.position) > 10 && Vector3.Distance(cell.actual_pos, current_player.transform.position) < _playerViewCullDist
+            where cell.resident == null && cell.playable && Vector3.Distance(cell.actual_pos, current_player.transform.position) > 5 && Vector3.Distance(cell.actual_pos, current_player.transform.position) < _playerViewCullDist
             select cell;
         
         if(emptyGridPos.Count() == 0)
@@ -385,7 +396,6 @@ public class Levelplay_Controller_Script : MonoBehaviour
         
 
         _enemyStorageScript.SpawnEnemy(emptyGridPos.ElementAt((int)Global_Vars.rand_num_gen.Next(0,emptyGridPos.Count())).grid_pos,-1);
-        enemySpawn_Timer = new Timer<bool, float>(_enemySpawnTime, SpawnEnemy, _enemySpawnTime);
         return true;
     }
 

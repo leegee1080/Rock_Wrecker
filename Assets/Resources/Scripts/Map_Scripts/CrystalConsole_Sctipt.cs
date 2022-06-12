@@ -224,7 +224,6 @@ public class CrystalConsole_Sctipt : MonoBehaviour
 
     private void GivePrizeSO()
     {
-        List<CrystalPrize_ScriptableObject> combinedArray = new List<CrystalPrize_ScriptableObject>();
         int randomNumber;
 
         switch (_selectedCrystal)
@@ -233,12 +232,10 @@ public class CrystalConsole_Sctipt : MonoBehaviour
                 Debug.Log("No crystal selected"); return;
             case CrystalTypes.Diamond:
                 Debug.Log("Giving Diamond Prizes");
-                combinedArray.AddRange(_tier2RewardList);
-                combinedArray.AddRange(_tier3RewardList);
                 for (int i = 0; i < 3; i++)
                 {
-                    randomNumber = Random.Range(0, combinedArray.Count);
-                    CrystalPrizes_Script.singleton._prizes[i] = combinedArray[randomNumber];
+                    randomNumber = Random.Range(0, _tier3RewardList.Length);
+                    CrystalPrizes_Script.singleton._prizes[i] = _tier3RewardList[randomNumber];
                 }
                 return;
             case CrystalTypes.Ruby:
@@ -251,12 +248,10 @@ public class CrystalConsole_Sctipt : MonoBehaviour
                 return;  
             case CrystalTypes.Topaz:
                 Debug.Log("Giving Topaz Prizes");
-                combinedArray.AddRange(_tier1RewardList);
-                combinedArray.AddRange(_tier2RewardList);
                 for (int i = 0; i < 3; i++)
                 {
-                    randomNumber = Random.Range(0, combinedArray.Count);
-                    CrystalPrizes_Script.singleton._prizes[i] = combinedArray[randomNumber];
+                    randomNumber = Random.Range(0, _tier2RewardList.Length);
+                    CrystalPrizes_Script.singleton._prizes[i] = _tier2RewardList[randomNumber];
                 }
                 return;
             default:

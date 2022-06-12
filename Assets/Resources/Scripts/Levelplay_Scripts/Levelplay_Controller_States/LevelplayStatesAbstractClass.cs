@@ -38,7 +38,7 @@ public class LevelplayState_Setup: LevelplayStatesAbstractClass
             return;
         }
         _cont.level_setup_timer.Decrement_Timer(Time.deltaTime);
-        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount.ToString("0.00");
     }   
 }
 public class LevelplayState_Playing: LevelplayStatesAbstractClass
@@ -62,7 +62,7 @@ public class LevelplayState_Playing: LevelplayStatesAbstractClass
         }
         _cont.level_escape_timer.Decrement_Timer(Time.deltaTime); 
         _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime);
-        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount.ToString("0.00");
 
     }   
 }
@@ -99,6 +99,8 @@ public class LevelplayState_GetToEscape: LevelplayStatesAbstractClass
         _cont.timer_text.color = new Color(255,0,0,1);
         _cont.timer_text.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, new Color(255,0,0,1));
         _cont.timer_text_ref = _cont.level_end_timer;
+        _cont._enemySpawnTime = 20f - (Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty * 5);
+        _cont.enemySpawn_Timer.timer_max_amount = _cont._enemySpawnTime;
         _cont.level_setup_timer.timer_finished_bool = true;
         _cont.level_escape_timer.timer_finished_bool = true;
     }   
@@ -114,7 +116,7 @@ public class LevelplayState_GetToEscape: LevelplayStatesAbstractClass
         }
         _cont.level_end_timer.Decrement_Timer(Time.deltaTime);
         _cont.enemySpawn_Timer.Decrement_Timer(Time.deltaTime); 
-        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount.ToString("0.00");
 
     }   
 }
@@ -194,7 +196,7 @@ public class LevelplayState_OnExit: LevelplayStatesAbstractClass
     public override void OnUpdateState(Levelplay_Controller_Script _cont)
     {
         _cont.level_exit_timer.Decrement_Timer(Time.deltaTime);
-        _cont.timer_text.text = _cont.timer_text_ref.timer_amount + "";
+        _cont.timer_text.text = _cont.timer_text_ref.timer_amount.ToString("0.00");
 
     }   
 }

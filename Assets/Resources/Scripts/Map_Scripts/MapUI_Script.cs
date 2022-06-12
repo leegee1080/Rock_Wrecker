@@ -61,7 +61,7 @@ public class MapUI_Script : MonoBehaviour
     }
 
 
-    public void PurchaseDrone()
+    public void PurchaseDrone(bool freeDrone = false)
     {
         if(_ocScript.CurrentPlayer.player_score >= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost)
         {
@@ -72,7 +72,7 @@ public class MapUI_Script : MonoBehaviour
                 return;
             }
             //purchase
-            _ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost;
+            if(!freeDrone){_ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost;}
             _ocScript.CurrentPlayer.PlayerDrones += 1;
             Sound_Events.Play_Sound("Game_Correct");
             Levelselect_Controller_Script.levelselect_controller_singletion.DroneCountText.text = _ocScript.CurrentPlayer.PlayerDrones + "";

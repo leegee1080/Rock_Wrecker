@@ -1119,6 +1119,10 @@ PrefabInstance:
       propertyPath: main_map.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 213493844f97439429139cabdca28b81, type: 2}
+    - target: {fileID: 8382268661076807286, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
+      propertyPath: CurrentPlayer.player_time
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2267a28b3fb478b439bb7a652ae18ab0, type: 3}
 --- !u!114 &1041043380 stripped
@@ -1187,6 +1191,12 @@ MonoBehaviour:
   - {fileID: 2029889664}
   - {fileID: 2054309424}
   timer_text: {fileID: 757408207}
+  timer_text_ref:
+    timer_max_amount: 0
+    timer_amount: 0
+    timer_finished_bool: 0
+    timer_paused_bool: 0
+    repeatable: 0
   _musicArray:
   - Music_Level4
   - Music_Level3
@@ -1227,15 +1237,45 @@ MonoBehaviour:
   LastLevelState: 0
   camera_offset: {x: 0, y: -12, z: -25}
   level_setup_time: 2
+  level_setup_timer:
+    timer_max_amount: 0
+    timer_amount: 0
+    timer_finished_bool: 0
+    timer_paused_bool: 0
+    repeatable: 0
   level_escape_time: 90
+  level_escape_timer:
+    timer_max_amount: 0
+    timer_amount: 0
+    timer_finished_bool: 0
+    timer_paused_bool: 0
+    repeatable: 0
   level_end_time: 30
+  level_end_timer:
+    timer_max_amount: 0
+    timer_amount: 0
+    timer_finished_bool: 0
+    timer_paused_bool: 0
+    repeatable: 0
   level_exit_time: 2
+  level_exit_timer:
+    timer_max_amount: 0
+    timer_amount: 0
+    timer_finished_bool: 0
+    timer_paused_bool: 0
+    repeatable: 0
   player_on_exit: 0
   resources_collected_array: 00000000000000000000000000000000
   current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
   player_start_gridpos: {x: 0, y: 0}
   _enemyStorageScript: {fileID: 1166955262}
-  _enemySpawnTime: 20
+  _enemySpawnTime: 30
+  enemySpawn_Timer:
+    timer_max_amount: 0
+    timer_amount: 0
+    timer_finished_bool: 0
+    timer_paused_bool: 0
+    repeatable: 0
   _scoreQueue: 0
   _scoreQueueDecSpeed: 0.05
   _playerViewCullDist: 40
@@ -1285,6 +1325,11 @@ MonoBehaviour:
   - {fileID: 4698076374342778106, guid: 88b692cc76290074f97fa9c4a3e8bb94, type: 3}
   - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
   - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   PossibleEnemies2:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
@@ -1292,7 +1337,19 @@ MonoBehaviour:
   - {fileID: 4698076374342778106, guid: f708a62e0656c034eb1ef9855586c593, type: 3}
   - {fileID: 4698076374342778106, guid: 308d5b07aa13798499c4f5d6cf509e15, type: 3}
   - {fileID: 4698076374342778106, guid: 308d5b07aa13798499c4f5d6cf509e15, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   PossibleEnemies3:
+  - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
+  - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
+  - {fileID: 4698076374342778106, guid: b6019a555c18f234a8943b8a1679c2e6, type: 3}
+  - {fileID: 4698076374342778106, guid: 308d5b07aa13798499c4f5d6cf509e15, type: 3}
+  - {fileID: 4698076374342778106, guid: 88b692cc76290074f97fa9c4a3e8bb94, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  PossibleEnemies4:
   - {fileID: 4698076374342778106, guid: 450d8dec71a398245bcb5fbcd2a33b81, type: 3}
   - {fileID: 4698076374342778106, guid: 8ef1ee1feff1c9742977186722855ed4, type: 3}
   - {fileID: 4698076374342778106, guid: b6019a555c18f234a8943b8a1679c2e6, type: 3}
@@ -1300,8 +1357,6 @@ MonoBehaviour:
   - {fileID: 4698076374342778106, guid: 88b692cc76290074f97fa9c4a3e8bb94, type: 3}
   LateSpawnEnemies:
   - {fileID: 4698076374342778106, guid: a2174426653311141b045d01cb385003, type: 3}
-  - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
-  - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
   - {fileID: 4698076374342778106, guid: e3b53893a40f2ef419f892ce90522075, type: 3}
   _actorParentGO: {fileID: 1916730590}
 --- !u!1 &1190639154
@@ -1515,7 +1570,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321659509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 11.6}
+  m_LocalPosition: {x: 0, y: 0, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1763527020}
@@ -1523,7 +1578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -498.1001, y: 259.29996}
+  m_AnchoredPosition: {x: -473.0001, y: 236.99994}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!330 &1321659511
@@ -2434,7 +2489,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846621777}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 11.6}
+  m_LocalPosition: {x: 0, y: 0, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1763527020}
@@ -2442,7 +2497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -498.1, y: 259.3}
+  m_AnchoredPosition: {x: -473, y: 237}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!330 &1846621779
@@ -3227,7 +3282,7 @@ RectTransform:
   m_GameObject: {fileID: 2070232222}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3378, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3395711181292171046}
   m_RootOrder: 2
@@ -3683,11 +3738,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1835591527494847220, guid: c7dc09a601725214c89c83eb72151dd8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 1835591527494847220, guid: c7dc09a601725214c89c83eb72151dd8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -8
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 1835591527494847220, guid: c7dc09a601725214c89c83eb72151dd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3912,8 +3967,24 @@ PrefabInstance:
       value: 47.9
       objectReference: {fileID: 0}
     - target: {fileID: 3656869431597632984, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3628
+      objectReference: {fileID: 0}
+    - target: {fileID: 3656869431597632984, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 15.6
+      value: 15.599998
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_text
+      value: 999.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_margin.x
+      value: -18.435883
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
+      propertyPath: m_margin.z
+      value: -19.925629
       objectReference: {fileID: 0}
     - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_fontAsset
@@ -3949,7 +4020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764389588662548686, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 32
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7616386798186444243, guid: b11b5371078d92e43874a4bcf69eeb44, type: 3}
       propertyPath: m_Sprite

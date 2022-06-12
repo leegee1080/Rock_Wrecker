@@ -22,7 +22,8 @@ public enum PlayerUpgradeTypes
     CheaperFuel,
     FreeDrone,
     FreeFuel,
-    LightRadius
+    LightRadius,
+    Time
 }
 
 [Serializable]public class PlayerData
@@ -30,6 +31,7 @@ public enum PlayerUpgradeTypes
     public string name;
     public float[] player_mapPos = new float[]{0,0};
     public int player_score = 100;
+    public int player_time = 60;
     public float score_multi = 100;
     public int player_dia = 0;
     public int player_top = 0;
@@ -109,6 +111,7 @@ public static class Global_Vars
     public const int max_fuel_reach = 20;
     public const int min_light_radius = 20;
     public const int max_light_radius = 40;
+    public const int max_time = 300;
     public const int max_drones = 9;
 
     [Header("POI Data")]
@@ -130,7 +133,8 @@ public static class Global_Vars
         {PlayerUpgradeTypes.CheaperFuel, CheaperFuelPlus},
         {PlayerUpgradeTypes.FreeDrone, DronePlus}, 
         {PlayerUpgradeTypes.FreeFuel, FuelPlus},
-        {PlayerUpgradeTypes.LightRadius, LightRadiusPlus}
+        {PlayerUpgradeTypes.LightRadius, LightRadiusPlus},
+        {PlayerUpgradeTypes.Time, TimePlus}
     };
     public static void DroneShieldPlus(int amount,PlayerData pd)
     {
@@ -149,6 +153,10 @@ public static class Global_Vars
     {
         pd.player_score += (pd.player_score * 2);
     }
+    public static void TimePlus(int amount,PlayerData pd)
+    {
+        pd.player_time += amount;
+    }
     public static void CheaperDronePlus(int amount,PlayerData pd)
     {
         pd.PlayerDroneCost -= amount;
@@ -160,7 +168,15 @@ public static class Global_Vars
     public static void DronePlus(int amount,PlayerData pd)
     {
         if(pd.PlayerDrones >= max_drones){return;}
-        pd.PlayerDrones += amount;
+        try
+            {
+                MapUI_Script mapUI = MapUI_Script.singleton;
+                mapUI.PurchaseDrone(true);
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Error when adding free drone " + e);
+            }
     }
     public static void FuelPlus(int amount,PlayerData pd)
     {

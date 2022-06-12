@@ -17,7 +17,7 @@ MonoBehaviour:
   finished: 0
   map_pos: {x: 0, y: 0}
   poi_size: 1
-  poi_difficulty: 1
+  poi_difficulty: 3
   lode_dia: 1
   lode_rub: 1
   lode_top: 1

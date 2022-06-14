@@ -294,7 +294,6 @@ public class Levelselect_Controller_Script : MonoBehaviour
     }
     public void UpdateFuelLines()
     {
-        print("updating fuel lines");
         foreach (LineRenderer line in _fuelLineRend)
         {
             line.transform.position = OccupiedPOI.transform.position;

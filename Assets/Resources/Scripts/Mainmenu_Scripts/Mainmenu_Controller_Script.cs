@@ -49,8 +49,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
             Sound_Events.Play_Sound("Game_PlayerDeath");
             Overallgame_Controller_Script.overallgame_controller_singleton.NewGame();
             AnnouncerScript.singleton.ChangeOpenState(false);
-            PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 30);
-            Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.fx);
+            PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 60);
+            Sound_Events.Change_Volume(60f/300f, Sound_Type_Tags.fx);
             PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 30);
             Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.music);
             ShowMainmenu();

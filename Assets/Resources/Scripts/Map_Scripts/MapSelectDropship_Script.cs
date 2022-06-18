@@ -50,7 +50,6 @@ public class MapSelectDropship_Script : MonoBehaviour
 
     public void CompleteAnimation()
     {
-        Debug.Log("complete");
         Levelselect_Controller_Script.levelselect_controller_singletion.FinishedDeploy();
     }
 

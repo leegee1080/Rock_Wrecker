@@ -302,7 +302,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         Playerinput_Controller_Script.playerinput_controller_singleton.follow_target = current_player.gameObject;
 
 
-        // if(Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed == false) {Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();}
+        Playerinput_Controller_Script.playerinput_controller_singleton.Toggle_On_Screen_Controls();
         _enemySpawnTime = _enemySpawnTime - (Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty * 5);
         
 

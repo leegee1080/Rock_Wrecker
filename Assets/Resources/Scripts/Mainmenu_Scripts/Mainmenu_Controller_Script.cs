@@ -22,8 +22,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     private void Start()
     {
-        Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
-        Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed =false;
+        // Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
+        // Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed =false;
 
         Sound_Events.Play_Sound("Music_MenuLoop");
 

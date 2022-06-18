@@ -104,10 +104,10 @@ public class Playerinput_Controller_Script : MonoBehaviour
         player_input_actions.PlayerControls.TapUp.canceled += context => Tap_Up(context);
         // player_input_actions.PlayerControls.TapDrag.performed += context => Tap_Drag_Started(context);
         // player_input_actions.PlayerControls.TapDrag.canceled += context => Tap_Drag_Ended(context);
-        player_input_actions.PlayerControls.MoveUp.canceled += context => Input_Control_Events.Invoke_Move_Up_Event(context);
-        player_input_actions.PlayerControls.MoveDown.canceled += context => Input_Control_Events.Invoke_Move_Down_Event(context);
-        player_input_actions.PlayerControls.MoveRight.canceled += context => Input_Control_Events.Invoke_Move_Right_Event(context);
-        player_input_actions.PlayerControls.MoveLeft.canceled += context => Input_Control_Events.Invoke_Move_Left_Event(context);
+        player_input_actions.PlayerControls.MoveUp.performed += context => Input_Control_Events.Invoke_Move_Up_Event(context);
+        player_input_actions.PlayerControls.MoveDown.performed += context => Input_Control_Events.Invoke_Move_Down_Event(context);
+        player_input_actions.PlayerControls.MoveRight.performed += context => Input_Control_Events.Invoke_Move_Right_Event(context);
+        player_input_actions.PlayerControls.MoveLeft.performed += context => Input_Control_Events.Invoke_Move_Left_Event(context);
     }
 
     private void Update() //player controlled camera
@@ -202,7 +202,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     public void Toggle_On_Screen_Controls()
     {
-        if(on_screen_controls_allowed == false)
+        if(on_screen_controls_allowed == true)
         {
             left_on_screen_controlls_container.SetActive(true);
             right_on_screen_controlls_container.SetActive(true);
@@ -237,6 +237,28 @@ public class Playerinput_Controller_Script : MonoBehaviour
             elapsed += Time.deltaTime;
 
             yield return null;
+        }
+    }
+    public void KeyPress(string press)
+    {
+        InputAction.CallbackContext nullCtx = new InputAction.CallbackContext();
+
+        switch (press)
+        {
+            case "W":
+                Input_Control_Events.Invoke_Move_Up_Event(nullCtx);
+                return;
+            case "D":
+                Input_Control_Events.Invoke_Move_Right_Event(nullCtx);
+                return;
+            case "S":
+                Input_Control_Events.Invoke_Move_Down_Event(nullCtx);
+                return;
+            case "A":
+                Input_Control_Events.Invoke_Move_Left_Event(nullCtx);
+                return;
+            default:
+                return;
         }
     }
 

@@ -232,14 +232,18 @@ public class Overallgame_Controller_Script : MonoBehaviour
         }
         DontDestroyOnLoad(this);
 
+    }
+    private void Start()
+    {
+        
         tutOn = PlayerPrefs.GetInt("tut") == 1 ? true : false;
         PlayerData loadedData = Load_Game();
-        loadedData.main_map = Load_Map();
         if(loadedData == null)
         {
             NewGame();
             return;
         }
+        loadedData.main_map = Load_Map();
         CurrentPlayer = loadedData;
     }
 
@@ -307,7 +311,7 @@ public class Overallgame_Controller_Script : MonoBehaviour
         Save_Map(CurrentPlayer.main_map);
         PlayerPrefs.SetInt("tut", 1);
         shownTuts.Clear();
-        TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
+        // TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
         // Save_Game(CurrentPlayer);
         // Save_Map(CurrentPlayer.main_map);
     }

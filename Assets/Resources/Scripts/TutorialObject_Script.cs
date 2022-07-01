@@ -36,9 +36,12 @@ public class TutorialObject_Script : MonoBehaviour
     public Vector3 TalkPos;
     public Vector3 HidePos;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         singleton = this;
+    }
+    void Start()
+    {
         _bot.transform.localPosition = HidePos;
     }
     public void FirstTut()

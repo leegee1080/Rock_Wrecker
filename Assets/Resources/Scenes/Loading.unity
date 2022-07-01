@@ -846,6 +846,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SteamManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1302994678135827472, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1302994678135827478, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}
       propertyPath: m_RootOrder
       value: 9

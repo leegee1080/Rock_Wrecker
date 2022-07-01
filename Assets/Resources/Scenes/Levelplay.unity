@@ -770,7 +770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3670521682628775931, guid: 85bf54120ccf71a4ab82b69ffe242652, type: 3}
       propertyPath: on_screen_controls_allowed
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3693011883361422947, guid: 85bf54120ccf71a4ab82b69ffe242652, type: 3}
       propertyPath: m_Layer

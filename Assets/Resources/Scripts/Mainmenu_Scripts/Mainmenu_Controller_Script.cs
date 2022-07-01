@@ -54,6 +54,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
             PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 30);
             Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.music);
             ShowMainmenu();
+
+            AchevementManager.singlton.EraseGame();
             return true;
         }
 

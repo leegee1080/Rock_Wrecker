@@ -74,6 +74,7 @@ public class MapUI_Script : MonoBehaviour
             //purchase
             if(!freeDrone){_ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost;}
             _ocScript.CurrentPlayer.PlayerDrones += 1;
+            AchevementManager.singlton.DroneBought();
             Sound_Events.Play_Sound("Game_Correct");
             Levelselect_Controller_Script.levelselect_controller_singletion.DroneCountText.text = _ocScript.CurrentPlayer.PlayerDrones + "";
             UpdateShopUINumbers();
@@ -96,6 +97,7 @@ public class MapUI_Script : MonoBehaviour
             //purchase
             _ocScript.CurrentPlayer.player_score -= Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelCost;
             _ocScript.CurrentPlayer.PlayerFuel += 1;
+            AchevementManager.singlton.FuelBought();
             Sound_Events.Play_Sound("Game_Correct");
             if(_fuelBtnScript._menuOpen){_fuelBtnScript.FinishOpenMenu();}
             UpdateShopUINumbers();
@@ -108,6 +110,7 @@ public class MapUI_Script : MonoBehaviour
     public void UpdateShopUINumbers()
     {
         _inventroyTexts[0].text = _ocScript.CurrentPlayer.player_score + "";
+        AchevementManager.singlton.Gold(_ocScript.CurrentPlayer.player_score);
         _inventroyTexts[1].text = _ocScript.CurrentPlayer.player_dia + "";
         _inventroyTexts[2].text = _ocScript.CurrentPlayer.player_top + "";
         _inventroyTexts[3].text = _ocScript.CurrentPlayer.player_rub + "";

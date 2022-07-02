@@ -352,10 +352,12 @@ public class Levelplay_Controller_Script : MonoBehaviour
                 _currentStateClass = new LevelplayState_GetToEscape();
                 break;
             case LevelStatesEnum.CleanupLose:
+                AchevementManager.singlton.Death();
                 if(player_on_exit){_currentStateClass = new LevelplayState_CleanupWin();break;}
                 _currentStateClass = new LevelplayState_CleanupLose();
                 break;
             case LevelStatesEnum.CleanupWin:
+                AchevementManager.singlton.EscapeRock();
                 _currentStateClass = new LevelplayState_CleanupWin();
                 break;
             case LevelStatesEnum.PlayerOnExit:

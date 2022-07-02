@@ -30,7 +30,7 @@ public enum PlayerUpgradeTypes
 {
     public string name;
     public float[] player_mapPos = new float[]{0,0};
-    public int player_score = 100;
+    public int player_score = 90;
     public int player_time = 60;
     public float score_multi = 100;
     public int player_dia = 0;
@@ -140,6 +140,7 @@ public static class Global_Vars
     {
         Sound_Events.Play_Sound("Game_ShieldOn");
         pd.DroneShields += amount;
+        AchevementManager.singlton.Shield();
     }
     public static void MoneyPlus(int amount,PlayerData pd)
     {

@@ -6401,6 +6401,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 358528092667926973, guid: 319db97b1c13615409261e5f925b9bb8, type: 3}
+      propertyPath: HidePos.y
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 358528092667926973, guid: 319db97b1c13615409261e5f925b9bb8, type: 3}
       propertyPath: TutArray.Array.size
       value: 1
       objectReference: {fileID: 0}

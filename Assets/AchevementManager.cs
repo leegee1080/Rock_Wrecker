@@ -84,4 +84,10 @@ public class AchevementManager : MonoBehaviour
         SteamUserStats.SetStat("diamond",1);
         StoreState();
     }
+
+    public void ClearSteamStats()
+    {
+        SteamUserStats.ResetAllStats(true);
+        StoreState();
+    }
 }

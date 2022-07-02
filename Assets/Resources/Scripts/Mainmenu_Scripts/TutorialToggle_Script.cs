@@ -25,6 +25,7 @@ public class TutorialToggle_Script : MonoBehaviour
             Overallgame_Controller_Script.overallgame_controller_singleton.tutOn =false;
             PlayerPrefs.SetInt("tut",0);
             _btn.color = _diabledColor;
+            AchevementManager.singlton.TutOff();
             return;
         }
         Overallgame_Controller_Script.overallgame_controller_singleton.tutOn =true;

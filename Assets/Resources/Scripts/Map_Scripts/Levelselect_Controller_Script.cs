@@ -11,7 +11,6 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     private List<MapPOI_ScriptableObject> map_poi_list;
     [SerializeField] private MapPOI_Script map_poi_go;
-
     [SerializeField] public Animator _selectionHighlightAnimator;
     [SerializeField] private GameObject _shipGameObject;
 
@@ -265,7 +264,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void OpenSecretDoor(GameObject doorGO)
     {
         Sound_Events.Play_Sound("Game_SecretDoor");
-        
+        AchevementManager.singlton.Egg();
         iTween.MoveTo(doorGO, iTween.Hash(
             "position", new Vector3(-2.5f,3,0),
             "islocal", true,

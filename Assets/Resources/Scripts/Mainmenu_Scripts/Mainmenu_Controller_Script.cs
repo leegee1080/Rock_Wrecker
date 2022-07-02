@@ -22,6 +22,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        // AchevementManager.singlton.ClearSteamStats();
+
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed =false;
         Playerinput_Controller_Script.playerinput_controller_singleton.on_screen_controls_allowed =false;
 
@@ -96,6 +98,7 @@ public class Mainmenu_Controller_Script : MonoBehaviour
     {
         Overallgame_Controller_Script.overallgame_controller_singleton.tutOn = false;
         PlayerPrefs.SetInt("tut", 0);
+        
     }
 
     public void QuitGame()
@@ -117,7 +120,7 @@ public class Mainmenu_Controller_Script : MonoBehaviour
 
     public void SwapLogos(GameObject logoIn, GameObject LogoOut)
     {
-        iTween.Stop();
+        iTween.Stop(this.gameObject);
         iTween.MoveTo(LogoOut.gameObject, iTween.Hash(
             "position", _logoOffScreen,
             "islocal", true,

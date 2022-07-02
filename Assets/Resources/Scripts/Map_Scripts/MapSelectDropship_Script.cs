@@ -8,7 +8,10 @@ public class MapSelectDropship_Script : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField]private float _scaleTime;
+    [SerializeField]private float _launchAnimation;
+
     [SerializeField]private float _launchTime;
+    private float _launchTimer;
 
     void Start()
     {
@@ -19,10 +22,16 @@ public class MapSelectDropship_Script : MonoBehaviour
         "orienttopath", true,
         "looktime", 1f,
         "easetype", iTween.EaseType.easeOutExpo,
-        "time", _launchTime,
-        "oncompletetarget", this.gameObject,
-        "oncomplete", "CompleteAnimation"));
+        "time", _launchAnimation));
 
+        iTween.ValueTo(gameObject, iTween.Hash(
+        "from", 0f,
+        "to", 1f,
+        "time", _launchTime,
+        "onupdatetarget", this.gameObject,
+        "oncompletetarget", this.gameObject,
+        "oncomplete", "CompleteAnimation", 
+        "onupdate", "Timer"));
         // iTween.MoveAdd(gameObject, iTween.Hash(
         // "amount", transform.forward * 1000f,
         // "easetype", iTween.EaseType.easeOutQuad,
@@ -58,8 +67,8 @@ public class MapSelectDropship_Script : MonoBehaviour
         _trailRend.startWidth = size;
         _trailRend.endWidth = size*2;
     }
-    void Update()
+    public void Timer(float size)
     {
-        
+        _launchTimer = size;
     }
 }

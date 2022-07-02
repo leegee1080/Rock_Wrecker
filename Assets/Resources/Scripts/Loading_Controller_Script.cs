@@ -39,6 +39,8 @@ public class Loading_Controller_Script : MonoBehaviour
             StartCoroutine(ILoad_Next_Scene((int)Overallgame_Controller_Script.overallgame_controller_singleton.chosen_scene_enum));
             return;
         }
+
+        Playerinput_Controller_Script.playerinput_controller_singleton.ExitScene();
         StartCoroutine(ILoad_Next_Scene(0));
     }
 

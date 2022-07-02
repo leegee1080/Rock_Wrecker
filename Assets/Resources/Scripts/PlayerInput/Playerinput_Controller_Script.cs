@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 public static class Input_Control_Events
@@ -61,6 +62,7 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     [Header("Movement Vars")]
     public bool on_screen_controls_allowed = false;
+    public Canvas controller_canvas;
     public GameObject left_on_screen_controlls_container;
     public GameObject right_on_screen_controlls_container;
 
@@ -93,9 +95,29 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     private void Awake()
     {
-        playerinput_controller_singleton = this;
-
+        if (playerinput_controller_singleton == null)
+        {
+            playerinput_controller_singleton = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        DontDestroyOnLoad(this);
         player_input_actions = new PlayerInputActions();
+    }
+
+    public void NewSceneSetup()
+    {
+        controller_canvas.worldCamera  = Camera.main;
+    }
+    public void ExitScene()
+    {
+        controller_canvas.worldCamera  = null;
+        left_on_screen_controlls_container.SetActive(false);
+        right_on_screen_controlls_container.SetActive(false);
+
     }
 
     private void Start()
@@ -264,11 +286,13 @@ public class Playerinput_Controller_Script : MonoBehaviour
 
     private void OnEnable()
     {
+        if(player_input_actions == null){return;}
         player_input_actions.Enable();
     }
 
     private void OnDisable()
     {
+        if(player_input_actions == null){return;}
         player_input_actions.Disable();
     }
 

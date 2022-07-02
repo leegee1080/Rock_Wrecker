@@ -256,6 +256,8 @@ public class Levelplay_Controller_Script : MonoBehaviour
 
     private void Start()
     {
+        Playerinput_Controller_Script.playerinput_controller_singleton.NewSceneSetup();
+
         _selectedMusic = _musicArray[Overallgame_Controller_Script.overallgame_controller_singleton.selected_level.poi_difficulty];
 
         _currentStateClass = new LevelplayState_Setup();

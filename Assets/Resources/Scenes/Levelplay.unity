@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.042276636, g: 0.058325246, b: 0.076235436, a: 1}
+  m_IndirectSpecularColor: {r: 0.049305834, g: 0.05020365, b: 0.08290491, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -904,6 +904,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7204175541581134623, guid: 85bf54120ccf71a4ab82b69ffe242652, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204175541581134623, guid: 85bf54120ccf71a4ab82b69ffe242652, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7256495769910777870, guid: 85bf54120ccf71a4ab82b69ffe242652, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1419,7 +1427,7 @@ MonoBehaviour:
   player_spawn_percentage: 5
   CurrentLevelState: 0
   LastLevelState: 0
-  camera_offset: {x: 0, y: -12, z: -25}
+  camera_offset: {x: 0, y: -8, z: -20}
   level_setup_time: 2
   level_setup_timer:
     timer_max_amount: 0
@@ -2411,7 +2419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496602571}
   m_LocalRotation: {x: 0.23256397, y: -0, z: -0, w: 0.97258115}
-  m_LocalPosition: {x: 0, y: 5.13, z: 18.35}
+  m_LocalPosition: {x: 0, y: 2.5, z: 14.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 799149822}

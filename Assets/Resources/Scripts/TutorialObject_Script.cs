@@ -77,7 +77,7 @@ public class TutorialObject_Script : MonoBehaviour
     }
     public void StopTutorial()
     {
-        iTween.StopByName("tutIn");
+        iTween.StopByName(this.gameObject, "tutIn");
         HideTutorialScreen();
         iTween.MoveTo(_bot, 
             iTween.Hash

@@ -60,15 +60,24 @@ public class CrystalConsole_Sctipt : MonoBehaviour
         {
             case "Diamond":
                 SelectCrystal(CrystalTypes.Diamond, false);
-                AchevementManager.singlton.Diamond();
+                if(GrabOverallCrystalCount(CrystalTypes.Diamond) > 0)
+                {
+                    AchevementManager.singlton.Diamond();
+                }
                 return;   
             case "Topaz":
                 SelectCrystal(CrystalTypes.Topaz, false);
-                AchevementManager.singlton.Topaz();
+                if(GrabOverallCrystalCount(CrystalTypes.Topaz) > 0)
+                {
+                    AchevementManager.singlton.Topaz();
+                }
                 return;   
             case "Ruby":
                 SelectCrystal(CrystalTypes.Ruby, false);
-                AchevementManager.singlton.Ruby();
+                if(GrabOverallCrystalCount(CrystalTypes.Ruby) > 0)
+                {
+                    AchevementManager.singlton.Ruby();
+                }
                 return;   
             default:
             Debug.Log("Cryatal Translator: crystal type spelled wrong.");

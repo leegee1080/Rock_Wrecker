@@ -29,6 +29,9 @@ TextureImporter:
   - first:
       213: 5188366475802605818
     second: holodicons_8
+  - first:
+      213: -628399072401686939
+    second: holodicons_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -321,7 +324,7 @@ TextureImporter:
         width: 400
         height: 400
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -339,7 +342,28 @@ TextureImporter:
         serializedVersion: 2
         x: 1600
         y: 1200
-        width: 374
+        width: 400
+        height: 400
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af872c212d7c00840800000000000000
+      internalID: 5188366475802605818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: holodicons_9
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 1600
+        width: 400
         height: 400
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -348,8 +372,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af872c212d7c00840800000000000000
-      internalID: 5188366475802605818
+      spriteID: 56eff408f5a7747f0800000000000000
+      internalID: -628399072401686939
       vertices: []
       indices: 
       edges: []

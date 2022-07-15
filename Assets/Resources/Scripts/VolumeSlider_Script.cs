@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class VolumeSlider_Script : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class VolumeSlider_Script : MonoBehaviour
     [SerializeField]private GameObject _tickMuteImage;
     [SerializeField]private float _tickUpdateSpeed;
 
+    [SerializeField]public UnityEvent volumeUp;
+    [SerializeField]public UnityEvent volumeDown;
+
     void Start()
     {
         _volumeFactor = 100/_tickContainer.childCount;
@@ -22,7 +26,7 @@ public class VolumeSlider_Script : MonoBehaviour
     {
         if(_tickUpdaterRoutine != null){StopCoroutine(_tickUpdaterRoutine);}
 
-        _volume = PlayerPrefs.GetInt(_volumeType.ToString());
+        // _volume = PlayerPrefs.GetInt(_volumeType.ToString());
         if (_volume <= 0){ _tickMuteImage.SetActive(true);}else{_tickMuteImage.SetActive(false);}
 
 
@@ -53,7 +57,7 @@ public class VolumeSlider_Script : MonoBehaviour
         if(_volume > 100){return;}
         _volume += (int)_volumeFactor;
         if(_volume > 100){_volume = 100;}
-        PlayerPrefs.SetInt(_volumeType.ToString(), _volume);
+        // PlayerPrefs.SetInt(_volumeType.ToString(), _volume);
         UpdateVolumeTicks();
     }
     public void VolumeDown()
@@ -61,7 +65,7 @@ public class VolumeSlider_Script : MonoBehaviour
         if(_volume <= 0){return;}
         _volume -= (int)_volumeFactor;
         if(_volume <= 0){_volume = 0;}
-        PlayerPrefs.SetInt(_volumeType.ToString(), _volume);
+        // PlayerPrefs.SetInt(_volumeType.ToString(), _volume);
         UpdateVolumeTicks();
     }
 }

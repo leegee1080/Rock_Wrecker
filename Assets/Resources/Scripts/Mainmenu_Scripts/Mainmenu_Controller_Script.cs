@@ -32,8 +32,10 @@ public class Mainmenu_Controller_Script : MonoBehaviour
         _homeContainer.OpenMenu();
         TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
 
-        Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.fx.ToString())/300f, Sound_Type_Tags.fx);
-        Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.music.ToString())/300f, Sound_Type_Tags.music);
+        // Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.fx.ToString())/300f, Sound_Type_Tags.fx);
+        // Sound_Events.Change_Volume(PlayerPrefs.GetInt(Sound_Type_Tags.music.ToString())/300f, Sound_Type_Tags.music);
+        Sound_Events.Change_Volume(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.fxVol/300f, Sound_Type_Tags.fx);
+        Sound_Events.Change_Volume(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.musicVol/300f, Sound_Type_Tags.music);
     }
 
     public void NewGame()
@@ -51,9 +53,9 @@ public class Mainmenu_Controller_Script : MonoBehaviour
             Sound_Events.Play_Sound("Game_PlayerDeath");
             Overallgame_Controller_Script.overallgame_controller_singleton.NewGame();
             AnnouncerScript.singleton.ChangeOpenState(false);
-            PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 60);
+            // PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 60);
             Sound_Events.Change_Volume(60f/300f, Sound_Type_Tags.fx);
-            PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 30);
+            // PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 30);
             Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.music);
             ShowMainmenu();
 
@@ -97,7 +99,8 @@ public class Mainmenu_Controller_Script : MonoBehaviour
     public void TurnOffTut()
     {
         Overallgame_Controller_Script.overallgame_controller_singleton.tutOn = false;
-        PlayerPrefs.SetInt("tut", 0);
+        Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.tut = false;
+        // PlayerPrefs.SetInt("tut", 0);
         
     }
 

@@ -28,6 +28,10 @@ public enum PlayerUpgradeTypes
 
 [Serializable]public class PlayerData
 {
+    public bool tut = true;
+    public int fxVol = 60;
+    public int musicVol = 30;
+
     public string name;
     public float[] player_mapPos = new float[]{0,0};
     public int player_score = 90;
@@ -237,7 +241,8 @@ public class Overallgame_Controller_Script : MonoBehaviour
     }
     private void Start()
     {
-        tutOn = PlayerPrefs.GetInt("tut") == 1 ? true : false;
+        // tutOn = PlayerPrefs.GetInt("tut") == 1 ? true : false;
+        tutOn = Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.tut;
         PlayerData loadedData = Load_Game();
         if(loadedData == null)
         {
@@ -307,10 +312,11 @@ public class Overallgame_Controller_Script : MonoBehaviour
     public void NewGame()
     {
         CurrentPlayer = new PlayerData();
+        Overallgame_Controller_Script.overallgame_controller_singleton.tutOn = false;
         Create_Map();
         Save_Game(CurrentPlayer);
         Save_Map(CurrentPlayer.main_map);
-        PlayerPrefs.SetInt("tut", 1);
+        // PlayerPrefs.SetInt("tut", 1);
         shownTuts.Clear();
         // TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
         // Save_Game(CurrentPlayer);

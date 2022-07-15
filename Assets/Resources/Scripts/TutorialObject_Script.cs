@@ -52,7 +52,7 @@ public class TutorialObject_Script : MonoBehaviour
 
     public void StartTutorial(TutorialClass newTC)
     {
-        if(!Overallgame_Controller_Script.overallgame_controller_singleton.tutOn || newTC.shown || Overallgame_Controller_Script.overallgame_controller_singleton.shownTuts.Contains(newTC.name)){return;}
+        if(!Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.tut || newTC.shown || Overallgame_Controller_Script.overallgame_controller_singleton.shownTuts.Contains(newTC.name)){return;}
         _bot.SetActive(true);
         foreach (GameObject item in newTC.ToHide)
         {
@@ -128,7 +128,7 @@ public class TutorialObject_Script : MonoBehaviour
 
     public void FindandPlayTutorialObject(string name)
     {
-
+        Debug.Log("tut played: " + name);
         StartTutorial(System.Array.Find(TutArray, tut => tut.name == name));
     }
 

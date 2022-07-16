@@ -11,7 +11,7 @@ public class CrystalPrizes_Script : MonoBehaviour
     public static CrystalPrizes_Script singleton;
 
     public CrystalPrize_ScriptableObject[] _prizes;
-    [SerializeField]private CrystalPrize_ScriptableObject _repPrize;
+    [SerializeField]private CrystalPrize_ScriptableObject[] _repPrize;
 
     [SerializeField]private CrystalCard_Script[] _cards;
 
@@ -27,31 +27,51 @@ public class CrystalPrizes_Script : MonoBehaviour
         {
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FreeFuel && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuel >= Global_Vars.max_fuel)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[0];
             }
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FreeDrone && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDrones >= Global_Vars.max_drones)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[0];
             }
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.CheaperDrone && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerDroneCost <= 0)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[2];
             }
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.CheaperFuel && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelCost <= 0)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[2];
             }
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FuelEff && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.PlayerFuelReach >= Global_Vars.max_fuel_reach)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[2];
             }
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.DroneShield && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneShields >= 1)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[0];
             }
             if(_prizes[i].UpgradeType == PlayerUpgradeTypes.LightRadius && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.LightRadius >= Global_Vars.max_light_radius)
             {
-                _prizes[i] = _repPrize;
+                _prizes[i] = _repPrize[0];
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.FuelFillButton && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.FuelFillButton == true)
+            {
+                _prizes[i] = _repPrize[1];
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.DroneFillButton && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneFillButton == true)
+            {
+                _prizes[i] = _repPrize[1];
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.ChangeSkinBlue && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_skin == 0)
+            {
+                _prizes[i] = _repPrize[0];
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.ChangeSkinGreen && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_skin == 1)
+            {
+                _prizes[i] = _repPrize[0];
+            }
+            if(_prizes[i].UpgradeType == PlayerUpgradeTypes.ChangeSkinRed && Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_skin == 2)
+            {
+                _prizes[i] = _repPrize[0];
             }
             _cards[i].ApplyCard(_prizes[i]);
         }

@@ -25,6 +25,8 @@ public class Levelselect_Controller_Script : MonoBehaviour
     [SerializeField]public MapPOI_Script OccupiedPOI;
     [SerializeField]public GameObject selection_highlight_go;
 
+    [SerializeField]private GameObject _mapDroneBuyButton, _mapFuelBuyButton;
+
     [Header("State Vars")]
     public MapUI_Script UIScript;
     private LevelselectStatesAbstractClass _currentStateClass;
@@ -43,6 +45,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
     private IEnumerator _runningDustPlacerRountine;
 
     [Header("GameJuice")]
+    int egg = 0;
     [SerializeField] private GameObject _dropShip_Go;
     public GameObject DecoContainer;
     public float MapDecoDistFromCam;
@@ -221,6 +224,39 @@ public class Levelselect_Controller_Script : MonoBehaviour
         ChangeState(LevelselectStatesEnum.Select);
     }
 
+    public void BlastOff()
+    {
+        UIScript.CloseShipMiniMenu();
+        AnnouncerScript.singleton.AnnouncementClass = new AnnouncementPackage("startover", AnnounceTypeEnum.TwoBtn,"START OVER?","Do you want to leave this asteroid belt?", ClearSavedGame);
+        AnnouncerScript.singleton.ChangeOpenState(true);
+    }
+
+    public bool ClearSavedGame(bool choice)
+    {
+        if(choice)
+        {
+            Sound_Events.Play_Sound("Game_DropshipLaunch");
+            Overallgame_Controller_Script.overallgame_controller_singleton.BlastOff();
+            AnnouncerScript.singleton.ChangeOpenState(false);
+            // PlayerPrefs.SetInt(Sound_Type_Tags.fx.ToString(), 60);
+            Sound_Events.Change_Volume(60f/300f, Sound_Type_Tags.fx);
+            // PlayerPrefs.SetInt(Sound_Type_Tags.music.ToString(), 30);
+            Sound_Events.Change_Volume(30f/300f, Sound_Type_Tags.music);
+
+            AchevementManager.singlton.EraseGame();
+            Sound_Events.Play_Sound("Game_ShipOut");
+            _oCScript.SaveCurrentPlayer();
+            _oCScript.SaveCurrentMap();
+            ScnTrans_Script.singleton.ScnTransOut(Scene_Enums.levelselect);
+            Sound_Events.Stop_Sound("Music_Select2");
+            return true;
+        }
+
+        AnnouncerScript.singleton.ChangeOpenState(false);
+        SwitchToSelect();
+        return false;
+    }
+
     public void SwitchToShop()
     {
         Sound_Events.Play_Sound("Game_Click");
@@ -263,6 +299,7 @@ public class Levelselect_Controller_Script : MonoBehaviour
 
     public void OpenSecretDoor(GameObject doorGO)
     {
+        if(egg <= 5){egg +=1; return;}
         Sound_Events.Play_Sound("Game_SecretDoor");
         AchevementManager.singlton.Egg();
         iTween.MoveTo(doorGO, iTween.Hash(
@@ -288,6 +325,9 @@ public class Levelselect_Controller_Script : MonoBehaviour
     public void FinishToMapTrans()
     {
         TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mapselect");
+        //disable or enable purchase buttons
+        _mapDroneBuyButton.SetActive(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.DroneFillButton);
+        _mapFuelBuyButton.SetActive(Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.FuelFillButton);
         UIScript.OpenSelectionMiniMenu();
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
     }

@@ -23,7 +23,12 @@ public enum PlayerUpgradeTypes
     FreeDrone,
     FreeFuel,
     LightRadius,
-    Time
+    Time,
+    FuelFillButton,
+    DroneFillButton,
+    ChangeSkinBlue,
+    ChangeSkinGreen,
+    ChangeSkinRed
 }
 
 [Serializable]public class PlayerData
@@ -33,6 +38,7 @@ public enum PlayerUpgradeTypes
     public int musicVol = 30;
 
     public string name;
+    public int player_skin = 0;
     public float[] player_mapPos = new float[]{0,0};
     public int player_score = 90;
     public int player_time = 60;
@@ -47,6 +53,9 @@ public enum PlayerUpgradeTypes
     public int PlayerDrones = 1;
     public int PlayerDroneCost = 10;
     public int PlayerFuelCost = 10;
+
+    public bool FuelFillButton = false;
+    public bool DroneFillButton = false;
     public List<MapPOI_ScriptableObject> main_map = new List<MapPOI_ScriptableObject>();
 }
 [Serializable]public class MapDataStorageClass
@@ -138,7 +147,12 @@ public static class Global_Vars
         {PlayerUpgradeTypes.FreeDrone, DronePlus}, 
         {PlayerUpgradeTypes.FreeFuel, FuelPlus},
         {PlayerUpgradeTypes.LightRadius, LightRadiusPlus},
-        {PlayerUpgradeTypes.Time, TimePlus}
+        {PlayerUpgradeTypes.Time, TimePlus},
+        {PlayerUpgradeTypes.FuelFillButton, EnableFuelButton},
+        {PlayerUpgradeTypes.DroneFillButton, EnableDroneButton},
+        {PlayerUpgradeTypes.ChangeSkinBlue, ChangeSkin},
+        {PlayerUpgradeTypes.ChangeSkinGreen, ChangeSkin},
+        {PlayerUpgradeTypes.ChangeSkinRed, ChangeSkin}
     };
     public static void DroneShieldPlus(int amount,PlayerData pd)
     {
@@ -200,6 +214,20 @@ public static class Global_Vars
     public static void LightRadiusPlus(int amount,PlayerData pd)
     {
         pd.LightRadius += amount;
+    }
+
+    public static void ChangeSkin(int amount, PlayerData pd)
+    {
+        pd.player_skin = amount;
+        AchevementManager.singlton.ChangeSkin();
+    }
+    public static void EnableFuelButton(int amount, PlayerData pd)
+    {
+        pd.FuelFillButton = true;
+    }
+    public static void EnableDroneButton(int amount, PlayerData pd)
+    {
+        pd.DroneFillButton = true;
     }
 }
 
@@ -321,6 +349,16 @@ public class Overallgame_Controller_Script : MonoBehaviour
         // TutorialObject_Script.singleton.FindandPlayTutorialObject("first_mainmenu");
         // Save_Game(CurrentPlayer);
         // Save_Map(CurrentPlayer.main_map);
+    }
+
+    public void BlastOff()
+    {
+        if(CurrentPlayer.player_score < 90 && CurrentPlayer.PlayerDrones < 1){CurrentPlayer.player_score = 90;}
+        Create_Map();
+        Save_Game(CurrentPlayer);
+        Save_Map(CurrentPlayer.main_map);
+        // PlayerPrefs.SetInt("tut", 1);
+        shownTuts.Clear();
     }
 
     // public void Debug_SaveGame()

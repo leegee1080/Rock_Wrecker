@@ -1266,7 +1266,10 @@ MonoBehaviour:
     repeatable: 0
   player_on_exit: 0
   resources_collected_array: 00000000000000000000000000000000
-  current_player_serialized: {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
+  current_player_serialized:
+  - {fileID: 7148036639783772396, guid: c0f6184d31f944a4dbba2a1c6f88d425, type: 3}
+  - {fileID: 7148036639783772396, guid: 4dafd3f4dc53296429b4476bf6e341a6, type: 3}
+  - {fileID: 7148036639783772396, guid: 435a3dfc113cf014e8edbacb6a17c740, type: 3}
   player_start_gridpos: {x: 0, y: 0}
   _enemyStorageScript: {fileID: 1166955262}
   _enemySpawnTime: 30

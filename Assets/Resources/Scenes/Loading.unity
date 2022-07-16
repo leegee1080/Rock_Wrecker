@@ -850,6 +850,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1302994678135827473, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1302994678135827478, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -893,6 +897,10 @@ PrefabInstance:
     - target: {fileID: 1302994678135827478, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2947575853136734746, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}
+      propertyPath: Steam
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d321fccd24e826a4c9e014b9dd5c2665, type: 3}

@@ -226,7 +226,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
     private bool player_left_exit;
     public bool player_on_exit;
     public int[] resources_collected_array = new int[4];
-    [SerializeField]private LevelPlayer_Script current_player_serialized;
+    [SerializeField]private LevelPlayer_Script[] current_player_serialized;
     public LevelPlayer_Script current_player {get; private set;}
     [SerializeField] public Vector2Int player_start_gridpos;
     [SerializeField] private LevelEnemy_Storage _enemyStorageScript;
@@ -264,7 +264,7 @@ public class Levelplay_Controller_Script : MonoBehaviour
         drop_ship.Launch();
 
         current_player = null;
-        current_player = Instantiate(current_player_serialized, parent: actor_container.transform);
+        current_player = Instantiate(current_player_serialized[Overallgame_Controller_Script.overallgame_controller_singleton.CurrentPlayer.player_skin], parent: actor_container.transform);
 
         Playerinput_Controller_Script.playerinput_controller_singleton.camera_controls_allowed = true;
 
